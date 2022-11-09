@@ -1,0 +1,20 @@
+<!-- MergeServiceReason.component.html -->
+<form [formGroup]="myform" >
+  <h1 mat-dialog-title> :: <strong>{{action}}</strong>  الإجازات الاضطرارية  </h1>
+   <div mat-dialog-content>
+    <mat-form-field *ngIf="action != 'حذف'; else elseTemplate">
+      <input placeholder="{{action}} الإجازة الاضطرارية" matInput
+            formControlName="SuddenHoliday_name">
+    </mat-form-field>
+    
+    <mat-checkbox [formControl]="frm_fixed" [(ngModel)]="local_data!.Fixed"> هل هو مثبت         </mat-checkbox>  
+
+    <ng-template #elseTemplate>
+      هل أنت متأكد من حذف الإجازة <b>{{local_data.suddenholiday_name}}</b>؟
+    </ng-template>
+   </div>
+   <div mat-dialog-actions>
+    <button mat-button (click)="doAction()">{{action}}</button>
+    <button mat-button (click)="closeDialog()" mat-flat-button color="warn">إالغاء</button>
+   </div>
+  </form>

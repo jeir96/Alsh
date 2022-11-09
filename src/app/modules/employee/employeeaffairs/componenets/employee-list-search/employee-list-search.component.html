@@ -1,0 +1,174 @@
+<div fxLayout="column">
+
+  <div>
+    <mat-grid-list cols="10" rowHeight="35px">
+      <mat-grid-tile colspan="8" rowspan="1">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>اسم الموظف</mat-label>
+          <input type="text" placeholder="اسم الموظف" aria-label="اسم الموظف"
+            (input)="OnInputEmployeeNameChange($event,true)" matInput [formControl]="fcl_EmployeeName" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile colspan="1" rowspan="1">
+        <button mat-button value="تصاعدي" (click)="OnInputEmployeeNameChange($event,true)">
+          <mat-icon>keyboard_arrow_up</mat-icon>
+        </button>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="1" rowspan="1">
+        <button mat-button value="تنازلي" (click)="OnInputEmployeeNameChange($event,false)">
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+      </mat-grid-tile>
+
+
+
+      <mat-grid-tile colspan="3" rowspan="1">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>رقم الاضبارة</mat-label>
+          <input type="text" placeholder="رقم الاضبارة" aria-label="رقم الاضبارة" matInput
+          (input)="OnInputEmployeeIDChange($event,true)" [formControl]="fcl_Employee_ID" />
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="1" rowspan="1">
+        <button mat-button value="تصاعدي" (click)="OnInputEmployeeIDChange($event,true)">
+          <mat-icon>keyboard_arrow_up</mat-icon>
+        </button>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="1" rowspan="1">
+        <button mat-button value="تنازلي" (click)="OnInputEmployeeIDChange($event,false)">
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+      </mat-grid-tile>
+
+      <mat-grid-tile colspan="3" rowspan="1">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>رقم الحاسب</mat-label>
+          <input type="text" placeholder="رقم الحاسب" aria-label="رقم الحاسب" matInput
+          (input)="OnInputEmployeeComputerIDChange($event,true)"  [formControl]="fcl_Computer_ID" />
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="1" rowspan="1">
+        <button mat-button value="تصاعدي" (click)="OnInputEmployeeComputerIDChange($event,true)">
+          <mat-icon>keyboard_arrow_up</mat-icon>
+        </button>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="1" rowspan="1">
+        <button mat-button value="تنازلي" (click)="OnInputEmployeeComputerIDChange($event,false) ">
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+      </mat-grid-tile>
+
+
+
+      <mat-grid-tile colspan="3" rowspan="1">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>رقم الذاتي</mat-label>
+          <input type="text" placeholder="رقم الذاتي" aria-label="رقم الذاتي" matInput
+          (input)="OnInputEmployeeGlobalIDChange($event,true)" [formControl]="fcl_Global_ID" />
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="1" rowspan="1">
+        <button mat-button value="تصاعدي" (click)="OnInputEmployeeGlobalIDChange($event,true)">
+          <mat-icon>keyboard_arrow_up</mat-icon>
+        </button>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="1" rowspan="1">
+        <button mat-button value="تنازلي" (click)="OnInputEmployeeGlobalIDChange($event,false)">
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+      </mat-grid-tile>
+
+
+      <mat-grid-tile colspan="3" rowspan="1">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>رقم الشطب</mat-label>
+          <input type="text" placeholder="رقم الشطب" aria-label="رقم الشطب"
+          (input)="OnInputEmployeePayrolIDChange($event,true)" matInput [formControl]="fcl_Payrol_ID" />
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="1" rowspan="1">
+        <button mat-button value="تصاعدي" (click)="OnInputEmployeePayrolIDChange($event,true)">
+          <mat-icon>keyboard_arrow_up</mat-icon>
+        </button>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="1" rowspan="1">
+        <button mat-button value="تنازلي" (click)="OnInputEmployeePayrolIDChange($event,false)">
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+      </mat-grid-tile>
+
+<!--
+      <mat-grid-tile colspan="3" rowspan="1">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>رقم الآلي</mat-label>
+          <input type="text" placeholder="رقم التأميني" aria-label="رقم التأميني" matInput
+            (change)="OnInputEmployeeInsuranceIDChange($event)" [formControl]="fcl_Insurance_ID" />
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="1" rowspan="1">
+        <button mat-button value="تصاعدي" (click)="OnInputEmployeeInsuranceIDChange($event,true)">
+          <mat-icon>keyboard_arrow_up</mat-icon>
+        </button>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="1" rowspan="1">
+        <button mat-button value="تنازلي" (click)="OnInputEmployeeInsuranceIDChange($event,false)">
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+      </mat-grid-tile>
+-->
+
+    </mat-grid-list>
+
+  </div>
+
+
+
+
+  <div  infinite-scroll [infiniteScrollDistance]="20" [infiniteScrollUpDistance]="1"
+    [infiniteScrollThrottle]="100" (scrolled)="onScroll()" [scrollWindow]="false"
+    style="height: 400px; overflow-y: scroll;">
+
+    <mat-list>
+      <mat-list-item (click)="SelectItemChange(emp)" *ngFor="let emp of TBLShamelEmployee_List;trackBy: trackByFn">        
+        <h4 matLine style="font-size: small; font-weight: bold;"> {{emp?.fullname}} </h4>
+        <p matLine>
+          <mat-grid-list cols="4" rowHeight="20px">
+            <mat-grid-tile colspan="1" rowspan="1">
+                الإضبارة   
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1" rowspan="1">
+              {{emp?.id}} 
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1" rowspan="1">
+               الحاسب
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1" rowspan="1">
+              {{emp?.computer_id}}
+            </mat-grid-tile>
+          </mat-grid-list>
+        </p>
+        <p matLine>
+          <mat-grid-list cols="4" rowHeight="20px">
+            <mat-grid-tile colspan="1" rowspan="1">
+               الذاتي 
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1" rowspan="1">
+              {{emp?.global_id}} 
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1" rowspan="1">
+               الشطب
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1" rowspan="1">
+              {{emp?.payrol_id}}
+            </mat-grid-tile>
+          </mat-grid-list>
+        </p>       
+        <mat-divider></mat-divider>
+      </mat-list-item>
+
+    </mat-list>
+
+  </div>
+
+</div>

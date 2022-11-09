@@ -1,0 +1,178 @@
+
+<form class="example-form" [formGroup]="Form" #form="ngForm">
+    <c-container *ngIf="tblShamelNewPayrolTax.payroltaxtype=='ta3weed'">
+        <c-row>
+            <c-col>
+              
+                <mat-select id=round  formControlName="payroltaxconstant" >
+                    <mat-option value="دائم">دائم</mat-option>    
+                    <mat-option value="مؤقت">مؤقت</mat-option>                                             
+                </mat-select>    
+
+            </c-col>
+
+            
+            <c-col>
+                <mat-form-field color="primary"  id="ta3weed_name" class="" appearance="fill">
+                    <input matInput formControlName="ta3weed_name" >
+                    <mat-error  *ngIf="Form.controls['ta3weed_name'].hasError('ta3weed_name_required')">
+                        Username already <strong>exists</strong>
+                  </mat-error>
+
+                  <mat-error  *ngIf="Form.controls['ta3weed_name'].hasError('ta3weed_name_required1')">
+                    qqq www <strong>exists</strong>
+              </mat-error>
+
+                </mat-form-field>
+            </c-col>
+
+            <c-col>
+                <mat-form-field color="primary"  id="ta3weedp_name" class="" appearance="fill">
+                    <input matInput formControlName="ta3weedp_name" >
+                </mat-form-field>
+            </c-col>
+
+
+            <c-col>
+                <mat-form-field id="ta3weed_round" appearance="fill">
+                    <mat-select id=round  formControlName="ta3weed_round" >
+                    <mat-option value="10">10</mat-option>    
+                    <mat-option value="5">5</mat-option>    
+                    <mat-option value="1">1</mat-option>    
+                    <mat-option value="0">0</mat-option>                            
+                    <mat-option value="-1">-1</mat-option>                              
+                    </mat-select>                
+                  </mat-form-field>
+            </c-col>
+
+            <c-col>
+                <mat-form-field appearance="fill">
+                    <mat-select   formControlName="salary_source_fk" >
+                      <mat-option value="1">راتب آخر وضع وظيفي</mat-option>
+                      <mat-option value="2">الراتب التأميني</mat-option>
+                      <mat-option value="3">الراتب القديم</mat-option>
+                    </mat-select>                
+                  </mat-form-field>
+            </c-col>
+
+            <c-col>
+                <mat-form-field color="primary" id="order" class="" appearance="fill">
+                    <input type="number" matInput formControlName="ta3weedp_order" >
+                </mat-form-field>
+            </c-col>
+
+            <c-col>
+                <mat-checkbox  color="primary"  formControlName="ta3weed_included_in_tax" ></mat-checkbox>    
+            </c-col>
+            
+            <c-col>
+                <mat-checkbox  color="primary"  formControlName="ta3weed_included_in_sum"  ></mat-checkbox>
+            </c-col>
+            <c-col>
+                <mat-checkbox color="primary" formControlName="ta3weed_included_specialest" ></mat-checkbox>          
+            </c-col>
+
+            <c-col>
+                <button (click)="BtnDelete()">حذف</button>
+
+            </c-col>
+           
+        </c-row>
+    </c-container>
+
+
+
+   
+    <c-container *ngIf="tblShamelNewPayrolTax.payroltaxtype=='taxtemp'">
+        <c-row>
+            <c-col>
+                <mat-select id=round  formControlName="payroltaxconstant" >
+                    <mat-option value="دائم">دائم</mat-option>    
+                    <mat-option value="مؤقت">مؤقت</mat-option>                           
+                </mat-select>    
+            </c-col>
+
+            <c-col>
+                <mat-form-field color="primary"  id="taxtemp_name" class="" appearance="fill">
+                    <input matInput formControlName="taxtemp_name"  >
+                </mat-form-field>
+            </c-col>
+
+            <c-col>
+                <mat-form-field color="primary" id="taxtempp_name" class="" appearance="fill">
+                    <input matInput formControlName="taxtempp_name"  >
+                </mat-form-field>
+            </c-col>
+
+            <c-col>
+                <mat-form-field id="roundField" appearance="fill">
+                    <mat-select id=taxtemp_round formControlName="taxtemp_round"  >
+                        <mat-option value="10">10</mat-option>    
+                        <mat-option value="5">5</mat-option>    
+                        <mat-option value="1">1</mat-option>    
+                        <mat-option value="0">0</mat-option>                            
+                        <mat-option value="-1">-1</mat-option>   
+                      </mat-select>
+                
+                  </mat-form-field>
+            </c-col>
+           
+            <c-col>
+                <mat-form-field color="primary" id="order" class="" appearance="fill">
+                    <input type="number" matInput formControlName="taxtemp_order"  >
+                </mat-form-field>
+            </c-col>
+
+            <c-col>
+                <mat-form-field appearance="fill">
+                    <mat-select   formControlName="salary_source_fk" >
+                      <mat-option value="1">راتب آخر وضع وظيفي</mat-option>
+                      <mat-option value="2">الراتب التأميني</mat-option>
+                      <mat-option value="3">الراتب القديم</mat-option>
+                    </mat-select>                
+                  </mat-form-field>
+            </c-col>
+
+            <c-col>
+                <button (click)="BtnDelete()">حذف</button>
+
+            </c-col>
+        </c-row>
+    </c-container>
+
+
+    <c-container *ngIf="tblShamelNewPayrolTax.payroltaxtype=='recurr'">
+        <c-col>
+            <mat-select   formControlName="payroltaxconstant" >
+                <mat-option value="دائم">دائم</mat-option>    
+                <mat-option value="مؤقت">مؤقت</mat-option>              
+            </mat-select>    
+        </c-col>
+        <c-row>
+            <c-col>
+                 <mat-form-field color="primary"  id="taxrecurr_name" class="" appearance="fill">
+                    <input matInput formControlName="taxrecurr_name"  >
+                </mat-form-field>
+            </c-col>
+            <c-col>
+                <mat-form-field color="primary"  id="taxrecurrp_name" class="" appearance="fill">
+                    <input matInput formControlName="taxrecurrp_name"  >
+                </mat-form-field>
+            </c-col>
+            <c-col>
+                <mat-form-field color="primary"  id="taxrecurrp_order" class="" appearance="fill">
+                    <input matInput formControlName="taxrecurrp_order"  >
+                </mat-form-field>
+            </c-col>
+
+            <c-col>
+                <button (click)="BtnDelete()">حذف</button>
+
+            </c-col>
+
+        </c-row>
+    </c-container>
+
+
+
+  </form>

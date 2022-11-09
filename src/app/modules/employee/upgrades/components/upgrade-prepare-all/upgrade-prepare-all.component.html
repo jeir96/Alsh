@@ -1,0 +1,59 @@
+
+<form [formGroup]="Form">
+
+  <mat-form-field appearance="fill">
+    <mat-select [formControl]="fcl_Year">
+      <mat-option value="2020">2020</mat-option>
+      <mat-option value="2021">2021</mat-option>
+      <mat-option value="2022">2022</mat-option>
+      <mat-option value="2023">2023</mat-option>
+      <mat-option value="2024">2024</mat-option>
+      <mat-option value="2025">2025</mat-option>
+      <mat-option value="2026">2026</mat-option>
+      <mat-option value="2027">2027</mat-option>
+      <mat-option value="2028">2028</mat-option>
+      <mat-option value="2029">2029</mat-option>
+      <mat-option value="2030">2030</mat-option>
+    </mat-select>
+
+  </mat-form-field>
+
+
+    <mat-radio-group aria-labelledby="example-radio-group-label"  class="example-radio-group" [formControl]="fcl_Auto" [(ngModel)]="AutoValue">
+    <mat-radio-button class="example-radio-button" value="ِ1" >    قراءة آلية من البطاقة  </mat-radio-button>
+    <mat-radio-button class="example-radio-button" value="ِ2" >     ادخالات يدوية </mat-radio-button>
+    
+  </mat-radio-group>
+
+  <mat-form-field appearance="fill">
+    <mat-label>درجة الكفائة</mat-label>
+    <mat-select [formControl]="fcl_Rank">
+      <mat-option *ngFor="let rank of List_TBLShamelRank" [value]="rank.rank_id">{{rank.rank_name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+<mat-form-field appearance="fill">
+    <mat-label>المدة</mat-label>
+    <input matInput   [formControl]="fcl_Duration" >
+  </mat-form-field>
+  
+      
+    
+    
+    
+    
+      <button mat-raised-button color="warn" mat-dialog-close (click)="Apply()" >
+        <mat-icon class="mat-icon-rtl-mirror">close  </mat-icon>
+      تطبيق
+      </button>
+    
+    
+      
+      <button mat-raised-button color="warn" mat-dialog-close >
+      <mat-icon class="mat-icon-rtl-mirror">close </mat-icon>  اغلاق  </button>
+    
+    
+    </form>
+    
+    
+    

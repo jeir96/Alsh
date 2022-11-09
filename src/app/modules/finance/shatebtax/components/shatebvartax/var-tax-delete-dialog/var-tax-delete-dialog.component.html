@@ -1,0 +1,6 @@
+<h1 mat-dialog-title>حذف السجل</h1>
+<p>هل أنت متأكد من الحذف؟</p>
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="onNoClick()">إلغاء الأمر</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="data" cdkFocusInitial >نعم</button>
+</div>

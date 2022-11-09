@@ -1,0 +1,206 @@
+<form action="" [formGroup]="Form">
+  <div class="dates">
+    <mat-form-field appearance="fill">
+      <mat-label>من تاريخ</mat-label>
+      <input matInput [matDatepicker]="picker1" formControlName="fcl_FirstDate">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+      <mat-label>الى تاريخ</mat-label>
+      <input matInput [matDatepicker]="picker2" formControlName="fcl_EndDate">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>الوضع بالملاك</mat-label>
+      <input type="text"
+             matInput
+             formControlName="fcl_MalakeState"
+             [matAutocomplete]="auto1"
+             formControlName="fcl_MalakState">
+      <mat-autocomplete #auto1="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions1 | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+
+  </div>
+
+
+  <fieldset>
+    <legend>الإحصاء</legend>
+    <mat-radio-group color="primary" aria-label="Select an option">
+        <mat-radio-button value="1" (change)="birthdateChecked()">تاريخ الولادة</mat-radio-button>
+        <mat-radio-button value="2" (change)="firstJobDateChecked()">تاريخ المباشرة</mat-radio-button>
+        <mat-radio-button value="3" (change)="punishmentsChecked()">عقوبات</mat-radio-button>
+        <mat-radio-button value="4" (change)="bonusChecked()">مكافئات</mat-radio-button>
+        <mat-radio-button value="5" (change)="freeHolidayChecked()">خاصة بلا أجر</mat-radio-button>
+        <mat-radio-button value="6" (change)="legalHolidayChecked()">إجازات إدارية</mat-radio-button>
+        <mat-radio-button value="7" (change)="healthHolidayChecked()">إجازات صحية</mat-radio-button>
+        <mat-radio-button value="8" (change)="suddenHolidayChecked()">إجازات إضطرارية</mat-radio-button>
+        <mat-radio-button value="9"  (change)="changeReasonChecked()">سبب التبدل</mat-radio-button>
+      </mat-radio-group>
+
+
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>سبب الإجازة</mat-label>
+        <input type="text"
+               matInput
+               formControlName="fcl_SuddenHoliday"
+               [matAutocomplete]="auto2"
+               (keyup)="suddenHolidayChanged()">
+        <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="suddenHolidayChanged()">
+          <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>سبب التبدل</mat-label>
+        <input type="text"
+               matInput
+               formControlName="fcl_ChangeReason"
+               [matAutocomplete]="auto3"
+               (keyup)="changeReasonChanged()">
+        <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="changeReasonChanged()">
+          <mat-option *ngFor="let option of filteredOptions3 | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    
+      
+  </fieldset>
+
+  <p>احصائيات بين تاريخين</p>
+</form>
+<button mat-raised-button color="primary" (click)="Search()">عرض السجلات</button>
+  
+    
+<div class="table-wrap">
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+
+      <!-- file_number Column -->
+      <ng-container matColumnDef="file_number">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>رقم الإضبارة </th>
+          <td mat-cell *matCellDef="let element">{{element?.ID}}</td>
+      </ng-container>
+
+      <!-- computer_number Column -->
+      <ng-container matColumnDef="computer_number">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>رقم حاسوب</th>
+          <td mat-cell *matCellDef="let element">{{element?.COMPUTER_ID}}</td>
+      </ng-container>
+
+      <!-- first_name Column -->
+      <ng-container matColumnDef="first_name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>الاسم</th>
+          <td mat-cell *matCellDef="let element">{{element?.FNAME}}</td>
+      </ng-container>
+
+
+
+      <!-- last_name Column -->
+      <ng-container matColumnDef="last_name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>الكنية</th>
+          <td mat-cell *matCellDef="let element">{{element?.LNAME}}</td>
+      </ng-container>
+
+
+      <!-- father Column -->
+      <ng-container matColumnDef="father">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>الأب</th>
+        <td mat-cell *matCellDef="let element">{{element?.FATHER}}</td>
+      </ng-container>
+
+      <!-- mother Column -->
+      <ng-container matColumnDef="mother">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>الأم</th>
+        <td mat-cell *matCellDef="let element">{{element?.MOTHER}}</td>
+      </ng-container>
+
+      <!-- category Column -->
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>الفئة</th>
+      <td mat-cell *matCellDef="let element">{{element?.CLASS_NAME}}</td>
+    </ng-container>
+
+    <!-- job_adjective Column -->
+    <ng-container matColumnDef="job_adjective">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>الصفة الوظيفية</th>
+      <td mat-cell *matCellDef="let element">{{element?.JOBNAME_NAME}}</td>
+    </ng-container>
+
+    <!-- bitrh_date Column -->
+    <ng-container matColumnDef="bitrh_date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>تاريخ الميلاد</th>
+      <td mat-cell *matCellDef="let element">{{element?.BIRTHDATE | date:'yyyy/MM/dd'}}</td>
+    </ng-container>
+
+    <!-- commencement_date Column -->
+    <ng-container matColumnDef="commencement_date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>تاريخ المباشرة</th>
+      <td mat-cell *matCellDef="let element">{{element?.STARTDATE | date:'yyyy/MM/dd'}}</td>
+    </ng-container>
+
+
+    <!-- malak_state Column -->
+    <ng-container matColumnDef="malak_state">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>الوضع بالملاك</th>
+      <td mat-cell *matCellDef="let element">{{element?.MALAKSTATE_NAME}}</td>
+    </ng-container>
+
+    <!-- last_job_state Column -->
+    <ng-container matColumnDef="last_job_state">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>اخر وضع وظيفي</th>
+      <td mat-cell *matCellDef="let element">{{element?.JOBNAME_NAME}}</td>
+    </ng-container>
+
+    <!-- document_number Column -->
+    <ng-container matColumnDef="document_number">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>رقم المستند</th>
+      <td mat-cell *matCellDef="let element">{{element?.DOC_NUMBER}}</td>
+    </ng-container>
+
+
+    <!-- document_date Column -->
+    <ng-container matColumnDef="document_date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>تاريخ المستند</th>
+      <td mat-cell *matCellDef="let element">{{element?.DOC_DATE | date:'yyyy/MM/dd'}}</td>
+    </ng-container>
+
+    <!-- document_type Column -->
+    <ng-container matColumnDef="document_type">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>نوع المستند</th>
+      <td mat-cell *matCellDef="let element">{{element?.LAST_DOCUMENTTYPE_NAME}}</td>
+    </ng-container>
+
+      
+
+  
+
+
+
+
+
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator #paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+
+
+</div>

@@ -1,0 +1,113 @@
+<div class="col-md-12 text-center ">
+  <h2>الدورات التدريبية</h2>
+</div>
+<div>
+  للإضافة على الجدول انقر على اضافة
+  <button mat-button color="primary" (click)="Add()">اضافة</button>
+</div>
+
+<div class="col-md-12">
+  <div class="table-wrap">
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+      <!-- certificate_name Column -->
+      <ng-container matColumnDef="department_name">
+        <th mat-header-cell *matHeaderCellDef>القسم</th>
+        <td mat-cell *matCellDef="let element">{{element?.TBLShamelDepartment?.department_name}}</td>
+      </ng-container>
+
+      <!-- specification_name Column -->
+      <ng-container matColumnDef="jobname_name">
+        <th mat-header-cell *matHeaderCellDef>الوظيفة</th>
+        <td mat-cell *matCellDef="let element">{{element?.TBLShamelJobName?.jobname_name}}</td>
+      </ng-container>
+
+      <!-- graduationyear Column -->
+      <ng-container matColumnDef="jobkind_name">
+        <th mat-header-cell *matHeaderCellDef>المركز الوظيفي</th>
+        <td mat-cell *matCellDef="let element">{{element?.TBLShamelJobKind ?.jobkind_name}}</td>
+      </ng-container>
+
+
+
+      <!-- country_name Column -->
+      <ng-container matColumnDef="class_name">
+        <th mat-header-cell *matHeaderCellDef>الفئة</th>
+        <td mat-cell *matCellDef="let element">{{element?.TBLShamelClass?.class_name}}</td>
+      </ng-container>
+
+
+      <!-- ChangeReason_Name Column -->
+      <ng-container matColumnDef="changereason_name">
+        <th mat-header-cell *matHeaderCellDef>سبب التبديل</th>
+        <td mat-cell *matCellDef="let element">{{element?.TBLShamelChangeReason?.changereason_name}}</td>
+      </ng-container>
+
+
+      <!-- rank_name Column -->
+      <ng-container matColumnDef="begindata">
+        <th mat-header-cell *matHeaderCellDef>تاريخ المباشرة</th>
+        <td mat-cell *matCellDef="let element">{{element?.begindata | date:'yyyy/MM/dd'}}</td>
+      </ng-container>
+
+      <!-- studyduration Column -->
+      <ng-container matColumnDef="changedate">
+        <th mat-header-cell *matHeaderCellDef>تاريخ التبديل</th>
+        <td mat-cell *matCellDef="let element">{{element?.changedate | date:'yyyy/MM/dd' }}</td>
+      </ng-container>
+
+      <!-- state_name Column -->
+      <ng-container matColumnDef="salary">
+        <th mat-header-cell *matHeaderCellDef>الراتب</th>
+        <td mat-cell *matCellDef="let element">{{element?.salary}}</td>
+      </ng-container>
+
+
+
+      <!-- DocumentType_name Column -->
+      <ng-container matColumnDef="documenttype_name">
+        <th mat-header-cell *matHeaderCellDef>المستند</th>
+        <td mat-cell *matCellDef="let element">{{element?.TBLShamelDocumentType?.documenttype_name}}</td>
+      </ng-container>
+
+      <!-- Doc_Date Column -->
+      <ng-container matColumnDef="doc_number">
+        <th mat-header-cell *matHeaderCellDef>رقم المستند</th>
+        <td mat-cell *matCellDef="let element">{{element.doc_number}}</td>
+      </ng-container>
+
+      <!-- Doc_Date Column -->
+      <ng-container matColumnDef="doc_date">
+        <th mat-header-cell *matHeaderCellDef>تاريخ المستند</th>
+        <td mat-cell *matCellDef="let element">{{element?.doc_date | date:'yyyy/MM/dd'}}</td>
+      </ng-container>
+
+
+
+      <ng-container matColumnDef="action">
+        <tr>
+          <th mat-header-cell *matHeaderCellDef> العمليات </th>
+        </tr>
+        <tr>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="warn" (click)="Delete(element)" title="حذف">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" (click)="Update(element)" title="تعديل">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        <tr>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator #paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+
+
+  </div>
+</div>

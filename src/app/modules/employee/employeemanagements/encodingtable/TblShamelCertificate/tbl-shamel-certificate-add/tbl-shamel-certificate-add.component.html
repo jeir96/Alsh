@@ -1,0 +1,32 @@
+
+<form [formGroup]="myform" >
+
+  <h1 mat-dialog-title> :: <strong>{{action}}</strong>   شهادة  </h1>
+
+   <div mat-dialog-content>
+
+    <div class="col-8" *ngIf="action != 'حذف'; else elseTemplate">
+      <div class="col-8 row">
+      <div class="col-6">
+        <mat-form-field >
+          <input placeholder="{{action}} شهادة" matInput
+                formControlName="Certificate_name">
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-checkbox [formControl]="frm_Certificate_fixed" [(ngModel)]="local_data!.certificate_fixed"> هل هو مثبت         </mat-checkbox>
+      </div>
+
+
+    </div>
+  </div>
+
+    <ng-template #elseTemplate>
+        هل أنت متأكد من حذف الشهادة <b>{{local_data.certificate_name}}</b>؟
+    </ng-template>
+   </div>
+   <div mat-dialog-actions>
+    <button mat-button (click)="doAction()">{{action}}</button>
+    <button mat-button (click)="closeDialog()" mat-flat-button color="warn">إالغاء</button>
+   </div>
+  </form>

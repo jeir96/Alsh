@@ -1,0 +1,49 @@
+
+<form [formGroup]="myform" >
+
+  <h1 mat-dialog-title> :: <strong>{{action}}</strong>   سبب التبدل  </h1>
+
+   <div mat-dialog-content>
+
+    <div class="col-8" *ngIf="action != 'حذف'; else elseTemplate">
+      <div class="col-8 row">
+      <div class="col-6">
+        <mat-form-field >
+          <input placeholder="{{action}}  سبب التبدل" matInput
+                formControlName="changereason_name">
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <section class="example-section">
+          <label class="example-margin">الوضع بالملاك:</label>
+          <mat-radio-group [(ngModel)]="local_data!.malakstate_id">
+            <mat-radio-button class="example-margin" value="0">قائم على رأس عمله</mat-radio-button>
+            <mat-radio-button class="example-margin" value="1"> خارج الملاك</mat-radio-button>
+          </mat-radio-group>
+        </section>
+       <!-- <mat-checkbox [formControl]="frm_MalakState_id" [(ngModel)]="local_data!.malakstate_id"> الوضع بالملاك         </mat-checkbox>-->
+      </div>
+
+      <div class="col-6">
+        <section class="example-section">
+          <label class="example-margin">احتساب الخدمة  :</label>
+          <mat-radio-group [(ngModel)]="local_data!.countservice_id">
+            <mat-radio-button class="example-margin" value="0">   لا</mat-radio-button>
+            <mat-radio-button class="example-margin" value="1">  نعم</mat-radio-button>
+          </mat-radio-group>
+        </section>
+        <!-- <mat-checkbox [formControl]="frm_CountService_id" [(ngModel)]="local_data!.countservice_id"> احتساب الخدمة         </mat-checkbox>-->
+      </div>
+
+    </div>
+  </div>
+
+    <ng-template #elseTemplate>
+        هل أنت متأكد من حذف سبب التبدل <b>{{local_data.changereason_name}}</b>؟
+    </ng-template>
+   </div>
+   <div mat-dialog-actions>
+    <button mat-button (click)="doAction()">{{action}}</button>
+    <button mat-button (click)="closeDialog()" mat-flat-button color="warn">إلغاء</button>
+   </div>
+  </form>

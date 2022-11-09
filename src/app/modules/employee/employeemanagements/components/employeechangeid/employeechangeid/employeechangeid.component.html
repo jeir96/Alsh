@@ -1,0 +1,44 @@
+
+
+<form [formGroup]="ChangeEmployeeForm">
+<div>
+<mat-form-field  appearance="fill" class="row">
+    <mat-label>اسم الموظف</mat-label>
+
+    <input type="text" 
+           placeholder="اسم الموظف"
+           aria-label="اسم الموظف"
+           matInput                         
+           [formControl]="autocomplete_EmployeeName"
+           />
+
+           
+          
+
+
+    
+  </mat-form-field>   
+</div>
+<div>
+  <mat-form-field appearance="fill">            
+    <mat-label>رقم الإضبارة القديم</mat-label>
+    <input matInput  placeholder="رقم الإضبارة القديم" value="" [formControl]="old_Computer_ID" >            
+  </mat-form-field>
+</div>
+<div>
+  <mat-form-field appearance="fill">            
+    <mat-label>رقم الإضبارة الجديد</mat-label>
+    <input matInput  placeholder=" رقم الإضبارة الجديد" value="" [formControl]="new_Computer_ID" >            
+  </mat-form-field>
+
+</div>
+<div>
+  <button mat-raised-button color="warn" mat-dialog-close (click)="change_employee_id()" >
+    <mat-icon class="mat-icon-rtl-mirror">close  </mat-icon>
+  تغيير
+  </button>
+
+
+</div>
+
+</form>

@@ -1,0 +1,137 @@
+<span class="title">إدخال بيانات الراتب</span>
+
+<div class="top">
+   
+
+<div class="center">
+    <form [formGroup]="Form">
+    <div class="right">
+        <div >
+            <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label >رقم الشطب</mat-label>
+            <input matInput formControlName="payrol_id" >
+        </mat-form-field>
+        </div>
+
+        <div >
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>الزوجة</mat-label>
+                <input matInput formControlName="wife" (change)="calcFamilyRepayment()">
+
+            </mat-form-field>
+        </div>
+
+        <div >
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>الولد الأول</mat-label>
+                <input  matInput formControlName="FirstChild" (change)="calcFamilyRepayment()">
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>الولد الثاني</mat-label>
+                <input  matInput formControlName="SecondChild" (change)="calcFamilyRepayment()">
+            </mat-form-field>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>الولد الثالث</mat-label>
+                <input  matInput formControlName="ThirdChild" (change)="calcFamilyRepayment()">
+            </mat-form-field>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>الولد الرابع</mat-label>
+                <input  matInput formControlName="FourChild" (change)="calcFamilyRepayment()">
+            </mat-form-field>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>الولد الرابع</mat-label>
+                <input  matInput formControlName="RestChild" (change)="calcFamilyRepayment()">
+            </mat-form-field>
+        </div>
+
+        <div >
+            <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label for="familyRepayment">التعويض العائلي</mat-label>
+            <input  matInput formControlName="family_ta3weed" >          
+            </mat-form-field>
+        </div>
+    </div>
+    <div >
+        <div >
+            <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label for="cutSalary">الراتب المقطوع</mat-label>
+            <input  matInput formControlName="salary_last_jobstate" >            
+        </mat-form-field>
+        </div>
+
+        <div >
+            <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label for="isnuranceSalary">الراتب التأميني</mat-label>
+            <input  matInput formControlName="salary_insurance" >            
+        </mat-form-field>
+        </div>
+
+        <div >
+            <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label for="repaymentSalary">راتب التعويضات</mat-label>
+            <input  matInput formControlName="salary_old" >            
+        </mat-form-field>
+
+        </div>
+    </div>
+    <div >
+       
+            <mat-form-field class="example-full-width" appearance="fill">
+            <mat-select formControlName="insurance_kind">
+                <mat-option value="1" color="primary" >مشترك بالتأمينات الإجتماعية</mat-option>
+                <mat-option value="2" color="primary" >مشترك بالتأمين والمعاش</mat-option>
+            </mat-select>
+        </mat-form-field>
+       
+    </div>
+</form>
+</div>
+
+<div >
+    <div >
+        <span >التعويضات الدائمة والمؤقتة</span>
+        <div class="spanBox">
+            <span>اسم التعويض</span>
+            <span>المبلغ</span>
+            <span>النسبة</span>
+        </div>
+        <sub-tblshamel-new-payrol-add
+            *ngFor="let item of this.pageService.List_ta3weed ; index as i"            
+            [index]="i"
+            >
+        </sub-tblshamel-new-payrol-add>
+    </div>
+    <div class="middle">
+        <span class="title2">الحسميات الدائمة والمؤقتة</span>
+        <div class="spanBox">
+            <span>اسم الحسمية</span>
+            <span>المبلغ</span>
+            <span>النسبة</span>
+        </div>
+        <sub-tblshamel-new-payrol-add
+        *ngFor="let item of this.pageService.List_taxtemp ; index as i"            
+        [index]="i"
+        >
+    </sub-tblshamel-new-payrol-add>
+     
+    </div>
+    <div class="left">
+        <span class="title3">الحسميات ذات الأرصدة</span>
+        <div class="spanBox">
+            <span>اسم الحسمية</span>
+            <span>الاجمالي</span>
+            <span>القسط</span>
+            <span>الرصيد</span>
+        </div>
+        <sub-tblshamel-new-payrol-add
+        *ngFor="let item of this.pageService.List_recurr ; index as i"            
+        [index]="i"
+        >
+    </sub-tblshamel-new-payrol-add>
+        
+    </div>
+</div>
+
+<button mat-raised-button color="primary" (click)="taxClicked()">الحسميات المخففة المنفذة</button>
+<button mat-raised-button color="primary" (click)="save()">حفظ</button>

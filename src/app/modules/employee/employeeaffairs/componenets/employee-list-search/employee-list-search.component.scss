@@ -1,0 +1,40 @@
+:host
+{
+    font-size: small;
+}
+
+mat-icon
+{
+    font-size: smaller;
+    font-weight: bold;
+    vertical-align: middle;
+}
+mat-form-field
+{
+    font-size: small;
+}
+
+mat-grid-tile
+{
+    font-size: small;
+}
+
+mat-button-toggle-group
+{
+    width: 100%;
+}
+mat-button-toggle
+{
+    width:100%;
+}
+
+mat-list-item
+{
+    cursor: pointer; 
+}
+
+
+
+mat-list-item:hover {
+    background: #76b900 !important;
+  }

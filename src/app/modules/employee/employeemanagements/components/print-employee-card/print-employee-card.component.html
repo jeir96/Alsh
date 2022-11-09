@@ -1,0 +1,27 @@
+<form class="example-form" [formGroup]="Form" #form="ngForm">
+    <div class="right">
+        <fieldset>
+            <legend>البطاقة الذاتية</legend>
+            <div class="con">
+                <mat-checkbox color="primary" (change)="change1($event)" formControlName="fcl_allDataCheckbox">جميع بيانات البطاقة الذاتية</mat-checkbox>
+            </div>
+    
+            <button mat-raised-button color="primary" (click)="printCard()" >طباعة البطاقة</button>
+            <button  mat-raised-button color="primary" (click)="printInterface()" >طباعة الواجهة</button>
+        </fieldset>
+    </div>
+    
+    <div class="left">
+        <fieldset>
+            <legend>بيانات العامل الإضافية</legend>
+            <div class="con1">
+                <mat-checkbox color="primary" (change)="change2($event)" formControlName="fcl_punishmentsCheckbox">العقوبات</mat-checkbox>
+                <mat-checkbox color="primary" (change)="change2($event)" formControlName="fcl_rewardsCheckbox">المكافئات</mat-checkbox>
+                <mat-checkbox color="primary" (change)="change2($event)" formControlName="fcl_holidaiesCheckbox">إجازات خاصة بلا أجر</mat-checkbox>
+            </div>
+    
+            <button mat-raised-button color="primary" (click)="print()" >طباعة</button>
+            <button  mat-raised-button color="primary" (click)="adjustPrintFooter()" >معايرة تذييل الطباعة</button>
+        </fieldset>
+    </div>
+</form>

@@ -1,0 +1,82 @@
+<form action="" [formGroup]="Form">
+  
+    <div class="right">
+        <mat-form-field appearance="fill" class="fitContent oldDate">
+            <mat-label>تاريخ القرار الوهمي المراد استبداله</mat-label>
+            <input matInput [matDatepicker]="picker1" formControlName="fcl_QararDate">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+    
+        <mat-form-field class="example-full-width fitContent" appearance="fill">
+            <mat-label>رقم الإضبارة</mat-label>
+            <input matInput type="number" value="" formControlName="fcl_Id">
+        </mat-form-field>
+    </div>
+
+    <div class="left">
+        <mat-form-field class="example-full-width fitContent" appearance="fill">
+            <mat-label>رقم القرار الجديد</mat-label>
+            <input matInput type="number" value="" formControlName="fcl_NewQararNumber">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>تاريخ القرار الجديد</mat-label>
+            <input matInput [matDatepicker]="picker2" formControlName="fcl_NewQararDate">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+    </div>
+        
+        
+  </form>
+  <button mat-raised-button color="primary" (click)="View()">عرض</button>
+  <button id="view" mat-raised-button color="primary" (click)="Replace()">استبدال</button>
+
+
+<div class="table-wrap">
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+  
+  
+        <!-- id Column -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>رقم الإضبارة </th>
+            <td mat-cell *matCellDef="let element">{{element?.id}}</td>
+        </ng-container>
+  
+        <!-- worker_name Column -->
+        <ng-container matColumnDef="worker_name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>اسم العامل</th>
+            <td mat-cell *matCellDef="let element">{{element?.worker_name}}</td>
+        </ng-container>
+  
+  
+        <!-- new_salary Column -->
+        <ng-container matColumnDef="new_salary">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>الراتب الجديد</th>
+            <td mat-cell *matCellDef="let element">{{element?.new_salary}}</td>
+        </ng-container>
+  
+  
+        <!-- qarar_num Column -->
+        <ng-container matColumnDef="qarar_num">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>رقم القرار</th>
+          <td mat-cell *matCellDef="let element">{{element?.qarar_num}}</td>
+        </ng-container>
+  
+        <!-- qarar_date Column -->
+        <ng-container matColumnDef="qarar_date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>تاريخ القرار</th>
+          <td mat-cell *matCellDef="let element">{{element?.qarar_date}}</td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <mat-paginator #paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+  
+  
+  </div>

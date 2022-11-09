@@ -1,0 +1,108 @@
+<h2 mat-dialog-title>ضم الخدمة</h2>
+
+<mat-dialog-content class="mat-typography">
+
+
+  <form [formGroup]="Form">
+
+    <div class="row justify-content-between text-left">
+
+      <div class="form-group col-sm-4 flex-column d-flex">
+      
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>عدد الأيام</mat-label>        
+          <input matInput type="number" placeholder="عدد الأيام" value="" [formControl]="fcl_days"  formControlName="days" >        
+    </mat-form-field>
+  </div>
+
+  <div class="form-group col-sm-4 flex-column d-flex">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>عدد الأشهر</mat-label>        
+        <input matInput type="number" placeholder="عدد الأشهر" value="" [formControl]="fcl_months"  formControlName="months" >        
+  </mat-form-field>
+</div>
+<div class="form-group col-sm-4 flex-column d-flex">
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>عدد السنوات</mat-label>        
+      <input matInput type="number" placeholder="عدد السنوات" value="" [formControl]="fcl_years"  formControlName="years" >        
+  </mat-form-field>
+</div>
+</div>
+
+<div class="row justify-content-between text-left">
+
+  <div class="form-group col-sm-4 flex-column d-flex">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>سبب ضم الخدمة</mat-label>
+      <input type="text" matInput [formControl]="fcl_mergeservicereason_id"  [matAutocomplete]="auto_mergeservicereason_id" >
+      <mat-error *ngIf="errorHandling('mergeservicereason_id', 'required')">
+        
+     </mat-error>      
+      <mat-autocomplete #auto_mergeservicereason_id="matAutocomplete" [displayWith]="display_TBLShamelMergeServiceReason.bind(this)" (optionSelected)="OnSelect_TBLShamelMergeServiceReason($event)">
+        <mat-option *ngFor="let option of filter_TBLShamelMergeServiceReason | async" [value]="option.mergeservicereason_id">
+          {{option?.mergeservicereason_name}}
+        </mat-option>        
+      </mat-autocomplete>     
+    </mat-form-field>
+    </div>
+</div>
+    <div class="row justify-content-between text-left">
+
+      <div class="form-group col-sm-4 flex-column d-flex">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>المستند</mat-label>
+        <input type="text" matInput [formControl]="fcl_documenttype_id"  [matAutocomplete]="auto_documenttype_id">
+        <mat-autocomplete #auto_documenttype_id="matAutocomplete" [displayWith]="displayDocumentTypeProperty.bind(this)" (optionSelected)="OnSelect_DocumentType($event)">
+          <mat-option *ngFor="let option of filteredDocumentTypeOptions | async" [value]="option.documenttype_id">
+            {{option.documenttype_name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      </div>
+      <div class="form-group col-sm-4 flex-column d-flex">
+
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>رقم المستند</mat-label>        
+          <input matInput type="number" placeholder="رقم المستند" value="" [formControl]="fcl_document_number"   >        
+      </mat-form-field>
+     </div>
+
+     <div class="form-group col-sm-4 flex-column d-flex">
+      <mat-form-field appearance="fill">
+        <mat-label>تاريخ المستند</mat-label>
+        <input matInput [matDatepicker]="Datepicker_documentdate"  [formControl]="fcl_documentdate"  >
+        <mat-datepicker-toggle matSuffix [for]="Datepicker_documentdate"></mat-datepicker-toggle>
+        <mat-datepicker #Datepicker_documentdate></mat-datepicker>
+      </mat-form-field>
+      </div>
+      </div>
+
+
+  </form>
+  </mat-dialog-content>
+  <mat-dialog-actions >
+    <button mat-raised-button color="warn" mat-dialog-close >
+      <mat-icon class="mat-icon-rtl-mirror">إغلاق
+    </mat-icon>
+    اغلاق
+    </button>
+
+
+
+  
+
+    <button mat-raised-button color="accent"   (click)="onReset()" >
+      <mat-icon class="mat-icon-rtl-mirror">مسح
+      </mat-icon>
+      مسح الشاشة
+    </button>
+
+
+    <button  mat-raised-button color="primary"  cdkFocusInitial (click)="Save()" >
+      <mat-icon class="mat-icon-rtl-mirror">حفظ
+      </mat-icon>
+      حفظ
+    </button>
+
+  </mat-dialog-actions>
+

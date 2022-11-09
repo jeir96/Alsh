@@ -1,0 +1,73 @@
+<h1 mat-dialog-title>إدخال سجل</h1>
+<div mat-dialog-content>
+    <form class="example-form" [formGroup]="Form" #form="ngForm">
+        <mat-form-field color="primary"  id="id" class="" appearance="fill">
+            <mat-label>رقم الإضبارة</mat-label>
+            <input matInput formControlName="fcl_id" required [(ngModel)]="data.id">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>اسم الموظف</mat-label>
+            <input matInput 
+            [matAutocomplete]="auto" 
+            formControlName='fcl_fullName'
+            required
+            >
+          </mat-form-field>
+        
+          <mat-autocomplete
+           #auto="matAutocomplete"
+           [displayWith]="displayFn"
+           (optionSelected)='employeeSelected($event.option.value)'
+           >
+            <mat-option *ngIf="isLoading" class="is-loading">
+      
+              <mat-spinner diameter="50"></mat-spinner>
+          </mat-option>
+          
+          <ng-container *ngIf="!isLoading">
+              <mat-option *ngFor="let emp of filteredEmployeeNameList" [value]="emp">
+                <small>{{ emp.fullname }}</small>        
+              </mat-option>
+            </ng-container>
+          </mat-autocomplete>
+
+        <mat-form-field color="primary" class="" appearance="fill">
+            <mat-label>النسبة</mat-label>
+            <input type="number" matInput formControlName="fcl_percent" required [(ngModel)]="data.percent">
+        </mat-form-field>
+
+        <mat-form-field color="primary" class="" appearance="fill">
+            <mat-label>المدة</mat-label>
+            <input type="number" matInput formControlName="fcl_duration" required [(ngModel)]="data.duration">
+        </mat-form-field>
+
+        <mat-form-field color="primary" appearance="fill" required>
+            <mat-label>نوع المستند</mat-label >
+            <mat-select formControlName="fcl_documenttype_id" [(ngModel)]="data.documenttype_id" required>
+              <mat-option *ngFor="let docType of docTypes" [value]="docType.value">
+                {{docType.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        <mat-form-field color="primary" class="" appearance="fill">
+            <mat-label>رقم المستند</mat-label>
+            <input matInput formControlName="fcl_documentnum" required [(ngModel)]="data.documentnum">
+        </mat-form-field>
+
+        <mat-form-field color="primary" class="" appearance="fill">
+            <mat-label>تاريخ المستند</mat-label>
+            <input matInput [matDatepicker]="picker2" formControlName="fcl_documentdate" required [(ngModel)]="data.documentdate">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+
+    </form>
+</div>
+
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="onNoClick()">إلغاء الأمر</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="data" cdkFocusInitial [disabled]="!form.valid">حفظ</button>
+</div>

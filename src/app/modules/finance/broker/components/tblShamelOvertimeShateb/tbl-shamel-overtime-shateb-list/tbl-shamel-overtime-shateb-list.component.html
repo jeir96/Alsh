@@ -1,0 +1,214 @@
+<div class="card mb-4">
+  <div class="card-body p-4">
+
+    <div class="row">
+
+      <div class="col">
+        <div class="card-title fs-5 fw-semibold"> سجل شطب الساعات <span class="primary"> </span></div>
+        <div class="card-subtitle text-disabled mb-4">عدد المعروضة هي <span>{{TblShamelBrokerShateb_List.length}}</span>
+        </div>
+      </div>
+      <div class="col-auto ms-auto">
+        <c-button-group aria-label="Basic outlined example" role="group">
+          <button cButton color="primary" variant="outline" value="bold" (click)="Add()">اضافة حالة جديد</button>
+          <button cButton color="primary" variant="outline" value="bold" (click)="Refresh()"> تحديث الجدول</button>
+          <button cButton color="primary" variant="outline" value="italic">تصدير اكسل</button>
+          <button cButton color="primary" variant="outline" value="underline">طباعة</button>
+        </c-button-group>
+
+
+      </div>
+    </div>
+    <div class="col-12 ">
+
+      <div class="col-10">
+
+      </div>
+
+    </div>
+
+    <mat-expansion-panel [expanded]="false" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          بحث
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div class="filterGroup">
+
+        <form [formGroup]="Form">
+          <div class="filterGroup1">
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>المنطقة</mat-label>
+              <input type="text" matInput formControlName="area_id" [matAutocomplete]="auto_area_id">
+              <mat-autocomplete #auto_area_id="matAutocomplete" [displayWith]="Display_Area_Property.bind(this)">
+                <mat-option *ngFor="let option of List_Area_Id_Filter | async" [value]="option.Area_ID">
+                  {{option.Area_Name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+
+
+
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>السنة</mat-label>
+              <input type="text" matInput formControlName="year_id" [matAutocomplete]="auto_year_id">
+              <mat-autocomplete #auto_year_id="matAutocomplete" [displayWith]="Display_Year_Property.bind(this)">
+                <mat-option *ngFor="let option of List_TBLShamelYear_Filter | async" [value]="option.year_id">
+                  {{option.year_name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>الشهر</mat-label>
+              <input type="text" matInput formControlName="month_id" [matAutocomplete]="auto_school_id">
+              <mat-autocomplete #auto_school_id="matAutocomplete" [displayWith]="Display_School_Property.bind(this)">
+                <mat-option *ngFor="let option of List_TBLShamelMonth_Filter | async" [value]="option.month_id">
+                  {{option.month_name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+
+          </div>
+
+         
+            <div>
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>اسم الموظف</mat-label>
+                <input type="text" placeholder="اسم الموظف" aria-label="اسم الموظف" matInput formControlName="fullname"
+                  [matAutocomplete]="auto_fullname" />
+                <mat-autocomplete #auto_fullname="matAutocomplete"
+                  [displayWith]="Display_OverTimeEmployee_Fn.bind(this)"
+                  (optionSelected)="OnOverTimeEmployeeSelected($event)">
+                  <mat-option *ngFor="let broker of List_Overtime_employee_Name_Filter | async" [value]="broker">
+                    {{broker.fullname}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+
+
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>المدرسة</mat-label>
+                <input type="text" matInput formControlName="school_id" [matAutocomplete]="auto_School_id">
+
+
+
+                <mat-autocomplete #auto_School_id="matAutocomplete" [displayWith]="Display_School_Property.bind(this)"
+                  (optionSelected)="OnSelectTblShamelMoneyM3PayDest($event)">
+                  <mat-option *ngFor="let option of List_ShamelMoneyM3PayDest_Filter  | async" [value]="option.serial">
+                    {{option.paydest_name}}
+                  </mat-option>
+
+
+                </mat-autocomplete>
+
+              </mat-form-field>
+
+            </div>
+            <div class="filterGroup3">
+              <mat-form-field class="filter" appearance="fill">
+                <mat-label>الدفتر</mat-label>
+                <input matInput formControlName="payrol_id_book" #input>
+              </mat-form-field>
+
+
+              <mat-form-field class="filter" appearance="fill">
+                <mat-label>رقم الشطب</mat-label>
+                <input matInput formControlName="payrol_id_shateb" #input>
+              </mat-form-field>
+            </div>
+         
+
+
+        </form>
+
+
+      </div>
+
+    </mat-expansion-panel>
+
+    <div class="table-responsive">
+
+      <button mat-raised-button color="primary" (click)="OnSearch()">عرض</button>
+    <button mat-raised-button color="primary" (click)="adjustPrintFooter()" >معايرة تذييل الطباعة</button>
+
+
+      <div infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollUpDistance]="1" [infiniteScrollThrottle]="100"
+      (scrolled)="onScroll()" [scrollWindow]="false" style="height: 70%; overflow-y: scroll;">
+  
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+          <!-- area_id cOLUMN -->
+          <ng-container matColumnDef="area_id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>المنطقة</th>
+              <td mat-cell *matCellDef="let element">{{element.area_id }}</td>
+          </ng-container>
+          <!-- payrol_id Column -->
+          <ng-container matColumnDef="payrol_id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>رقم الشطب </th>
+              <td mat-cell *matCellDef="let element">{{element.payrol_id }}</td>
+          </ng-container>
+          <!-- year_id Column -->
+          <ng-container matColumnDef="year_id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>العام </th>
+              <td mat-cell *matCellDef="let element">{{element.year_id }}</td>
+          </ng-container>
+  
+          <!-- month_id Column -->
+          <ng-container matColumnDef="month_id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>الشهر </th>
+              <td mat-cell *matCellDef="let element">{{element.month_id }}</td>
+          </ng-container>
+  
+          <!-- school_id Column -->
+          <ng-container matColumnDef="school_id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>المدرسة</th>
+              <td mat-cell *matCellDef="let element">{{element.school_id}}</td>
+          </ng-container>
+  
+  
+  
+          <!-- broker_id Column -->
+          <ng-container matColumnDef="broker_id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>اسم المعلم المكلف </th>
+              <td mat-cell *matCellDef="let element">{{element.broker_id}}</td>
+          </ng-container>
+  
+          <!-- daycount Column -->
+          <ng-container matColumnDef="daycount">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>ساعات الخدمة </th>
+              <td mat-cell *matCellDef="let element">{{element.daycount }}</td>
+          </ng-container>
+  
+  
+          <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef> حذف\تعديل </th>
+              
+                  <td mat-cell *matCellDef="let element" style="width:20%">
+                      <button class="delete" mat-icon-button color="warn" (click)="Delete(element)"
+                          title="Delete Contact">
+                          <mat-icon>delete</mat-icon>
+                      </button>
+                      <button class="edit" mat-icon-button color="primary" (click)="Update(element)" title="Edit Contact">
+                          <mat-icon>edit</mat-icon>
+                      </button>
+                  </td>
+          </ng-container>
+  
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns; let idx=index;"
+          [style.background-color]="rowClicked == idx ? 'yellow': 'none'"
+        (click)="changeTableRowColor(idx)"></tr>
+      </table>
+  
+  </div>
+
+
+
+
+  </div>
+</div>

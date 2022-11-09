@@ -1,0 +1,25 @@
+<form class="example-form" [formGroup]='Form'>
+    <mat-form-field class="example-full-width">
+      <input matInput 
+      placeholder="ابحث عن الموظف" 
+      [matAutocomplete]="auto" 
+      formControlName='autocomplete_EmployeeName'>
+    </mat-form-field>
+    <span>Your choice is: {{Autocomplete_EmployeeName_Ctrl.value | json}}</span>
+  
+    <mat-autocomplete
+     #auto="matAutocomplete"
+     [displayWith]="displayFn"
+     >
+      <mat-option *ngIf="isLoading" class="is-loading">
+
+        <mat-spinner diameter="50"></mat-spinner>
+    </mat-option>
+    
+    <ng-container *ngIf="!isLoading">
+        <mat-option *ngFor="let emp of filteredEmployeeNameList" [value]="emp">
+          <small>{{ emp.fullname }}</small>        
+        </mat-option>
+      </ng-container>
+    </mat-autocomplete>
+  </form>

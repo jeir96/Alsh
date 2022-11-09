@@ -1,0 +1,8 @@
+<form [formGroup]="Form">
+    <app-auto-complete-employee-name 
+    [Autocomplete_EmployeeName_Ctrl]="ctrAutoCompleteName" 
+    [EmployeeNameList]="EmployeeNameList" 
+    [placeHolder]="'ابحث عن الموظف '"
+     (optionSelected)="selectedOption($event)" >
+    </app-auto-complete-employee-name>
+</form>

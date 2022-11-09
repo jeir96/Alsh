@@ -1,0 +1,90 @@
+<!-- filtering -->
+
+    <div class="filterGroup">
+
+        <form [formGroup]="Form">
+            <div class="filterGroup1">
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>المنطقة</mat-label>
+                    <input type="text" matInput formControlName="area_name" [matAutocomplete]="auto_area">
+                    <mat-autocomplete #auto_area="matAutocomplete"
+                      [displayWith]="displayAreaProperty.bind(this)">
+                      <mat-option *ngFor="let option of List_AREA_Filter | async" [value]="option.Area_ID">
+                        {{option.Area_Name}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+    
+            </div>
+    
+            <div class="filterGroup3">
+                
+                <mat-form-field appearance="fill">
+                    <mat-label>من تاريح</mat-label>
+                    <input matInput [matDatepicker]="picker1" formControlName="start_date">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>الى تاريخ</mat-label>
+                    <input matInput [matDatepicker]="picker2" formControlName="end_date">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                  </mat-form-field>
+    
+    
+            </div>
+    
+            
+        </form>
+    
+        
+    </div>
+
+
+
+<div>
+    <h3>
+        <button class="view" (click)="OnSearch()">عرض</button>
+    </h3>
+</div>
+
+
+
+<!-- <div infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollUpDistance]="1" [infiniteScrollThrottle]="100"
+    (scrolled)="onScroll()" [scrollWindow]="false" style="height: 70%; overflow-y: scroll;"> -->
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+        <!-- area_name Column -->
+        <ng-container matColumnDef="area_name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>المنطقة</th>
+            <td mat-cell *matCellDef="let element">{{element.area_name }}</td>
+        </ng-container>
+        <!-- fullname Column -->
+        <ng-container matColumnDef="fullname">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by fullname">اسم المعلم المكلف </th>
+            <td mat-cell *matCellDef="let element">{{element.fullname }}</td>
+        </ng-container>
+        <!-- daycount Column -->
+        <ng-container matColumnDef="daycount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by daycount">ساعات الخدمة </th>
+            <td mat-cell *matCellDef="let element">{{element.daycount }}</td>
+        </ng-container>
+
+        <!-- totaldaycount Column -->
+        <ng-container matColumnDef="totaldaycount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by totaldaycount">مجموع ساعات الخدمة </th>
+            <td mat-cell *matCellDef="let element">{{element.totaldaycount }}</td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns; let idx=index;"
+        [style.background-color]="rowClicked == idx ? 'yellow': 'none'"
+        (click)="changeTableRowColor(idx)"></tr>
+    </table>
+
+<!-- </div> -->

@@ -1,0 +1,23 @@
+<div fxFlex="30%">
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>اسم الموظف</mat-label>
+        <input matInput type="text" placeholder="{{placeHolder}}" placeholder="اسم الموظف" aria-label="اسم الموظف"
+            (keyup)="onSelect($event)" [formControl]="Autocomplete_EmployeeName_Ctrl" [matAutocomplete]="auto" />
+        <mat-autocomplete #auto="matAutocomplete" 
+             showPanel="true" (optionsScroll)="onScroll()"
+            [displayWith]="displayFn">
+
+
+
+            <mat-option *ngFor="let employee of filteredEmployeeNameList | async" [value]="employee"
+                (click)="onSelect(employee)" [title]="(employee || {}).fullname">
+                {{employee.fullname}}
+            </mat-option>
+
+
+        </mat-autocomplete>
+
+    </mat-form-field>
+
+
+</div>

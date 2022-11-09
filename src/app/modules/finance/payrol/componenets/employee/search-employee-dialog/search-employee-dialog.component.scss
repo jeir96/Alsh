@@ -1,0 +1,21 @@
+.fitContent{
+    width: fit-content;
+}
+
+form{
+    display: flex;
+    .right{
+        display: flex;
+        flex-direction: column;
+        margin-left: 20px;
+    }
+
+    .left{
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+table{
+    width: 100%;
+}

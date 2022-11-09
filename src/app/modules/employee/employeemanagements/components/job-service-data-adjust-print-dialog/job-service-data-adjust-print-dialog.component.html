@@ -1,0 +1,136 @@
+<h1 mat-dialog-title>معايرة تذييل الطباعة</h1>
+<div mat-dialog-content>
+
+  <div class="up">
+    <mat-form-field class="example-full-width fitContent" appearance="fill">
+        <mat-label>الصفة 1</mat-label>
+        <input type="text"
+               matInput
+               [matAutocomplete]="auto1"
+               [(ngModel)]="data.title1">
+        <mat-autocomplete #auto1="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions1 | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    
+      <mat-form-field class="example-full-width fitContent" appearance="fill">
+          <mat-label>الصفة2</mat-label>
+          <input type="text"
+                 matInput
+                 [matAutocomplete]="auto2"
+                 [(ngModel)]="data.title2">
+          <mat-autocomplete #auto2="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions1 | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+    
+        <mat-form-field class="example-full-width fitContent" appearance="fill">
+          <mat-label>الصفة3</mat-label>
+          <input type="text"
+                 matInput
+                 [matAutocomplete]="auto3"
+                 [(ngModel)]="data.title3">
+          <mat-autocomplete #auto3="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions1 | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field class="example-full-width fitContent" appearance="fill">
+            <mat-label>الصفة4</mat-label>
+            <input type="text"
+                   matInput
+                   [matAutocomplete]="auto3"
+                   [(ngModel)]="data.title4">
+            <mat-autocomplete #auto3="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptions1 | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field class="example-full-width fitContent" appearance="fill">
+            <mat-label>الصفة5</mat-label>
+            <input type="text"
+                   matInput
+                   [matAutocomplete]="auto3"
+                   [(ngModel)]="data.title5">
+            <mat-autocomplete #auto3="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptions1 | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+  </div>
+  <div class="down">
+    <mat-form-field class="example-full-width fitContent" appearance="fill">
+        <mat-label>اسم العامل 1</mat-label>
+        <input type="text"
+               matInput
+               [matAutocomplete]="auto1"
+               [(ngModel)]="data.name1">
+        <mat-autocomplete #auto1="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    
+      <mat-form-field class="example-full-width fitContent" appearance="fill">
+          <mat-label>اسم العامل2</mat-label>
+          <input type="text"
+                 matInput
+                 [matAutocomplete]="auto2"
+                 [(ngModel)]="data.name2">
+          <mat-autocomplete #auto2="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+    
+        <mat-form-field class="example-full-width fitContent" appearance="fill">
+          <mat-label>اسم العامل3</mat-label>
+          <input type="text"
+                 matInput
+                 [matAutocomplete]="auto3"
+                 [(ngModel)]="data.name3">
+          <mat-autocomplete #auto3="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field class="example-full-width fitContent" appearance="fill">
+            <mat-label>اسم العامل4</mat-label>
+            <input type="text"
+                   matInput
+                   [matAutocomplete]="auto3"
+                   [(ngModel)]="data.name4">
+            <mat-autocomplete #auto3="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field class="example-full-width fitContent" appearance="fill">
+            <mat-label>اسم العامل5</mat-label>
+            <input type="text"
+                   matInput
+                   [matAutocomplete]="auto3"
+                   [(ngModel)]="data.name5">
+            <mat-autocomplete #auto3="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="onNoClick()">إلغاء الأمر</button>
+  <button mat-raised-button color="primary" (click)="save()" [mat-dialog-close]="data" cdkFocusInitial>حفظ</button>
+</div>

@@ -1,0 +1,96 @@
+<div class="con">
+    <div class="right">
+        <form class="example-form" [formGroup]="Form" #form="ngForm">
+            <div class="up">
+                <mat-form-field class="example-full-width fitContent" appearance="fill">
+                    <mat-label>عام الترفيع</mat-label>
+                    <input type="number"
+                           matInput
+                           formControlName="fcl_UpgradeYear"
+                           [matAutocomplete]="auto1"
+                           required>
+                    <mat-autocomplete #auto1="matAutocomplete">
+                      <mat-option *ngFor="let option of filteredOptions1 | async" [value]="option">
+                        {{option}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+              
+                  <mat-form-field class="example-full-width fitContent" appearance="fill">
+                      <mat-label>الفئة</mat-label>
+                      <input type="text"
+                             matInput
+                             formControlName="fcl_Class"
+                             [matAutocomplete]="auto2"
+                             required>
+                      <mat-autocomplete #auto2="matAutocomplete">
+                        <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option">
+                          {{option}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+              
+                    <mat-form-field class="example-full-width fitContent" appearance="fill">
+                      <mat-label>الصفة الوظيفية</mat-label>
+                      <input type="text"
+                             matInput
+                             formControlName="fcl_JobName"
+                             [matAutocomplete]="auto3"
+                             required>
+                      <mat-autocomplete #auto3="matAutocomplete" (optionSelected)='getJobName($event.option.value)'>
+                        <mat-option *ngFor="let option of filteredOptions3 | async" [value]="option">
+                          {{option}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+            </div>
+
+              <hr>
+
+              <div class="center">
+                <mat-form-field class="example-full-width fitContent" appearance="fill">
+                    <mat-label>رقم آخر قرار</mat-label>
+                    <input matInput type="number" value="" formControlName="fcl_MaxQararNum" required>
+                  </mat-form-field>
+                  <button mat-raised-button color="primary" (click)="deleteQararNumbers()">مسح أرقام القرارات</button>
+              </div>
+
+              <hr>
+
+              <div class="down">
+                <mat-radio-group required>
+                    <mat-radio-button color="primary" value="1" (change)="legalChecked()">قرارات ترفيع نظامية</mat-radio-button>
+                    <mat-radio-button color="primary" value="2" (change)="delayChecked()">قرارات تأخير ترفيع</mat-radio-button>
+                  </mat-radio-group>
+                  <mat-form-field appearance="fill" class="fitContent">
+                    <mat-label>تاريخ القرار</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="fcl_QararDate" required>
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                  <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="generateQararNumbers()">توليد أرقام القرارات</button>
+              </div>
+
+          </form>
+    </div>
+
+    <div class="middle">
+        <button mat-raised-button color="primary" (click)="addJobName()">></button>
+        <button mat-raised-button color="primary" (click)="deleteJobName()"><</button>
+    </div>
+    
+    <div class="left">
+        <div class="jobNames">
+            <p *ngFor="let jobName of jobNames" #p id="{{jobName.jobname_name}}" (click)="selectToDelete(p.innerText)">{{jobName.jobname_name}}</p>
+        </div>
+        <div class="output1">
+            <label for="one">عدد العاملين</label>
+            <output id="one"></output>
+        </div>
+        <div class="output2">
+            <label for="two">عدد القرارات</label>
+            <output id="two"></output>
+        </div>
+    </div>
+</div>

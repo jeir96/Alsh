@@ -1,0 +1,99 @@
+textarea{
+    resize: none;
+}
+
+.fitContent{
+    width: fit-content;
+}
+
+form{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 30px;
+    
+    mat-form-field{
+        margin-left: 20px;
+    }
+
+    mat-checkbox{
+        color: red;
+    }
+}
+
+form + p{
+    color: red;
+}
+.qararHeader{
+    margin-top: 30px;
+}
+.qararHeader, .qararFooter1, .qararFooter2{
+    display: flex;
+    .right{
+        display: flex;
+        flex-direction: column;
+
+        .top{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .output{
+                display: flex;
+                align-items: center;
+            }
+            output{
+                background-color: rgb(196, 196, 196);
+                width: 50px;
+                height: 30px;
+            }
+        }
+    }
+    .left{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        margin-right: 20px;
+
+        .top{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            button{
+                margin-top: 10px;
+            }
+        }
+        .bottom{
+            display: flex;
+            justify-content: space-between;
+            button{
+                margin-left: 10px;
+            }
+        }
+    }
+}
+
+#print{
+    button{
+        margin-top: 30px;
+        margin-left: 20px;
+    }
+    mat-checkbox{
+        color: red;
+    }
+}
+
+span#headerSpan{
+    background-color: rgb(228, 189, 81);
+    color: white;
+    padding: 10px;
+    margin-right: 20px;
+    
+}
+
+output{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}

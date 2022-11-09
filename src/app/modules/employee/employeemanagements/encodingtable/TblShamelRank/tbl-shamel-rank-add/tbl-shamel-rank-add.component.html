@@ -1,0 +1,20 @@
+<!-- MergeServiceReason.component.html -->
+<form [formGroup]="myform" >
+  <h1 mat-dialog-title> :: <strong>{{action}}</strong>  التقدير</h1>
+   <div mat-dialog-content>
+    <mat-form-field *ngIf="action != 'حذف'; else elseTemplate">
+      <input placeholder="{{action}} التقدير" matInput
+            formControlName="Rank_name">
+    </mat-form-field>
+
+    <mat-checkbox [formControl]="frm_Rank_fixed" [(ngModel)]="local_data!.rank_fixed"> هل هو مثبت         </mat-checkbox>
+
+    <ng-template #elseTemplate>
+      هل أنت متأكد من حذف التقدير <b>{{local_data.rank_name}}</b>؟
+    </ng-template>
+   </div>
+   <div mat-dialog-actions>
+    <button mat-button (click)="doAction()">{{action}}</button>
+    <button mat-button (click)="closeDialog()" mat-flat-button color="warn">إلغاء</button>
+   </div>
+  </form>

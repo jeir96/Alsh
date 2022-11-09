@@ -1,0 +1,155 @@
+<h2 mat-dialog-title>الدورات التدريبية</h2>
+
+<mat-dialog-content class="mat-typography">
+
+
+  <form [formGroup]="Form">
+
+    <div class="row justify-content-between text-left">
+
+      <div class="form-group col-sm-6 flex-column d-flex">
+
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>الدورة</mat-label>
+          <input type="text" matInput formControlName="course_id" 
+            [matAutocomplete]="auto_course_id">
+          <mat-error *ngIf="errorHandling('course_id', 'required')"> يجب ادخال الدورة<strong>name</strong> </mat-error>
+          <mat-error *ngIf="((course_id.invalid || course_id.errors)  && (course_id.dirty || course_id.touched) )">
+            sdfsdf
+          </mat-error>
+          <mat-hint *ngIf="((course_id.invalid || course_id.errors)  && (course_id.dirty || course_id.touched) )"><span
+              class="mat-error">قم باحتيار الدورة المتبعة</span></mat-hint>
+          <mat-autocomplete #auto_course_id="matAutocomplete" [displayWith]="displayCourseProperty.bind(this)"
+            (optionSelected)="OnSelectCourseChange($event)">
+            <mat-option *ngFor="let option of filteredCourseOptions | async" [value]="option.course_id">
+              {{option.course_name}}
+            </mat-option>
+          </mat-autocomplete>
+
+        </mat-form-field>
+
+      </div>
+
+
+      <div class="form-group col-sm-6 flex-column d-flex">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>الاختصاص</mat-label>
+          <input type="text" matInput formControlName="specification_id"
+            [matAutocomplete]="auto_specification_id">
+          <mat-autocomplete #auto_specification_id="matAutocomplete"
+            [displayWith]="displaySpecificationProperty.bind(this)"
+            (optionSelected)="OnSelectSpecificationChange($event)">
+            <mat-option *ngFor="let option of filteredSpecificationOptions | async" [value]="option.specification_id">
+              {{option.specification_name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+
+    </div>
+
+    <div class="row justify-content-between text-left">
+
+
+      <div class="form-group col-sm-6 flex-column d-flex">
+
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>الدولة أو البلد</mat-label>
+          <input type="text" matInput formControlName="country_id"
+            [matAutocomplete]="auto_country_id">
+          <mat-autocomplete #auto_country_id="matAutocomplete" [displayWith]="displayCountryProperty.bind(this)"
+            (optionSelected)="OnSelectCountryChange($event)">
+            <mat-option *ngFor="let option of filteredCountryOptions | async" [value]="option.country_id">
+              {{option.country_name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+
+      <div class="form-group col-sm-6 flex-column d-flex">
+
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>المدينة</mat-label>
+          <input type="text" matInput  formControlName="city_id"
+            [matAutocomplete]="auto_city_id">
+          <mat-autocomplete #auto_city_id="matAutocomplete" [displayWith]="displayStateProperty.bind(this)"
+            (optionSelected)="OnSelectStateChange($event)">
+            <mat-option *ngFor="let option of filteredStateOptions | async" [value]="option.state_id">
+              {{option.state_name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+
+      </div>
+
+    </div>
+
+
+
+
+
+
+    <div class="row justify-content-between text-left">
+      <div class="form-group col-sm-4 flex-column d-flex">
+
+
+        <mat-form-field appearance="fill">
+          <mat-label>تاريخ بداية الدورة</mat-label>
+          <input matInput [matDatepicker]="Datepicker_startdate" formControlName="startdate"
+            (dateInput)="addEventStartDate('input', $event)" (dateChange)="addEventStartDate('change', $event)">
+          <mat-datepicker-toggle matSuffix [for]="Datepicker_startdate"></mat-datepicker-toggle>
+          <mat-datepicker #Datepicker_startdate></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="form-group col-sm-4 flex-column d-flex">
+        <mat-form-field appearance="fill">
+          <mat-label>تاريخ نهاية الدورة</mat-label>
+          <input matInput [matDatepicker]="Datepicker_enddate" formControlName="enddate"
+            (dateInput)="addEventEndDate('input', $event)" (dateChange)="addEventEndDate('change', $event)">
+          <mat-datepicker-toggle matSuffix [for]="Datepicker_enddate"></mat-datepicker-toggle>
+          <mat-datepicker #Datepicker_enddate></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group col-sm-4 flex-column d-flex">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>مدة الدورة</mat-label>
+
+          <input matInput placeholder="مدة الدورة" formControlName="studyduration">
+
+        </mat-form-field>
+      </div>
+
+    </div>
+
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+
+  <button mat-raised-button color="warn" mat-dialog-close>
+    <mat-icon class="mat-icon-rtl-mirror">close
+    </mat-icon>
+    اغلاق
+  </button>
+
+
+
+
+
+  <button mat-raised-button color="accent" (click)="onReset()">
+    <mat-icon class="mat-icon-rtl-mirror">clear
+    </mat-icon>
+    مسح الشاشة
+  </button>
+
+
+  <button mat-raised-button color="primary" cdkFocusInitial (click)="Save()">
+    <mat-icon class="mat-icon-rtl-mirror">save
+    </mat-icon>
+    حفظ
+  </button>
+
+</mat-dialog-actions>

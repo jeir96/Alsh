@@ -1,0 +1,30 @@
+.fitContent{
+    width: fit-content;
+}
+
+tr:nth-child(even) {background: #CCC};
+td{
+    border-right: black solid 1px;
+}
+
+table{
+    width: 100%;
+}
+
+form{
+    display: flex;
+}
+
+.right, .left{
+    display: flex;
+    flex-direction: column;
+}
+
+.oldDate{
+    width: 260px;
+    margin-left: 20px;
+}
+
+#view{
+    margin-right: 10px;
+}

@@ -1,0 +1,147 @@
+<span id="headerSpan">طباعة قرارات الترفيع</span>
+<div class="qararHeader">
+    <div class="right">
+        <div class="top">
+            <h2>تروسية القرار</h2>
+            <div class="output">
+                <span>عدد النصوص</span>
+                <output id="headerNumber"></output>
+            </div>
+        </div>
+        <div class="bottom">
+            <textarea id="header" cols="90" rows="7"></textarea>
+        </div>
+    </div>
+    <div class="left">
+        <div class="top">
+            <button mat-raised-button color="primary" (click)="addHeader()">إضافة</button>
+            <button mat-raised-button color="primary" (click)="updateHeader()">تعديل</button>
+
+        </div>
+        <div class="bottom">
+            <button mat-raised-button color="primary" (click)="previousHeader()"><</button>
+            <button mat-raised-button color="primary" (click)="nextHeader()">></button>
+
+        </div>
+    </div>
+</div>
+
+<form class="example-form" [formGroup]="Form" #form="ngForm">
+    <mat-form-field class="example-full-width fitContent" appearance="fill">
+        <mat-label>عام الترفيع</mat-label>
+        <input type="number"
+                matInput
+                formControlName="fcl_UpgradeYear"
+                [matAutocomplete]="auto1" 
+                required>
+        <mat-autocomplete #auto1="matAutocomplete" (optionSelected)='getUpgradeYear($event.option.value)'>
+            <mat-option *ngFor="let option of filteredOptions1 | async" [value]="option">
+            {{option}}
+            </mat-option>
+        </mat-autocomplete>
+        </mat-form-field>
+    
+        <mat-form-field class="example-full-width fitContent" appearance="fill">
+            <mat-label>الفئة</mat-label>
+            <input type="text"
+                    matInput
+                    formControlName="fcl_Class"
+                    [matAutocomplete]="auto2"
+                    required>
+            <mat-autocomplete #auto2="matAutocomplete" (optionSelected)='getClass($event.option.value)'>
+            <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option">
+                {{option}}
+            </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    
+        <mat-form-field class="example-full-width fitContent" appearance="fill">
+            <mat-label>الصفة الوظيفية</mat-label>
+            <input type="text"
+                    matInput
+                    formControlName="fcl_JobName"
+                    [matAutocomplete]="auto3"
+                    required>
+            <mat-autocomplete #auto3="matAutocomplete" (optionSelected)='getJobName($event.option.value)'>
+            <mat-option *ngFor="let option of filteredOptions3 | async" [value]="option">
+                {{option}}
+            </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width fitContent" appearance="fill">
+            <mat-label>من رقم قرار</mat-label>
+            <input matInput type="number" value="" formControlName="fcl_FirstQararNum" required>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width fitContent" appearance="fill">
+            <mat-label>الى رقم قرار</mat-label>
+            <input matInput type="number" value="" formControlName="fcl_LastQararNum" required>
+            </mat-form-field>
+            
+            <mat-checkbox formControlName="fcl_DoNotPrint">عدم طباعة رقم القرار على القرار</mat-checkbox>
+</form>
+
+<p>يحب استخدام ورق قياس LEGAL بطول 33 سم ومعايرة الطابعة على هذا القياس</p>
+
+<div class="qararFooter1">
+    <div class="right">
+        <div class="top">
+            <h2>تذييل القرار</h2>
+            <div class="output">
+                <span>عدد النصوص</span>
+                <output id="footer1Number"></output>
+            </div>
+        </div>
+        <div class="bottom">
+            <textarea id="footer1" cols="90" rows="7"></textarea>
+        </div>
+    </div>
+    <div class="left">
+        <div class="top">
+            <button mat-raised-button color="primary" (click)="addFooter1()">إضافة</button>
+            <button mat-raised-button color="primary" (click)="updateFooter1()">تعديل</button>
+
+        </div>
+        <div class="bottom">
+            <button mat-raised-button color="primary" (click)="previousFooter1()"><</button>
+            <button mat-raised-button color="primary" (click)="nextFooter1()">></button>
+
+        </div>
+    </div>
+</div>
+
+<div class="qararFooter2">
+    <div class="right">
+        <div class="top">
+            <h2>تذييل قرار 2</h2>
+            <div class="output">
+                <span>عدد النصوص</span>
+                <output id="footer2Number"></output>
+            </div>
+        </div>
+        <div class="bottom">
+            <textarea id="footer2" cols="90" rows="7"></textarea>
+        </div>
+    </div>
+    <div class="left">
+        <div class="top">
+            <button mat-raised-button color="primary" (click)="addFooter2()">إضافة</button>
+            <button mat-raised-button color="primary" (click)="updateFooter2()">تعديل</button>
+
+        </div>
+        <div class="bottom">
+            <button mat-raised-button color="primary" (click)="previousFooter2()"><</button>
+            <button mat-raised-button color="primary" (click)="nextFooter2()">></button>
+
+        </div>
+    </div>
+</div>
+
+<div id="print">
+    <button mat-raised-button color="primary" (click)="print()" [disabled]="!form.valid">طباعة</button>
+    <button mat-raised-button color="primary" (click)="adjustPrintFooter()" >معايرة تذييل الطباعة</button>
+    <mat-checkbox formControlName="fcl_DoNotPrint">إظهار كلمة رئيس المكتب التنفيذي</mat-checkbox>
+
+
+</div>

@@ -1,0 +1,27 @@
+
+<form [formGroup]="myform" >
+
+  <h1 mat-dialog-title> :: <strong>{{action}}</strong>   عدد صفحات البطاقة الذاتية  </h1>
+
+   <div mat-dialog-content>
+
+    <div class="col-8" *ngIf="action != 'حذف'; else elseTemplate">
+      <div class="col-8 row">
+      <div class="col-6">
+        <mat-form-field >
+          <input placeholder="{{action}}  عدد صفحات البطاقة الذاتية" matInput
+                formControlName="TotalCount">
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+    <ng-template #elseTemplate>
+        هل أنت متأكد من حذف عدد صفحات البطاقة الذاتية <b>{{local_data.TotalCount}}</b>؟
+    </ng-template>
+   </div>
+   <div mat-dialog-actions>
+    <button mat-button (click)="doAction()">{{action}}</button>
+    <button mat-button (click)="closeDialog()" mat-flat-button color="warn">إلغاء</button>
+   </div>
+  </form>

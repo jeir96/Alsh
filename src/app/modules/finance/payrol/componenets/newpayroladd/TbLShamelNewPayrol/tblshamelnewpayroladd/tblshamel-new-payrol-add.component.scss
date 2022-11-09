@@ -1,0 +1,199 @@
+.title{
+    background-color: rgb(228, 189, 81);
+    color: white;
+    padding: 10px;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+}
+
+// :host{
+//     zoom: 0.7;
+// }
+.fitContent{
+    width: fit-content;
+}
+
+mat-form-field{
+    margin-left: 10px;
+}
+
+output{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 2px;
+    background-color: rgb(196, 196, 196);
+    width: 80px;
+    height: 30px;
+}
+
+
+.top{
+    margin-bottom: 40px;
+    border: 1px solid black;
+    padding: 10px;
+
+    form{
+        
+        .up{
+            mat-form-field{
+                margin-left: 20px;
+                display: inline-block;
+                width: fit-content;
+            }
+        }
+
+        .down{
+            display: flex;
+            justify-content: space-between;
+            width: 700px;
+
+            .serialOutput{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 320px;
+                
+                button{
+                    margin-left: 5px;
+                }
+            }
+
+            .idOutput{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 320px;
+
+                button{
+                    margin-left: 5px;
+                }
+            }
+        }
+    }
+
+    .date{
+        background-color: gray;
+        padding: 10px;
+        margin-top: 10px;
+        display: block;
+        width: fit-content;
+    }
+}
+
+.center{
+    border: 1px solid black;
+    padding: 10px;
+    margin-bottom: 40px;
+    display: flex;
+    display: flex;
+    justify-content: space-between;
+    width: 900px;
+    .right, .middle{
+        >*{
+            margin-bottom: 5px;
+        }
+    }
+
+    .shatebNumberOutput, .wifeOutput, .familyCodeOutput, .familyRepaymentOutput ,.cutSalaryOutput, .isnuranceSalaryOutput, .repaymentSalaryOutput{
+        display: flex;
+    }
+
+    label{
+        width: 100px;
+        text-align: left;
+        margin-left: 5px;
+    }
+
+    .left{
+        mat-radio-group{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 50px;
+        }
+    }
+}
+
+.bottom{
+    border: 1px solid black;
+    padding: 10px;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 930px;
+    .right{
+        .title1{
+            background-color: rgb(228, 189, 81);
+            color: white;
+            padding: 10px;
+        }
+        
+        .spanBox{
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            width: 292px;
+            span{
+                margin-left: 15px;
+            }
+            span:last-child{
+                margin-right: 42px;
+            }
+        }
+    }
+
+    .middle{
+        .title2{
+            background-color: rgb(228, 189, 81);
+            color: white;
+            padding: 10px;
+        }
+        
+        .spanBox{
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            width: 292px;
+            span{
+                margin-left: 15px;
+            }
+            span:last-child{
+                margin-right: 40px;
+            }
+        }
+    }
+
+    .left{
+        .title3{
+            background-color: rgb(228, 189, 81);
+            color: white;
+            padding: 10px;
+        }
+        
+        .spanBox{
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            width: 718px;
+            span{
+                margin-left: 15px;
+            }
+            span:nth-child(2){
+                margin-right: 10px;
+            }
+            span:nth-child(3){
+                margin-right: 27px;
+            }
+            span:last-child{
+                margin-right: 40px;
+            }
+        }
+    }
+}
+
+:host > button{
+    margin-left: 10px;
+}

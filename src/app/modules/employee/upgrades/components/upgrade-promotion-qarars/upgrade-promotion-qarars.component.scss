@@ -1,0 +1,95 @@
+.fitContent{
+    width: fit-content;
+}
+
+.con{
+    display: flex;
+
+    .right{
+        border: 1px solid black;
+        form{
+            display: flex;
+            flex-direction: column;
+            .up{
+                padding-inline: 30px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+            .center{
+                padding-inline: 30px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                button{
+                    width: fit-content;
+                }
+            }
+            .down{
+                margin-bottom: 20px;
+                padding-inline: 30px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                mat-radio-group{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                }
+                button{
+                    margin-top: 20px;
+                    width: fit-content;
+                }
+            }
+        }
+    }
+
+    .middle{
+        margin-inline: 30px;
+        width: 66px;
+        align-content: center;
+        button{
+            margin-top: 20px !important;
+            display: block;
+            margin: auto;
+            position: relative;
+            top: 160px
+        }
+    }
+
+    .left{
+        border: 1px solid black;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        height: 400px;
+        .jobNames{
+            border: 1px solid black;
+            height: 300px;
+            width: 250px;
+            overflow: auto;
+
+            p.clicked{
+                background-color: rgb(196, 196, 196);
+            }
+        }
+        output{
+            background-color: rgb(196, 196, 196);
+            width: 50px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .output1, .output2{
+            display: flex;
+            justify-content: space-between;
+            width: 130px;
+        }
+    }
+}
+
+hr{
+    opacity: 1;
+}

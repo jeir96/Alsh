@@ -1,0 +1,184 @@
+<!-- filtering -->
+
+<div class="label">
+    <h2>ذاتية الوكلاء</h2>
+</div>
+
+<mat-expansion-panel [expanded]="false" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        بحث
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="filterGroup">
+
+        <form [formGroup]="Form">
+            <div class="filterGroup1">
+                <mat-form-field class="filter" appearance="fill">
+                    <mat-label>التسلسل</mat-label>
+                    <input matInput formControlName="serial" #input>
+                </mat-form-field>
+    
+                <mat-form-field class="filter" appearance="fill">
+                    <mat-label>الأسم</mat-label>
+                    <input matInput formControlName="fname" #input>
+                </mat-form-field>
+    
+                <mat-form-field class="filter" appearance="fill">
+                    <mat-label>الكنية</mat-label>
+                    <input matInput formControlName="lname" #input>
+                </mat-form-field>
+    
+            </div>
+    
+            <div class="filterGroup2">
+                <mat-form-field class="filter" appearance="fill">
+                    <mat-label>الأب</mat-label>
+                    <input matInput formControlName="father" #input>
+                </mat-form-field>
+    
+                <mat-form-field class="filter" appearance="fill">
+                    <mat-label>الأم</mat-label>
+                    <input matInput formControlName="mother" #input>
+                </mat-form-field>
+    
+              
+    
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>الجنس</mat-label>
+                    <input type="text" matInput formControlName="sex_name" [matAutocomplete]="auto_sexname">
+                    <mat-autocomplete #auto_sexname="matAutocomplete"
+                      [displayWith]="displaySexNameProperty.bind(this)">
+                      <mat-option *ngFor="let option of List_SEX_NAME_Filter | async" [value]="option.Sex_Name">
+                        {{option.Sex_Name}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>تاريخ الولادة</mat-label>
+                    <input matInput [matDatepicker]="picker1" formControlName="birthdate">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                  </mat-form-field>
+    
+            </div>
+    
+            <div class="filterGroup3">
+                <mat-form-field class="filter" appearance="fill">
+                    <mat-label>أيام الخدمة</mat-label>
+                    <input matInput formControlName="servicedayes" #input>
+                </mat-form-field>
+    
+    
+    
+            </div>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>العملية</mat-label>
+                    <mat-select formControlName="servicedayes_operator">
+                        <mat-option value="يساوي">يساوي</mat-option>
+                        <mat-option value="أكبر أو يساوي">أكبر أو يساوي</mat-option>
+                        <mat-option value="أصغر أو يساوي">أصغر أو يساوي</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+    
+            
+        </form>
+    
+        
+    </div>
+
+</mat-expansion-panel>
+
+
+<div>
+    <h3>
+        <button class="view" (click)="OnSearch()">عرض</button>
+        <button class="add" (click)="Add('')">إضافة</button>
+    </h3>
+</div>
+
+
+
+<div infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollUpDistance]="1" [infiniteScrollThrottle]="100"
+    (scrolled)="onScroll()" [scrollWindow]="false" style="height: 70%; overflow-y: scroll;">
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+        <!-- serialNumber Serical -->
+        <ng-container matColumnDef="serial">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>التسلسل</th>
+            <td mat-cell *matCellDef="let element">{{element.serial }}</td>
+        </ng-container>
+        <!-- FName ID -->
+        <ng-container matColumnDef="fname">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by FName">الأسم </th>
+            <td mat-cell *matCellDef="let element">{{element.fname }}</td>
+        </ng-container>
+        <!-- LName Column -->
+        <ng-container matColumnDef="lname">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by LName">الكنية </th>
+            <td mat-cell *matCellDef="let element">{{element.lname }}</td>
+        </ng-container>
+
+        <!-- Father Column -->
+        <ng-container matColumnDef="father">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Father">الأب </th>
+            <td mat-cell *matCellDef="let element">{{element.father }}</td>
+        </ng-container>
+
+        <!-- mother Column -->
+        <ng-container matColumnDef="mother">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by mother">الأم</th>
+            <td mat-cell *matCellDef="let element">{{element.mother}}</td>
+        </ng-container>
+
+
+
+        <!-- BirthDate Column -->
+        <ng-container matColumnDef="birthdate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by BirthDate">
+                تاريخ الولادة </th>
+            <td mat-cell *matCellDef="let element">{{element.birthdate | date }}</td>
+        </ng-container>
+
+        <!-- SexName Column -->
+        <ng-container matColumnDef="sexname">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by SexName">
+                الجنس</th>
+            <td mat-cell *matCellDef="let element">{{element.sexname}}</td>
+        </ng-container>
+
+        <!-- ServiceDayes Column -->
+        <ng-container matColumnDef="servicedayes">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by ServiceDayes">
+                أيام الخدمة </th>
+            <td mat-cell *matCellDef="let element">{{element.servicedayes }}</td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> حذف\تعديل </th>
+            
+                <td mat-cell *matCellDef="let element" style="width:20%">
+                    <button class="delete" mat-icon-button color="warn" (click)="Delete(element)"
+                        title="Delete Contact">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    <button class="edit" mat-icon-button color="primary" (click)="Update(element)" title="Edit Contact">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns; let idx=index;"
+        [style.background-color]="rowClicked == idx ? 'yellow': 'none'"
+        (click)="changeTableRowColor(idx)"></tr>
+    </table>
+
+</div>

@@ -1,0 +1,54 @@
+mat-radio-group{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    height: 150px;
+    width: 370px;
+}
+
+mat-radio-button{
+    width: fit-content;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
+
+
+fieldset{
+    border: 1px solid black;
+    padding: 20px;
+    margin-right: 20px;
+
+    mat-form-field{
+        width: 45%;
+        margin-left: 20px;
+    }
+}
+
+.dates{
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+form{
+    display: flex;
+    p{
+        background-color: rgb(228, 189, 81);
+        color: white;
+        align-self: flex-start;
+        padding: 10px;
+        margin-right: 20px;
+    }
+}
+
+button{
+    margin-bottom: 20px;
+}
+
+tr:nth-child(even) {background: #CCC};
+td{
+    border-right: black solid 1px;
+}

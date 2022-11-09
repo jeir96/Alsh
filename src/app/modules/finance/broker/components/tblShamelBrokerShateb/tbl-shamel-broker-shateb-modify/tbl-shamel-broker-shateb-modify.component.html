@@ -1,0 +1,142 @@
+<div mat-dialog-content>
+    <mat-card>
+        <mat-card-title>سجل شطب الوكلاء</mat-card-title>
+        <mat-card-content>
+            <div class="Col-12">
+
+
+                <form [formGroup]="Form">
+
+                    <div class="row">
+                        <div>
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>اسم الموظف</mat-label>
+                                <input type="text" placeholder="اسم الموظف" aria-label="اسم الموظف" matInput
+                                    formControlName="broker_id" [matAutocomplete]="auto_broker_id" />
+                                <mat-autocomplete #auto_broker_id="matAutocomplete"
+                                    [displayWith]="Display_broker_Employee_Fn.bind(this)"
+                                    (optionSelected)="OnBrokerEmployeeSelected($event)">
+                                    <mat-option *ngFor="let broker of List_broker_employee_Name_Filter | async"
+                                        [value]="broker">
+                                        {{broker.fullname}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+
+                        </div>
+                        <div>
+
+
+                            <mat-form-field class="example-full-width" appearance="fill">
+                                <mat-label>المنطقة</mat-label>
+                                <input type="text" matInput formControlName="area_id" [matAutocomplete]="auto_Area_id">
+                                <mat-error *ngIf="errorHandling('course_id', 'required')"> يجب ادخال
+                                    المنطقة<strong>name</strong> </mat-error>
+
+
+                                <mat-autocomplete #auto_Area_id="matAutocomplete"
+                                    [displayWith]="Display_Area_Property.bind(this)"
+                                    (optionSelected)="OnSelectArea($event)">
+                                    <mat-option *ngFor="let option of List_Area_Id_Filter  | async"
+                                        [value]="option.area_id">
+                                        {{option.area_name}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+
+
+
+                        <div>
+
+
+                            <mat-form-field class="example-full-width" appearance="fill">
+                                <mat-label>العام</mat-label>
+                                <input type="text" matInput formControlName="year_id" [matAutocomplete]="auto_year_id">
+                                <mat-error *ngIf="errorHandling('course_id', 'required')"> يجب ادخال
+                                    العام<strong>name</strong> </mat-error>
+
+
+                                <mat-autocomplete #auto_year_id="matAutocomplete"
+                                    [displayWith]="Display_Year_Property.bind(this)"
+                                    (optionSelected)="OnSelectYear($event)">
+                                    <mat-option *ngFor="let option of List_TBLShamelYear_Filter  | async"
+                                        [value]="option.year_id">
+                                        {{option.year_name}}
+                                    </mat-option>
+                                </mat-autocomplete>
+
+                            </mat-form-field>
+                        </div>
+
+
+                        <div>
+
+
+                            <mat-form-field class="example-full-width" appearance="fill">
+                                <mat-label>الشهر</mat-label>
+                                <input type="text" matInput formControlName="month_id" [matAutocomplete]="auto_Month_id">
+                                <mat-error *ngIf="errorHandling('course_id', 'required')"> يجب ادخال
+                                    الشهر<strong>name</strong> </mat-error>
+
+
+                                <mat-autocomplete #auto_Month_id="matAutocomplete"
+                                    [displayWith]="Display_Month_Property.bind(this)"
+                                    (optionSelected)="OnSelectMonth($event)">
+                                    <mat-option *ngFor="let option of List_TBLShamelMonth_Filter  | async"
+                                        [value]="option.month_id">
+                                        {{option.month_name}}
+                                    </mat-option>
+
+
+                                </mat-autocomplete>
+
+                            </mat-form-field>
+                        </div>
+
+
+
+
+
+                        <div>
+
+
+                            <mat-form-field class="example-full-width" appearance="fill">
+                                <mat-label>المدرسة</mat-label>
+                                <input type="text" matInput formControlName="school_id" [matAutocomplete]="auto_School_id">
+                                <mat-error *ngIf="errorHandling('course_id', 'required')"> يجب ادخال
+                                    المدرسة<strong>name</strong> </mat-error>
+
+
+                                <mat-autocomplete #auto_School_id="matAutocomplete"
+                                    [displayWith]="Display_School_Property.bind(this)"
+                                    (optionSelected)="OnSelectTblShamelMoneyM3PayDest($event)">
+                                    <mat-option *ngFor="let option of List_ShamelMoneyM3PayDest_Filter  | async"
+                                        [value]="option.serial">
+                                        {{option.paydest_name}}
+                                    </mat-option>
+
+
+                                </mat-autocomplete>
+
+                            </mat-form-field>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+                </form>
+
+            </div>
+        </mat-card-content>
+
+        <mat-card-footer>
+            <button mat-button (click)="Save()">حفظ</button>
+        </mat-card-footer>
+
+    </mat-card>
+</div>

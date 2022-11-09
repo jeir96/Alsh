@@ -1,0 +1,1357 @@
+<section style="background-color: #eee;">
+        <div class="container py-5">
+                <div class="row">
+                        <div class="col-lg-4">
+                                <div class="card mb-4">
+                                        <div class="card-body text-center">
+                                                <img src="" alt="employee Image" class="rounded-circle img-fluid"
+                                                        style="width: 150px;">
+                                                <h5 class="my-3">{{this.SelectedViewEmp.fullname }}</h5>
+                                                <p class="text-muted mb-1"
+                                                        *ngIf="SelectedEmp != null && SelectedEmp!=undefined && SelectedEmp!.TBLShamelSCJobState_Last != null && SelectedEmp!.TBLShamelSCJobState_Last!.TBLShamelJobName !=null">
+                                                        {{SelectedEmp!.TBLShamelSCJobState_Last!.TBLShamelJobName!.jobname_name}}
+                                                </p>
+                                                <p class="text-muted mb-4"
+                                                        *ngIf="SelectedEmp != null && SelectedEmp!=undefined && SelectedEmp!.TBLShamelSCJobState_Last != null  && SelectedEmp!.TBLShamelSCJobState_Last!.TBLShamelDepartment !=null">
+                                                        {{SelectedEmp!.TBLShamelSCJobState_Last!.TBLShamelDepartment!.department_name}}
+                                                </p>
+                                                <p class="text-muted mb-4"
+                                                        *ngIf="SelectedEmp != null && SelectedEmp!=undefined && SelectedEmp!.TBLShamelSCJobState_Last != null ">
+                                                        {{SelectedEmp!.MalakState_Name}}</p>
+
+
+                                                <div class="d-flex justify-content-center mb-2">
+                                                        <button type="button" class="btn btn-primary">تعديل</button>
+                                                        <button type="button"
+                                                                class="btn btn-outline-primary ms-1">Message</button>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="card mb-4 mb-lg-0">
+                                        <div class="card-body p-0">
+                                                <ul class="list-group list-group-flush rounded-3">
+                                                        <li *ngIf="SelectedEmp != null && SelectedEmp!=undefined && SelectedEmp!.TBLShamelSCJobState_Last != null"
+                                                                class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                                                <div>
+                                                                        <i class="fab fa-twitter fa-lg"
+                                                                                style="color: #55acee;"></i>
+                                                                        <div class="row">
+                                                                                <div class="col-sm-12">
+                                                                                        <p class="mb-0 emplabel">
+                                                                                                آخر وضع وظيفي</p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                رقم القرار :
+                                                                                                {{SelectedEmp!.TBLShamelSCJobState_Last!.doc_number}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                تاريخ القرار :
+
+                                                                                                {{SelectedEmp!.TBLShamelSCJobState_Last!.doc_date |  date:'yyyy/MM/dd' }}
+                                                                                        </p>
+                                                                                </div>
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCJobState_Last!.TBLShamelDocumentType != null"
+                                                                                                >
+                                                                                                المستند:
+                                                                                                {{SelectedEmp!.TBLShamelSCJobState_Last!.TBLShamelDocumentType.documenttype_name}}
+
+                                                                                        </p>
+                                                                                </div>
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCJobState_Last!.TBLShamelChangeReason != null"
+                                                                                                >
+                                                                                                سبب التبدل :
+                                                                                                {{SelectedEmp!.TBLShamelSCJobState_Last!.TBLShamelChangeReason.changereason_name}}
+                                                                                        </p>
+                                                                                </div>
+
+                                                                               
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCJobState_Last!.TBLShamelClass.class_name != null"
+                                                                                                >
+                                                                                                الفئة:
+                                                                                                {{SelectedEmp!.TBLShamelSCJobState_Last!.TBLShamelClass.class_name}}
+                                                                                        </p>
+                                                                                </div>
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCJobState_Last!.TBLShamelJobName != null"
+                                                                                                >
+                                                                                                الوظيفة:
+                                                                                                {{SelectedEmp!.TBLShamelSCJobState_Last!.TBLShamelJobName
+                                                                                                .jobname_name}} </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCJobState_Last!.TBLShamelJobKind != null"
+                                                                                                >
+                                                                                                المركز الوظيفي:
+                                                                                                {{SelectedEmp!.TBLShamelSCJobState_Last!.TBLShamelJobKind
+                                                                                                .jobkind_name}} </p>
+                                                                                </div>
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCJobState_Last!.TBLShamelDepartment != null"
+                                                                                                >
+                                                                                                القسم:
+                                                                                                {{SelectedEmp!.TBLShamelSCJobState_Last!.TBLShamelDepartment
+                                                                                                .department_name}} </p>
+                                                                                </div>
+
+
+
+
+
+                                                                        </div>
+
+                                                                </div>
+
+                                                        </li>
+                                                        <li | *ngIf="SelectedEmp != null && SelectedEmp!=undefined && SelectedEmp!.TBLShamelSCPunishment_Last != null"
+                                                                class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                                                <div>
+                                                                        <i class="fab fa-twitter fa-lg"
+                                                                                style="color: #55acee;"></i>
+                                                                        <div class="row">
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                آخر عقوبة</p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                رقم القرار :
+                                                                                                {{SelectedEmp!.TBLShamelSCPunishment_Last!.document_number}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                تاريخ القرار :
+
+                                                                                                {{SelectedEmp!.TBLShamelSCPunishment_Last!.documentdate |  date:'yyyy/MM/dd'}}
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCPunishment_Last!.TBLShamelDocumentType != null"
+                                                                                                >
+                                                                                                القرار:
+
+                                                                                                {{SelectedEmp!.TBLShamelSCPunishment_Last!.TBLShamelDocumentType.documenttype_name
+                                                                                                }}
+                                                                                        </p>
+                                                                                </div>
+
+
+
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCPunishment_Last!.TBLShamelPunishmentReason != null"
+                                                                                                >
+                                                                                                السبب:
+                                                                                                {{SelectedEmp!.TBLShamelSCPunishment_Last!.TBLShamelPunishmentReason.punishmentreason_name
+                                                                                                }}
+                                                                                        </p>
+                                                                                </div>
+
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCPunishment_Last!.TBLShamelPunishment != null"
+                                                                                                >
+                                                                                                العقوبة:
+                                                                                                {{SelectedEmp!.TBLShamelSCPunishment_Last!.TBLShamelPunishment.punishment_name
+                                                                                                }}
+                                                                                        </p>
+                                                                                </div>
+
+
+
+
+                                                                        </div>
+
+                                                                </div>
+                                                        </li>
+                                                        <li *ngIf="SelectedEmp != null && SelectedEmp!=undefined && SelectedEmp!.TBLShamelSCEducation_Last != null"
+                                                                class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                                                <div>
+                                                                        <i class="fab fa-twitter fa-lg"
+                                                                                style="color: #55acee;"></i>
+                                                                        <div class="row">
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                آخر شهادة تعليمية</p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCEducation_Last!.TBLShamelCertificate != null"
+                                                                                                >
+                                                                                                الشهادة:
+                                                                                                {{SelectedEmp!.TBLShamelSCEducation_Last!.TBLShamelCertificate.certificate_name}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCEducation_Last!.TBLShamelSpecification != null"
+                                                                                                >
+                                                                                                الاختصاص:
+
+                                                                                                {{SelectedEmp!.TBLShamelSCEducation_Last!.TBLShamelSpecification.specification_name}}
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCEducation_Last!.TBLShamelRank != null"
+                                                                                                >
+                                                                                                المعدل :
+                                                                                                {{SelectedEmp!.TBLShamelSCEducation_Last!.TBLShamelRank.rank_name}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCEducation_Last!.TBLShamelCountry != null"
+                                                                                                >
+                                                                                                المصدر :
+                                                                                                {{SelectedEmp!.TBLShamelSCEducation_Last!.TBLShamelCountry.country_name}}
+
+                                                                                        </p>
+                                                                                </div>
+
+
+
+
+
+
+                                                                        </div>
+
+                                                                </div>
+                                                        </li>
+
+                                                        <li *ngIf="SelectedEmp != null && SelectedEmp!=undefined && SelectedEmp!.TBLShamelSCCourse_Last   != null"
+                                                                class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                                                <div>
+                                                                        <i class="fab fa-twitter fa-lg"
+                                                                                style="color: #55acee;"></i>
+                                                                        <div class="row">
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                آخر دورة تدريبية</p>
+                                                                                </div>
+
+
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCCourse_Last!.TBLShamelCourse != null"
+                                                                                                >
+                                                                                                الدورة :
+                                                                                                {{SelectedEmp!.TBLShamelSCCourse_Last!.TBLShamelCourse.course_name}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCCourse_Last!.TBLShamelSpecification != null"
+                                                                                                >
+                                                                                                الاختصاص :
+                                                                                                {{SelectedEmp!.TBLShamelSCCourse_Last!.TBLShamelSpecification.specification_name
+                                                                                                }}
+
+                                                                                        </p>
+                                                                                </div>
+
+
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                تاريخ البداية :
+                                                                                                {{SelectedEmp!.TBLShamelSCCourse_Last!.startdate |  date:'yyyy/MM/dd'}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                النهاية :
+                                                                                                {{SelectedEmp!.TBLShamelSCCourse_Last!.enddate  |  date:'yyyy/MM/dd'}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                المدة :
+                                                                                                {{SelectedEmp!.TBLShamelSCCourse_Last!.studyduration
+                                                                                                }}
+
+                                                                                        </p>
+                                                                                </div>
+
+
+
+
+                                                                        </div>
+
+                                                                </div>
+                                                        </li>
+
+
+                                                        <li *ngIf="SelectedEmp != null && SelectedEmp!=undefined && SelectedEmp!.TBLShamelSCBonus_Last   != null"
+                                                                class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                                                <div>
+                                                                        <i class="fab fa-twitter fa-lg"
+                                                                                style="color: #55acee;"></i>
+                                                                        <div class="row">
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                آخر مكافئة</p>
+                                                                                </div>
+
+
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCBonus_Last!.TBLShamelBonus != null"
+                                                                                                >
+                                                                                                المكافقئة:
+                                                                                                {{SelectedEmp!.TBLShamelSCBonus_Last!.TBLShamelBonus!.bonus_name}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCBonus_Last!.TBLShamelBonusReason != null"
+                                                                                                >
+                                                                                                السبب:
+                                                                                                {{SelectedEmp!.TBLShamelSCBonus_Last!.TBLShamelBonusReason.bonusreason_name
+                                                                                                }}
+
+                                                                                        </p>
+                                                                                </div>
+
+
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                رقم القرار :
+                                                                                                {{SelectedEmp!.TBLShamelSCBonus_Last!.document_number}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                تاريخ القرار :
+
+                                                                                                {{SelectedEmp!.TBLShamelSCBonus_Last!.documentdate |  date:'yyyy/MM/dd' }}
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCBonus_Last!.TBLShamelDocumentType != null"
+                                                                                                >
+                                                                                                القرار:
+
+                                                                                                {{SelectedEmp!.TBLShamelSCBonus_Last!.TBLShamelDocumentType.documenttype_name
+                                                                                                }}
+                                                                                        </p>
+                                                                                </div>
+
+
+
+
+
+
+
+
+                                                                        </div>
+
+                                                                </div>
+                                                        </li>
+
+
+                                                        <li *ngIf="SelectedEmp != null && SelectedEmp!=undefined && SelectedEmp!.TBLShamelSCFreeHoliday_Last  != null"
+                                                                class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                                                <div>
+                                                                        <i class="fab fa-twitter fa-lg"
+                                                                                style="color: #55acee;"></i>
+                                                                        <div class="row">
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                آخر إجازة</p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                المدة :
+                                                                                                {{SelectedEmp!.TBLShamelSCFreeHoliday_Last!.duration}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                تاريخ البداية :
+                                                                                                {{SelectedEmp!.TBLShamelSCFreeHoliday_Last!.startdate |  date:'yyyy/MM/dd'}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                النهاية :
+                                                                                                {{SelectedEmp!.TBLShamelSCFreeHoliday_Last!.enddate|  date:'yyyy/MM/dd'}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCFreeHoliday_Last!.TBLShamelFreeHolidayReason != null"
+                                                                                                >
+                                                                                                السبب:
+                                                                                                {{SelectedEmp!.TBLShamelSCFreeHoliday_Last!.TBLShamelFreeHolidayReason.freeholidayreason_name}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                رقم القرار :
+                                                                                                {{SelectedEmp!.TBLShamelSCFreeHoliday_Last!.document_number}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                تاريخ القرار :
+
+                                                                                                {{SelectedEmp!.TBLShamelSCFreeHoliday_Last!.documentdate|  date:'yyyy/MM/dd'}}
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCFreeHoliday_Last!.TBLShamelDocumentType!= null"
+                                                                                                >
+                                                                                                القرار:
+
+                                                                                                {{SelectedEmp!.TBLShamelSCFreeHoliday_Last!.TBLShamelDocumentType.documenttype_name
+                                                                                                }}
+                                                                                        </p>
+                                                                                </div>
+
+
+
+
+
+
+
+
+
+                                                                        </div>
+
+                                                                </div>
+                                                        </li>
+                                                        <li *ngIf="SelectedEmp != null && SelectedEmp!=undefined && SelectedEmp!.TBLShamelSCHealthHoliday_Last  != null"
+                                                                class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                                                <div>
+                                                                        <i class="fab fa-twitter fa-lg"
+                                                                                style="color: #55acee;"></i>
+                                                                        <div class="row">
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                آخر إجازة مرضية</p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                المدة :
+                                                                                                {{SelectedEmp!.TBLShamelSCHealthHoliday_Last!.duration}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                تاريخ البداية :
+                                                                                                {{SelectedEmp!.TBLShamelSCHealthHoliday_Last!.startdate |  date:'yyyy/MM/dd'}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                النهاية :
+                                                                                                {{SelectedEmp!.TBLShamelSCHealthHoliday_Last!.enddate |  date:'yyyy/MM/dd'}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCHealthHoliday_Last!.TBLShamelDoctor!= null"
+                                                                                                >
+                                                                                                الطبيب :
+                                                                                                {{SelectedEmp!.TBLShamelSCHealthHoliday_Last!.TBLShamelDoctor!.doctor_name
+                                                                                                }}
+
+                                                                                        </p>
+                                                                                </div>
+
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                السبب:
+                                                                                                {{SelectedEmp!.TBLShamelSCHealthHoliday_Last!.sick}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                رقم القرار :
+                                                                                                {{SelectedEmp!.TBLShamelSCHealthHoliday_Last!.document_number}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                تاريخ القرار :
+
+                                                                                                {{SelectedEmp!.TBLShamelSCHealthHoliday_Last!.documentdate|  date:'yyyy/MM/dd'}}
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCHealthHoliday_Last!.TBLShamelDocumentType != null"
+                                                                                                >
+                                                                                                القرار:
+
+                                                                                                {{SelectedEmp!.TBLShamelSCHealthHoliday_Last!.TBLShamelDocumentType.documenttype_name
+                                                                                                }}
+                                                                                        </p>
+                                                                                </div>
+
+
+
+
+
+
+
+
+
+                                                                        </div>
+
+                                                                </div>
+                                                        </li>
+                                                        <li *ngIf="SelectedEmp != null && SelectedEmp!=undefined && SelectedEmp!.TBLShamelSCSuddenHoliday_Last   != null"
+                                                                class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                                                <div>
+                                                                        <i class="fab fa-twitter fa-lg"
+                                                                                style="color: #55acee;"></i>
+                                                                        <div class="row">
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                آخر إجازة اضطرارية</p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                المدة :
+                                                                                                {{SelectedEmp!.TBLShamelSCSuddenHoliday_Last!.duration}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                تاريخ البداية :
+                                                                                                {{SelectedEmp!.TBLShamelSCSuddenHoliday_Last!.startdate |  date:'yyyy/MM/dd'}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                النهاية :
+                                                                                                {{SelectedEmp!.TBLShamelSCSuddenHoliday_Last!.enddate
+                                                                                                }}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCSuddenHoliday_Last!.TBLShamelSuddentHolidy != null"
+                                                                                                >
+                                                                                                السبب:
+                                                                                                {{SelectedEmp!.TBLShamelSCSuddenHoliday_Last!.TBLShamelSuddentHolidy.suddenholiday_name
+                                                                                                }}
+
+                                                                                        </p>
+                                                                                </div>
+
+
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                رقم القرار :
+                                                                                                {{SelectedEmp!.TBLShamelSCSuddenHoliday_Last!.document_number}}
+
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel">
+                                                                                                تاريخ القرار :
+
+                                                                                                {{SelectedEmp!.TBLShamelSCSuddenHoliday_Last!.documentdate |  date:'yyyy/MM/dd'}}
+                                                                                        </p>
+                                                                                </div>
+
+                                                                                <div class="col-sm-12">
+                                                                                        <p style="font-size: .77rem;"
+                                                                                                class="mb-0 emplabel"
+                                                                                                *ngIf="SelectedEmp!.TBLShamelSCSuddenHoliday_Last!.TBLShamelDocumentType != null"
+                                                                                                >
+                                                                                                القرار:
+
+                                                                                                {{SelectedEmp!.TBLShamelSCSuddenHoliday_Last!.TBLShamelDocumentType.documenttype_name
+                                                                                                }}
+                                                                                        </p>
+                                                                                </div>
+
+
+
+
+
+
+
+
+
+                                                                        </div>
+
+                                                                </div>
+                                                        </li>
+
+                                                </ul>
+                                        </div>
+                                </div>
+
+                        </div>
+                        <div class="col-lg-8">
+
+
+                                <div class="card mb-4">
+                                        <div class="card-body">
+
+                                                <div class="row">
+
+                                                        <div class="col-sm-2">
+                                                                <p class="mb-0 emplabel">الاسم</p>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                                <p class="text-muted mb-0 emplabelContent">
+                                                                        {{SelectedEmp.FName }}
+                                                                </p>
+                                                        </div>
+
+                                                        <div class="col-sm-2">
+                                                                <p class="mb-0 emplabel">الكنية</p>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                                <p class="text-muted mb-0 emplabelContent">
+                                                                        {{SelectedEmp.LName }}
+                                                                </p>
+                                                        </div>
+
+
+                                                </div>
+                                               
+                                                <div class="row">
+
+                                                        <div class="col-sm-2">
+                                                                <p class="mb-0 emplabel">الأب</p>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                                <p class="text-muted mb-0 emplabelContent">
+                                                                        {{SelectedEmp.Father }}
+                                                                </p>
+                                                        </div>
+
+                                                        <div class="col-sm-2">
+                                                                <p class="mb-0">الأم</p>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                                <p class="text-muted mb-0 emplabelContent">
+                                                                        {{SelectedEmp.Mother }}
+                                                                </p>
+                                                        </div>
+
+
+                                                </div>
+                                               
+                                                <div class="row">
+
+                                                        <div class="col-sm-2">
+                                                                <p class="mb-0 emplabel">رقم الإضبارة</p>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                                <p class="text-muted mb-0 emplabelContent">
+                                                                        {{SelectedEmp.id }}
+                                                                </p>
+                                                        </div>
+
+                                                        <div class="col-sm-2">
+                                                                <p class="mb-0 emplabel">رقم الحاسب</p>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                                <p class="text-muted mb-0 emplabelContent">
+                                                                        {{SelectedEmp.Computer_ID }}
+                                                                </p>
+                                                        </div>
+
+
+                                                </div>
+                                               
+                                                <div class="row">
+
+                                                        <div class="col-sm-2">
+                                                                <p class="mb-0 emplabel">رقم التأميني</p>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                                <p class="text-muted mb-0 emplabelContent">
+                                                                        {{SelectedEmp.Insurance_ID }}
+                                                                </p>
+                                                        </div>
+
+                                                        <div class="col-sm-2">
+                                                                <p class="mb-0 emplabel">رقم الشطب</p>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                                <p class="text-muted mb-0 emplabelContent">
+                                                                        {{SelectedEmp.Payrol_ID }}
+                                                                </p>
+                                                        </div>
+
+
+                                                </div>
+                                               
+                                                <div class="row">
+
+                                                        <div class="col-sm-2">
+                                                                <p class="mb-0 emplabel">رقم التأشسيرة</p>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                                <p class="text-muted mb-0 emplabelContent">
+                                                                        {{SelectedEmp.Qarar_Num }}
+                                                                </p>
+                                                        </div>
+
+                                                        <div class="col-sm-2">
+                                                                <p class="mb-0 emplabel">
+                                                                        تاريخ التأشيرة
+                                                                </p>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                                <p class="text-muted mb-0 emplabelContent">
+                                                                        {{SelectedEmp.QararDate  |  date:'yyyy/MM/dd'}} </p>
+                                                        </div>
+
+
+                                                </div>
+                                               
+                                                <div class="row"
+                                                        *ngIf="SelectedEmp != null &&  SelectedEmp.TBLShamelAccounter != null ">
+
+                                                        <div class="col-sm-2">
+                                                                <p class="mb-0 emplabel">تسلسل</p>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                                <p class="text-muted mb-0 emplabelContent">
+                                                                        {{SelectedEmp.AccounterSerial }} </p>
+                                                        </div>
+
+                                                        <div class="col-sm-2">
+                                                                <p class="mb-0 emplabel">
+                                                                        اسم المعتمد</p>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                                <p class="text-muted mb-0 emplabelContent">
+                                                                        {{SelectedEmp.TBLShamelAccounter.accounter_name
+                                                                        }}
+
+                                                                </p>
+                                                        </div>
+
+
+                                                </div>
+
+
+                                        </div>
+                                </div>
+
+
+                                <div class="row">
+                                        <div class="col-md-12">
+                                                <div class="card mb-4 mb-md-0">
+                                                        <div class="card-body">
+                                                                
+
+                                                                <div class="row">
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="mb-0 emplabel">رقم الوطني
+                                                                                </p>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="text-muted mb-0 emplabelContent">
+                                                                                        {{SelectedEmp.ID_Number}}</p>
+                                                                        </div>
+
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="mb-0 emplabel">
+                                                                                        الحالة</p>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="text-muted mb-0 emplabelContent">
+                                                                                        {{SelectedEmp.MartialState_Name}}
+                                                                                </p>
+                                                                        </div>
+                                                                </div>
+
+
+
+
+                                                                <div class="row">
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="mb-0 emplabel">
+                                                                                        مكان الولادة</p>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="text-muted mb-0 emplabelContent">
+                                                                                        {{SelectedEmp.Birth_Place}}</p>
+                                                                        </div>
+
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="mb-0 emplabel">تاريخ
+                                                                                        الولادة
+                                                                                </p>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="text-muted mb-0 emplabelContent">
+                                                                                        {{SelectedEmp.BirthDate |  date:'yyyy/MM/dd'}}</p>
+                                                                        </div>
+                                                                </div>
+
+
+
+
+                                                                <div class="row">
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="mb-0 emplabel">مكان
+                                                                                        الولادة
+                                                                                </p>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="text-muted mb-0 emplabelContent">
+                                                                                        {{SelectedEmp.Kayd_Place}}</p>
+                                                                        </div>
+
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="mb-0 emplabel">الجنس
+                                                                                </p>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="text-muted mb-0 emplabelContent">
+                                                                                        {{SelectedEmp.Sex_Name}} </p>
+                                                                        </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="mb-0 emplabel">
+                                                                                        الجنسية
+                                                                                </p>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="text-muted mb-0 emplabelContent"
+                                                                                        *ngIf="SelectedEmp != null &&  SelectedEmp.TBLShamelNationality != null ">
+                                                                                        {{SelectedEmp.TBLShamelNationality.Nationality_Name}}
+                                                                                </p>
+                                                                        </div>
+
+
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="mb-0 emplabel">
+                                                                                        الحالة</p>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="text-muted mb-0 emplabelContent">
+                                                                                        {{SelectedEmp.MartialState_Name}}
+                                                                                </p>
+                                                                        </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="mb-0 emplabel">الهاتف
+                                                                                </p>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="text-muted mb-0 emplabelContent">
+                                                                                        {{SelectedEmp.PhoneNum}}</p>
+                                                                        </div>
+
+
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="mb-0 emplabel">
+                                                                                        احتياط</p>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="text-muted mb-0 emplabelContent"
+                                                                                        *ngIf="SelectedEmp.Emp_IN_Military_Service != null && SelectedEmp.Emp_IN_Military_Service>0">
+
+
+                                                                                        نعم
+                                                                                </p>
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="text-muted mb-0 emplabelContent"
+                                                                                        *ngIf="SelectedEmp.Emp_IN_Military_Service == null|| SelectedEmp.Emp_IN_Military_Service==0">
+
+
+                                                                                        لا
+                                                                                </p>
+
+
+                                                                        </div>
+                                                                </div>
+
+
+
+                                                                <div class="row">
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="mb-0 emplabel">
+                                                                                        المنطقة </p>
+                                                                        </div>
+                                                                        <div class="col-sm-9">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="text-muted mb-0 emplabelContent"
+                                                                                        *ngIf="SelectedEmp != null &&  SelectedEmp.TBLShamelArea != null ">
+                                                                                        {{SelectedEmp!.TBLShamelArea!.area_name}}
+                                                                                </p>
+                                                                        </div>
+
+                                                                </div>
+
+                                                                <div class="row">
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="mb-0 emplabel">
+                                                                                        الناحية
+                                                                                </p>
+                                                                        </div>
+                                                                        <div class="col-sm-9">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="text-muted mb-0 emplabelContent"
+                                                                                        *ngIf="SelectedEmp != null &&  SelectedEmp.TBLShamelMiniArea != null ">
+                                                                                        {{SelectedEmp!.TBLShamelMiniArea!.MiniArea_Name}}
+                                                                                </p>
+                                                                        </div>
+
+                                                                </div>
+
+                                                                <div class="row">
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="mb-0 emplabel">
+                                                                                        الشارع
+                                                                                </p>
+                                                                        </div>
+                                                                        <div class="col-sm-9">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="text-muted mb-0 emplabelContent"
+                                                                                        *ngIf="SelectedEmp != null &&  SelectedEmp.TBLShamelStreetOrVillage != null ">
+                                                                                        {{SelectedEmp!.TBLShamelStreetOrVillage!.StreetOrVillage_Name}}
+                                                                                        .
+                                                                                </p>
+                                                                        </div>
+
+                                                                </div>
+
+                                                                <div class="row">
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="mb-0 emplabel">
+                                                                                        العنوان </p>
+                                                                        </div>
+                                                                        <div class="col-sm-9">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="text-muted mb-0 emplabelContent">
+                                                                                        {{SelectedEmp!.ManualAddress}}
+                                                                                </p>
+                                                                        </div>
+
+                                                                </div>
+
+                                                                <div class="row">
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="mb-0 emplabel">ملاحظة رقم
+                                                                                        1 </p>
+                                                                        </div>
+                                                                        <div class="col-sm-9">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="text-muted mb-0 emplabelContent">
+                                                                                        {{SelectedEmp!.Rem1}} </p>
+                                                                        </div>
+
+                                                                </div>
+                                                                <div class="row">
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="mb-0 emplabel">ملاحظة رقم
+                                                                                        2 </p>
+                                                                        </div>
+                                                                        <div class="col-sm-9">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="text-muted mb-0 emplabelContent">
+                                                                                        {{SelectedEmp!.Rem2}} </p>
+                                                                        </div>
+
+                                                                </div>
+                                                                <div class="row">
+                                                                        <div class="col-sm-3">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="mb-0 emplabel">ملاحظة رقم
+                                                                                        3 </p>
+                                                                        </div>
+                                                                        <div class="col-sm-9">
+                                                                                <p style="font-size: .77rem;"
+                                                                                        class="text-muted mb-0 emplabelContent">
+                                                                                        {{SelectedEmp!.Rem3}} </p>
+                                                                        </div>
+
+                                                                </div>
+
+
+
+
+                                                        </div>
+                                                </div>
+                                        </div>
+
+                                </div>
+
+
+
+                        </div>
+                </div>
+        </div>
+</section>
+
+
+
+<!--
+<div fxLayout="column" fxLayoutAlign="center stretch" *ngIf="this.SelectedEmp && this.SelectedEmp.id>0">
+
+        <div fxFlex="100%">
+                <button mat-button (click)="Show_EntryOfficer()">موظف الإدخال</button>
+                <button mat-button (click)="Show_Documents()">عرض الوثائق المستندات</button>
+                <button mat-button (click)="Add_Modify_Documents()">اضافة / تعديل الوثائق والمستندات</button>
+                <button mat-button (click)="Update_Employee()">تعديل بطاقة</button>
+                <button mat-button (click)="Add_Employee()">ادخال بطاقة</button>
+        </div>
+
+
+
+        <div>
+
+                {{SelectedEmp.TBLShamelSCJobState_Last.doc_number}}
+                {{SelectedEmp.TBLShamelSCJobState_Last!.TBLShamelChangeReason!.changereason_name}}
+                {{SelectedEmp.TBLShamelSCJobState_Last!.TBLShamelJobName!.jobname_name}}
+
+
+        </div>
+
+
+
+        <div fxLayout="row" fxLayoutAlign="center strech">
+
+
+                <mat-card fxFlex="25%" fxLayout="column">
+                        <mat-list>
+                                <mat-list-item fxLayout="row">
+                                        <h5> رقم الإضبارة
+                                                <span fxFlexAlign="left"> {{this.SelectedEmp.id}} </span>
+                                        </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>رقم الحاسب الوزاري </h4>
+                                        <h5>{{this.SelectedEmp.Computer_ID}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>رقم الإضبارة </h4>
+                                        <h5>{{this.SelectedEmp.Global_ID}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>رقم الإضبارة </h4>
+                                        <h5>{{this.SelectedEmp.Insurance_ID}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>رقم الهوية </h4>
+                                        <h5>{{this.SelectedEmp.ID_Number}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>الاسم </h4>
+                                        <h5>{{this.SelectedEmp.FName}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>الكنية </h4>
+                                        <h5>{{this.SelectedEmp.LName}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4> اسم الأب</h4>
+                                        <h5>{{this.SelectedEmp.Father}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4> اسم الأم</h4>
+                                        <h5>{{this.SelectedEmp.Mother}} </h5>
+                                </mat-list-item>
+                        </mat-list>
+                </mat-card>
+
+                <mat-card fxFlex="25%" fxLayout="column">
+                        <mat-list>
+                                <mat-list-item>
+                                        <h4>الجنس </h4>
+                                        <h5>{{this.SelectedEmp.Sex_Name}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>الجنسية </h4>
+                                        <h5>{{this.SelectedEmp.Nationality_Name}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>مكان التولد </h4>
+                                        <h5>{{this.SelectedEmp.Birth_Place}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>الحالة الإجتماعية </h4>
+                                        <h5>{{this.SelectedEmp.MartialState_Name}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>ملتحق بخدمة العلم </h4>
+                                        <h5>{{this.SelectedEmp.Emp_IN_Military_Service}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>رقم الإضبارة </h4>
+                                        <h5>{{this.SelectedEmp.MiniArea_Name}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>رقم الحاسب الوزاري </h4>
+                                        <h5>{{this.SelectedEmp. StreetOrVillage_Name}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>رقم الإضبارة </h4>
+                                        <h5>{{this.SelectedEmp.ManualAddress}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>رقم القيد </h4>
+                                        <h5>{{this.SelectedEmp.Kayd_Place}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>أرقام الهواتف </h4>
+                                        <h5>{{this.SelectedEmp.PhoneNum}} </h5>
+                                </mat-list-item>
+                        </mat-list>
+                </mat-card>
+
+
+
+                <mat-card fxFlex="25%" fxLayout="column">
+                        <mat-list>
+                                <mat-list-item>
+                                        <h4>رقم تأشيرة الجهاز المركزي </h4>
+                                        <h5>{{this.SelectedEmp.Qarar_Num}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>تاريخ التأشيرة </h4>
+                                        <h5>{{this.SelectedEmp.QararDate}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>تاريخ المباشرة</h4>
+                                        <h5>{{this.SelectedEmp.BeginDate}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>آخر وضع وظيفي</h4>
+                                        <h5>{{this.SelectedEmp.ChangeReason_Name}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>ضمن الملاك </h4>
+                                        <h5>{{this.SelectedEmp.MalakState_Name}} </h5>
+                                </mat-list-item>
+
+
+                                <mat-list-item>
+                                        <h4>الوظيفة </h4>
+                                        <h5>{{this.SelectedEmp.JobName_Name}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>الفئة </h4>
+                                        <h5>{{this.SelectedEmp.Class_Name}} </h5>
+                                </mat-list-item>
+                                <mat-list-item>
+                                        <h4>الشهادة </h4>
+                                        <h5>{{this.SelectedEmp.Certificate_Name}} </h5>
+                                </mat-list-item>
+
+
+                                <mat-list-item>
+                                        <h4>الشهادة </h4>
+                                        <h5>{{this.SelectedEmp.Accounter_Name}} </h5>
+                                </mat-list-item>
+
+                                <mat-list-item>
+                                        <h4>الراتب </h4>
+                                        <h5>{{this.SelectedEmp.Salary}} </h5>
+                                </mat-list-item>
+
+                        </mat-list>
+                </mat-card>
+
+
+                <mat-card fxFlex="25%" fxLayout="column">
+
+                        <mat-list-item>
+                                <h4>ملاحظة 1 </h4>
+                                <h5>{{this.SelectedEmp.Rem1}} </h5>
+                        </mat-list-item>
+                        <mat-list-item>
+                                <h4>ملاحظة 2 </h4>
+                                <h5>{{this.SelectedEmp.Rem2}} </h5>
+                        </mat-list-item>
+                        <mat-list-item>
+                                <h4>ملاحظة 3 </h4>
+                                <h5>{{this.SelectedEmp.Rem3}} </h5>
+                        </mat-list-item>
+                        <mat-list-item>
+                                <h4>رقم الإضبارة </h4>
+                                <h5>{{this.SelectedEmp.JobName_Name}} </h5>
+                        </mat-list-item>
+
+                </mat-card>
+
+
+
+
+
+        </div>
+
+
+</div>
+
+-->

@@ -1,0 +1,82 @@
+<div class="col-md-12 text-center ">
+  <h2 >الدورات التدريبية</h2>
+</div>
+<div>
+  للإضافة على الجدول انقر على اضافة
+  <button mat-button color="primary" (click)="Add()">اضافة</button>
+</div>
+
+  <div class="col-md-12">
+    <div class="table-wrap">
+
+      <table mat-table [dataSource]="dataSource"  class="mat-elevation-z8"  matSort >
+
+      
+        <!-- certificate_name Column -->
+        <ng-container matColumnDef="course_name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>الدورة </th>
+          <td mat-cell *matCellDef="let element">{{element?.TBLShamelCourse?.course_name}}</td>
+        </ng-container>
+
+        <!-- specification_name Column -->
+        <ng-container matColumnDef="specification_name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>الاختصاص</th>
+          <td mat-cell *matCellDef="let element">{{element?.TBLShamelSpecification?.specification_name}}</td>
+        </ng-container>
+
+        <!-- graduationyear Column -->
+        <ng-container matColumnDef="studyduration">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>مدة الدورة</th>
+          <td mat-cell *matCellDef="let element">{{element?.studyduration}}</td>
+        </ng-container>
+
+
+
+        <!-- country_name Column -->
+        <ng-container matColumnDef="country_name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>البلد</th>
+          <td mat-cell *matCellDef="let element">{{element?.TBLShamelCountry?.country_name}}</td>
+        </ng-container>
+
+       
+
+        <!-- rank_name Column -->
+        <ng-container matColumnDef="startdate" >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>تاريخ البدء</th>
+          <td mat-cell *matCellDef="let element">{{element?.startdate | date:'yyyy/MM/dd'}}</td>
+        </ng-container>
+
+        <!-- studyduration Column -->
+        <ng-container matColumnDef="enddate" >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>تاريخ الانتهاء</th>
+          <td mat-cell *matCellDef="let element">{{element?.enddate | date:'yyyy/MM/dd'}}</td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="action">
+          <tr>
+            <th mat-header-cell *matHeaderCellDef> العمليات </th>
+          </tr>
+          <tr>
+            <td mat-cell *matCellDef="let element">
+              <button mat-button color="warn" (click)="Delete(element)" style="font-size: 10px;"><mat-icon>delete</mat-icon>  </button>
+              <button mat-button color="primary" (click)="Update(element)" title="تعديل" style="font-size: 10px;"><mat-icon>update</mat-icon></button>
+            </td>
+          <tr>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator #paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+
+
+    </div>
+  </div>
+
+
+
+
+

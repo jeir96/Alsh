@@ -1,0 +1,90 @@
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="Form">
+
+        
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>الأسم</mat-label>
+            <input matInput type="text" value="" formControlName="fname" required>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>الكنية</mat-label>
+            <input matInput type="text" value="" formControlName="lname" required>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>الأب</mat-label>
+            <input matInput type="text" value="" formControlName="father" required>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>الأم</mat-label>
+            <input matInput type="text" value="" formControlName="mother" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>تاريخ الولادة</mat-label>
+            <input matInput [matDatepicker]="Datepicker_BirthDate" formControlName="birthdate" required>
+            <mat-datepicker-toggle matSuffix [for]="Datepicker_BirthDate"></mat-datepicker-toggle>
+            <mat-datepicker #Datepicker_BirthDate></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>الجنس</mat-label>
+            <input type="text" matInput formControlName="sex_name" [matAutocomplete]="auto_sexname">
+            <mat-autocomplete #auto_sexname="matAutocomplete" [displayWith]="displaySexNameProperty.bind(this)">
+                <mat-option *ngFor="let option of List_SEX_NAME_Filter | async" [value]="option.Sex_Name">
+                    {{option.Sex_Name}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>ساعات الخدمة</mat-label>
+
+            <input matInput type="number" value="" formControlName="servicedayes" required>
+
+        </mat-form-field>
+
+
+       
+
+       
+
+      
+
+      
+
+      
+
+
+
+
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="warn" [mat-dialog-close]="false">
+        <mat-icon class="mat-icon-rtl-mirror">close
+        </mat-icon>
+        اغلاق
+    </button>
+
+
+
+
+
+    <button mat-raised-button color="accent" (click)="onReset()">
+        <mat-icon class="mat-icon-rtl-mirror">clear
+        </mat-icon>
+        مسح الشاشة
+    </button>
+
+
+    <button mat-raised-button color="primary" cdkFocusInitial (click)="Save()" [mat-dialog-close]="true"
+        [disabled]="Form.invalid   ">
+        <mat-icon class="mat-icon-rtl-mirror">save
+        </mat-icon>
+        حفظ
+    </button>
+
+</mat-dialog-actions>

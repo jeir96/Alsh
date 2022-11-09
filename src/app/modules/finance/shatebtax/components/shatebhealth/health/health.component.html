@@ -1,0 +1,256 @@
+<form action="" [formGroup]="Form" #form="ngForm">
+  
+  <mat-expansion-panel [expanded]="false" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        بحث
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-form-field appearance="fill">
+      <mat-label> من تاريخ قرار</mat-label>
+      <input matInput [matDatepicker]="picker_startdate_from" formControlName="startdate_from">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker_startdate_from"></mat-datepicker-toggle>
+      <mat-datepicker #picker_startdate_from></mat-datepicker>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+      <mat-label>الى تاريخ قرار</mat-label>
+      <input matInput [matDatepicker]="picker_startdate_to" formControlName="startdate_to">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker_startdate_to"></mat-datepicker-toggle>
+      <mat-datepicker #picker_startdate_to></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width fitContent" appearance="fill">
+      <mat-label>رقم الإضبارة</mat-label>
+      <input matInput type="number" value="" formControlName="id">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width fitContent" appearance="fill">
+      <mat-label>الاسم</mat-label>
+      <input matInput value="" formControlName="fname">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width fitContent" appearance="fill">
+      <mat-label>الكنية</mat-label>
+      <input matInput value="" formControlName="lname">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width fitContent" appearance="fill">
+      <mat-label>الأب</mat-label>
+      <input matInput value="" formControlName="father">
+    </mat-form-field>
+
+
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>المستند</mat-label>
+      <input type="text" matInput formControlName="documenttype_id" [matAutocomplete]="auto_documenttype_id">
+      <mat-autocomplete #auto_documenttype_id="matAutocomplete"
+        [displayWith]="displayDocumentTypeProperty.bind(this)">
+        <mat-option *ngFor="let option of List_DocumentType_Filter | async" [value]="option.documenttype_id">
+          {{option.documenttype_name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width fitContent" appearance="fill">
+      <mat-label>رقم المستند</mat-label>
+      <input matInput type="number" value="" formControlName="documentnum">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>من تاريخ المستند</mat-label>
+      <input matInput [matDatepicker]="picker_documentdate_from" formControlName="documentdate_from">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker_documentdate_from"></mat-datepicker-toggle>
+      <mat-datepicker #picker_documentdate_from></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>الى تاريخ المستند</mat-label>
+      <input matInput [matDatepicker]="picker_documentdate_to" formControlName="documentdate_to">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker_documentdate_to"></mat-datepicker-toggle>
+      <mat-datepicker #picker_documentdate_to></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width fitContent" appearance="fill">
+      <mat-label>رقم الإيصال</mat-label>
+      <input matInput type="number" value="" formControlName="eisaltnum">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>من تاريخ الإيصال</mat-label>
+      <input matInput [matDatepicker]="picker_eisaldate_from" formControlName="eisaldate_from">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker_eisaldate_from"></mat-datepicker-toggle>
+      <mat-datepicker #picker_eisaldate_from></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>الى تاريخ الإيصال</mat-label>
+      <input matInput [matDatepicker]="pickereisaldate_to" formControlName="eisaldate_to">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="pickereisaldate_to"></mat-datepicker-toggle>
+      <mat-datepicker #pickereisaldate_to></mat-datepicker>
+    </mat-form-field>
+
+  <mat-form-field class="example-full-width fitContent" appearance="fill">
+      <mat-label>اسم المعتمد</mat-label>
+      <input matInput
+              formControlName="accounter_id"
+              [matAutocomplete]="auto_accounter_id"
+              >
+      <mat-autocomplete #auto_accounter_id="matAutocomplete" [displayWith]="DisplayAccounterProperty.bind(this)">
+        <mat-option *ngFor="let option of List_Accounter_Filter | async" [value]="option.accounter_id">
+          {{option.accounter_name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width fitContent" appearance="fill">
+      <mat-label>نوع الحسم</mat-label>
+      <input matInput formControlName="healthnosalary_name" [matAutocomplete]="auto_healthnosalary_name"
+        required>
+      <mat-autocomplete #auto_healthnosalary_name="matAutocomplete">
+        <mat-option *ngFor="let option of List_HealthNoSalary_Filter | async"
+          [value]="option.healthnosalary_name">
+          {{option.healthnosalary_name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-radio-group formControlName="tax_status">
+      <mat-radio-button color="primary" value="1">جميع الحسميات</mat-radio-button>
+      <mat-radio-button color="primary" value="2">الحسميات المنفذة</mat-radio-button>
+      <mat-radio-button color="primary" value="3">الحسميات غير المنفذة</mat-radio-button>
+      <mat-radio-button color="primary" value="4">حسميات دون راتب</mat-radio-button>
+    </mat-radio-group>
+
+    <div class="imgBox">
+        <span>صورة القرار</span>
+        <div class="img">
+            <img src="" alt="صورة القرار">
+        </div>
+    </div>
+    
+  </mat-expansion-panel>
+    
+      
+          
+    <button id="view" mat-raised-button color="primary" (click)="btnSearchClick()">عرض</button>
+    <button mat-raised-button color="primary" (click)="insert()">إدخال</button>
+          
+  </form>
+  
+  
+  <div class="table-wrap">
+  
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort
+      infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
+    
+    
+          <!-- id Column -->
+          <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>الإضبارة </th>
+              <td mat-cell *matCellDef="let element">{{element?.id}}</td>
+          </ng-container>
+    
+          <!-- payrol_ID Column -->
+          <ng-container matColumnDef="payrol_id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>رقم الشطب</th>
+              <td mat-cell *matCellDef="let element">{{element?.payrol_id}}</td>
+          </ng-container>
+    
+          <!-- fullName Column -->
+          <ng-container matColumnDef="fullname">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>الاسم الثلاثي</th>
+              <td mat-cell *matCellDef="let element">{{element?.TBLShamelEmployee?.fullname}}</td>
+          </ng-container>
+    
+    
+    
+          <!-- healthnosalary_name Column -->
+          <ng-container matColumnDef="healthnosalary_name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>نوع الحسم</th>
+              <td mat-cell *matCellDef="let element">{{element?.healthnosalary_name}}</td>
+          </ng-container>
+    
+    
+          <!-- duration Column -->
+          <ng-container matColumnDef="duration">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>المدة</th>
+            <td mat-cell *matCellDef="let element">{{element?.duration}}</td>
+          </ng-container>
+    
+          <!-- startdate Column -->
+          <ng-container matColumnDef="startdate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>بدء الإجازة</th>
+            <td mat-cell *matCellDef="let element">{{element?.startdate}}</td>
+          </ng-container>
+    
+          <!-- documenttype_id Column -->
+        <ng-container matColumnDef="documenttype_id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>نوع المستند</th>
+          <td mat-cell *matCellDef="let element">{{element?.documenttype_id}}</td>
+        </ng-container>
+
+        <!-- documentnum Column -->
+        <ng-container matColumnDef="documentnum">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>رقم المستند</th>
+          <td mat-cell *matCellDef="let element">{{element?.documentnum}}</td>
+        </ng-container>
+
+        <!-- documentdate Column -->
+        <ng-container matColumnDef="documentdate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>تاريخ المستند</th>
+          <td mat-cell *matCellDef="let element">{{element?.documentdate}}</td>
+        </ng-container>
+
+        <!-- salary Column -->
+        <ng-container matColumnDef="salary">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>الراتب</th>
+          <td mat-cell *matCellDef="let element">{{element?.salary}}</td>
+        </ng-container>
+
+        <!-- amount Column -->
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>المبلغ</th>
+          <td mat-cell *matCellDef="let element">{{element?.amount}}</td>
+        </ng-container>
+
+        <!-- month_id Column -->
+        <ng-container matColumnDef="month_id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>عن شهر</th>
+          <td mat-cell *matCellDef="let element">{{element?.month_id}}</td>
+        </ng-container>
+
+        <!-- year_id Column -->
+        <ng-container matColumnDef="year_id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>لعام</th>
+          <td mat-cell *matCellDef="let element">{{element?.year_id}}</td>
+        </ng-container>
+
+        <!-- edit Column -->
+        <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>تعديل</th>
+          <td mat-cell *matCellDef="let element"><button id="editButton" mat-raised-button color="primary" (click)="editRec(element)">تعديل</button></td>
+        </ng-container>
+
+        <!-- delete Column -->
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>حذف</th>
+          <td mat-cell *matCellDef="let element"><button id="editButton" mat-raised-button color="primary" (click)="deleteRec(element)">حذف</button></td>
+        </ng-container>
+    
+    
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    
+     <!-- <mat-paginator #paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>-->
+    
+    
+    </div>

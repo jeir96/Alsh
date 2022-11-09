@@ -1,0 +1,29 @@
+mat-form-field{
+    width: fit-content;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+table{
+    width: 100%;
+}
+
+th, td{
+    text-align: center !important;
+    padding: 5px !important;
+}
+
+mat-radio-group{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 600px;
+}
+
+#view{
+    margin-left: 10px;
+}
+
+mat-expansion-panel{
+    margin-bottom: 20px;
+}

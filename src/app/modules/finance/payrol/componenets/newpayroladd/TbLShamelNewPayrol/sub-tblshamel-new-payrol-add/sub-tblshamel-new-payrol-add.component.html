@@ -1,0 +1,89 @@
+<form  [formGroup]="Form" #form="ngForm">
+    <c-container *ngIf="this.TblShamelNewPayrolAddDetail.TblShamelNewPayrolTax.payroltaxtype =='tawid'">
+        <c-row>
+            <c-col>
+                <mat-form-field color="primary" appearance="fill">
+                    <input matInput formControlName="name">
+                </mat-form-field>
+            </c-col>
+
+            <c-col>
+                <mat-form-field color="primary" appearance="fill">
+                    <input matInput formControlName="ta3weed_amount">
+                </mat-form-field>
+            </c-col>
+
+            <c-col>
+                <mat-form-field color="primary" appearance="fill">
+                    <input matInput formControlName="ta3weed_percent">
+                </mat-form-field>
+            </c-col>
+            <c-col>
+                <mat-checkbox class="example-margin" formControlName="ta3weed_active"></mat-checkbox>
+            </c-col>
+
+        </c-row>
+    </c-container>
+    <!--تعويضات-->
+
+    <c-container *ngIf="this.TblShamelNewPayrolAddDetail.TblShamelNewPayrolTax.payroltaxtype =='tax'">
+        <c-row>
+            <c-col>
+                <mat-form-field color="primary" appearance="fill">
+                    <input matInput formControlName="name">
+                </mat-form-field>
+            </c-col>
+
+            <c-col>
+                <mat-form-field color="primary" appearance="fill">
+                    <input matInput formControlName="taxtemp_amount">
+                </mat-form-field>
+            </c-col>
+
+            <c-col>
+                <mat-form-field color="primary" appearance="fill">
+                    <input matInput formControlName="taxtemp_percent">
+                </mat-form-field>
+            </c-col>
+
+           
+            <c-col>
+                <mat-checkbox class="example-margin" formControlName="taxtemp_active"></mat-checkbox>
+            </c-col>
+
+        </c-row>
+    </c-container>
+
+
+    <c-container *ngIf="this.TblShamelNewPayrolAddDetail.TblShamelNewPayrolTax.payroltaxtype =='tawid'">
+        <c-row>
+            <c-col>
+                <mat-form-field color="primary" appearance="fill">
+                    <input matInput formControlName="name">
+                </mat-form-field>
+            </c-col>
+
+            <c-col>
+                <mat-form-field color="primary" appearance="fill">
+                    <input matInput formControlName="taxrecurr_fee">
+                </mat-form-field>
+            </c-col>
+
+            <c-col>
+                <mat-form-field color="primary" appearance="fill">
+                    <input matInput formControlName="taxrecurr_balance">
+                </mat-form-field>
+            </c-col>
+
+            <c-col>
+                <mat-form-field color="primary" appearance="fill">
+                    <input matInput formControlName="taxrecurr_total">
+                </mat-form-field>
+            </c-col>
+            <c-col>
+                <mat-checkbox class="example-margin" formControlName="taxrecurr_active"></mat-checkbox>
+
+            </c-col>
+
+        </c-row>
+    </c-container>

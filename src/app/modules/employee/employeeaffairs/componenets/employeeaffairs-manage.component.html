@@ -1,0 +1,16 @@
+<c-row>
+    <c-col [sm]="4">
+      <c-card class="mb-4">
+        <c-header> لائحة الموظفين </c-header>
+        <c-card-body>
+            <app-employee-list-search ></app-employee-list-search>
+        </c-card-body>
+      </c-card>
+    </c-col>
+    <c-col [sm]="8">
+      <router-outlet></router-outlet>
+    </c-col>
+  </c-row>
+
+
+

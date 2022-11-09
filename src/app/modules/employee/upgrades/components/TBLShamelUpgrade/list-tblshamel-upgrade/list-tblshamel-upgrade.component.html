@@ -1,0 +1,178 @@
+<div class="col-md-12 text-center ">
+  <h2>الترفيعات</h2>
+
+  <div class="col-md-12">
+    <form [formGroup]="Form">
+
+      <mat-form-field appearance="fill">
+        <mat-select [formControl]="fcl_Year">
+          <mat-option value="2020">2020</mat-option>
+          <mat-option value="2021">2021</mat-option>
+          <mat-option value="2022">2022</mat-option>
+          <mat-option value="2023">2023</mat-option>
+          <mat-option value="2024">2024</mat-option>
+          <mat-option value="2025">2025</mat-option>
+          <mat-option value="2026">2026</mat-option>
+          <mat-option value="2027">2027</mat-option>
+          <mat-option value="2028">2028</mat-option>
+          <mat-option value="2029">2029</mat-option>
+          <mat-option value="2030">2030</mat-option>
+        </mat-select>
+
+      </mat-form-field>
+
+
+
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label> القسم </mat-label>
+        <input type="text" matInput [formControl]="fcl_Department" [matAutocomplete]="auto_department_id">
+        <mat-autocomplete #auto_department_id="matAutocomplete" [displayWith]="displayDeparmentProperty.bind(this)">
+          <mat-option *ngFor="let option of filteredDepartmentOptions | async" [value]="option.department_id">
+            {{option.department_name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label> اسم الوظيفة</mat-label>
+        <input type="text" matInput [formControl]="fcl_JobName" [matAutocomplete]="auto_jobname_id">
+        <mat-autocomplete #auto_jobname_id="matAutocomplete" [displayWith]="displayJobNameProperty.bind(this)">
+          <mat-option *ngFor="let option of filteredITBLShamelJobNameOptions | async" [value]="option.jobname_id">
+            {{option.jobname_name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label> الفئة </mat-label>
+        <input type="text" matInput [formControl]="fcl_Class" [matAutocomplete]="auto_class_id">
+        <mat-autocomplete #auto_class_id="matAutocomplete" [displayWith]="displayClassProperty.bind(this)">
+          <mat-option *ngFor="let option of filteredITBLShamelClassOptions  | async" [value]="option.class_id">
+            {{option.class_name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label> المعتمد</mat-label>
+        <input type="text" matInput [formControl]="fcl_Accounter" [matAutocomplete]="auto_ACCOUNTER_ID">
+        <mat-autocomplete #auto_ACCOUNTER_ID="matAutocomplete" [displayWith]="displayAccounterProperty.bind(this)">
+          <mat-option *ngFor="let option of filteredAccounterOptions | async" [value]="option.accounter_id">
+            {{option.accounter_name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+
+  </div>
+
+  <div class="col-md-12">
+    <div class="table-wrap">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+
+        <!-- certificate_name Column -->
+        <ng-container matColumnDef="Year_ID">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>عام الترفيع </th>
+          <td mat-cell *matCellDef="let element">{{element?.Year_ID }}</td>
+        </ng-container>
+
+        <!-- graduationyear Column -->
+        <ng-container matColumnDef="ID">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>رقم الإضبارة</th>
+          <td mat-cell *matCellDef="let element">{{element?.ID}}</td>
+        </ng-container>
+
+        <!-- graduationyear Column -->
+        <ng-container matColumnDef="Computer_ID">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>رقم الحاسب</th>
+          <td mat-cell *matCellDef="let element">{{element?.Computer_ID}}</td>
+        </ng-container>
+
+        <!-- graduationyear Column -->
+        <ng-container matColumnDef="Global_ID">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>رقم الذاتي</th>
+          <td mat-cell *matCellDef="let element">{{element?.Global_ID}}</td>
+        </ng-container>
+
+        <!-- graduationyear Column -->
+        <ng-container matColumnDef="FName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>اسم الأول</th>
+          <td mat-cell *matCellDef="let element">{{element?.FName}}</td>
+        </ng-container>
+
+        <!-- graduationyear Column -->
+        <ng-container matColumnDef="LName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>الكنية</th>
+          <td mat-cell *matCellDef="let element">{{element?.LName}}</td>
+        </ng-container>
+
+        <!-- graduationyear Column -->
+        <ng-container matColumnDef="Father">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>اسم الأب</th>
+          <td mat-cell *matCellDef="let element">{{element?.Father}}</td>
+        </ng-container>
+
+        <!-- graduationyear Column -->
+        <ng-container matColumnDef="Class_ID">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let element">{{element?.Class_ID}}</td>
+        </ng-container>
+
+        <!-- graduationyear Column -->
+        <ng-container matColumnDef="JobName_ID">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let element">{{element?.JobName_ID}}</td>
+        </ng-container>
+
+        <!-- graduationyear Column -->
+        <ng-container matColumnDef="SalaryBefore">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let element">{{element?.SalaryBefore}}</td>
+        </ng-container>
+
+        <!-- graduationyear Column -->
+        <ng-container matColumnDef="QualityGrade">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let element">{{element?.QualityGrade}}</td>
+        </ng-container>
+
+        <!-- graduationyear Column -->
+        <ng-container matColumnDef="GradePercent">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let element">{{element?.GradePercent}}</td>
+        </ng-container>
+
+
+        <!-- graduationyear Column -->
+        <ng-container matColumnDef="SalaryAfter">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let element">{{element?.SalaryAfter}}</td>
+        </ng-container>
+
+
+        <!-- graduationyear Column -->
+        <ng-container matColumnDef="Qarar_Num">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let element">{{element?.Qarar_Num}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Qarar_Date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let element">{{element?.Qarar_Date}}</td>
+        </ng-container>
+
+
+
+
+
+
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator #paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+
+    </div>
+  </div>

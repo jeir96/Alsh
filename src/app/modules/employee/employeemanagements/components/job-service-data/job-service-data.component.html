@@ -1,0 +1,61 @@
+<form class="example-form" [formGroup]="Form" #form="ngForm">
+    <div class="con">
+        <div class="right">
+            <fieldset>
+                <legend>بيان خدمة</legend>
+                <button mat-raised-button color="primary" (click)="print()" >طباعة</button>
+                <button mat-raised-button color="primary" (click)="adjustPrintFooter()" >معايرة تذييل الطباعة</button>
+            </fieldset>
+        </div>
+        
+        <div class="center">
+            <fieldset>
+                <legend>شهادة خبرة</legend>
+                <div class= "contnet">
+                    
+                    <div class="centerRight">
+                        <mat-radio-group formControlName="fcl_checkBoxGroup">
+                            <mat-radio-button color="primary" value="1" (change)="change1($event)">صفة وظيفية معينة</mat-radio-button>
+                            <mat-radio-button color="primary" value="2" (change)="change2($event)">إجمالي الخدمات</mat-radio-button>
+                            <mat-radio-button color="primary" value="3" (change)="change3($event)">شهادة خبرة مفصلة</mat-radio-button>
+                            </mat-radio-group>
+                    </div>
+                    <div class="centerLeft">
+                        <mat-form-field class="example-full-width fitContent" appearance="fill" >
+                            <input  matInput
+                                    formControlName="fcl_adjectiveJob"
+                                    [matAutocomplete]="auto1"
+                                    required>
+                            <mat-autocomplete #auto1="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredOptions1 | async" [value]="option">
+                                {{option}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            </mat-form-field>
+                    </div>
+                </div>
+                
+                <button mat-raised-button color="primary" (click)="print()" >طباعة</button>
+                <button mat-raised-button color="primary" (click)="adjustPrintFooter()" >معايرة تذييل الطباعة</button>
+            </fieldset>
+        </div>
+    
+        <div class="left">
+            <fieldset>
+                <legend>بيان وضع العامل</legend>
+                <div class="con1">
+                    <mat-checkbox color="primary" (change)="change4($event)" formControlName="fcl_oneCheckbox">البيانات الشخصية للعامل</mat-checkbox>
+                    <mat-checkbox color="primary" (change)="change4($event)" formControlName="fcl_twoCheckbox">المؤهل العلمي</mat-checkbox>
+                    <mat-checkbox color="primary" (change)="change4($event)" formControlName="fcl_threeCheckbox">المكافئات</mat-checkbox>
+                    <mat-checkbox color="primary" (change)="change4($event)" formControlName="fcl_fourCheckbox">العقوبات</mat-checkbox>
+                    <mat-checkbox color="primary" (change)="change4($event)" formControlName="fcl_fiveCheckbox">إجازة خاصة أقل من 3 أشهر</mat-checkbox>
+                    <mat-checkbox color="primary" (change)="change4($event)" formControlName="fcl_sixCheckbox">ضم خدمة</mat-checkbox>
+                    <mat-checkbox color="primary" (change)="change4($event)" formControlName="fcl_sevenCheckbox">الوضع الوظيفي</mat-checkbox>
+                </div>
+    
+                <button mat-raised-button color="primary" (click)="print()" >طباعة</button>
+                <button  mat-raised-button color="primary" (click)="adjustPrintFooter()" >معايرة تذييل الطباعة</button>
+            </fieldset>
+        </div>
+    </div>
+</form>

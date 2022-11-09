@@ -1,0 +1,64 @@
+<div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col md="8">
+        <c-card-group>
+          <c-card class="p-4">
+            <c-card-body>
+              <form [formGroup]="loginForm">
+                <h1>تسجيل الدخول</h1>
+                <p class="text-medium-emphasis">اكتب اسم المستخدم وكلمة السر لتسجيل الدخول</p>
+                <c-input-group class="mb-3">
+                  <span cInputGroupText>
+                    <svg cIcon name="cilUser"></svg>
+                  </span>
+
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>اسم المستخدم</mat-label>
+                    <input matInput placeholder="اسم المستخدم" value=""   [formControl]="frm_username" /> 
+                  </mat-form-field>
+
+                </c-input-group>
+                <c-input-group class="mb-4">
+                  <span cInputGroupText>
+                    <svg cIcon name="cilLockLocked"></svg>
+                  </span>
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>كلمة السر</mat-label>
+                    <input matInput type="password" placeholder="كلمة السر" value="" [formControl]="frm_password"/>
+                  </mat-form-field>
+                </c-input-group>
+                <c-row>
+                  <c-col xs="6">
+                    <button mat-button (click)="Login()">
+                      تسجيل دخول
+                    </button>
+                  </c-col>
+                  <c-col class="text-right" xs="6">
+                  
+                  </c-col>
+                </c-row>
+              </form>
+            </c-card-body>
+          </c-card>
+          <c-card [ngStyle]="{'width.%': 44}" class="text-white bg-primary py-5">
+            <c-card-body class="text-center">
+              <div>
+                <h2>منظومة الرسوم في جامعة حلب</h2>
+                <p>
+                  
+
+                </p>
+              </div>
+            </c-card-body>
+          </c-card>
+        </c-card-group>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>
+
+
+
+
+

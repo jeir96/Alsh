@@ -1,0 +1,81 @@
+<span class="title">برمجة التعويض والحسم</span>
+
+<c-container>
+    <c-row>
+        <c-col>
+            <button (click)="Add_Tawid()">اضافة تعويض</button>        
+        </c-col>
+        <c-col>
+            <button (click)="Add_Tax()">اضافة حسم</button>        
+        </c-col>
+        <c-col>
+            <button (click)="Add_Recurr()">اضافة حسم ئئ</button>        
+        </c-col>
+
+
+    </c-row>
+</c-container>
+<div class="boxes">
+    <div class="right">
+        <span class="title1">التعويضات الدائمة والمؤقتة</span>
+        <div class="spanBox spanBox1">
+            <span> اسم التعويض على الطابعة</span>
+            <span>اسم التعويض على الشاشة</span>
+            <span>جبر الكسور</span>
+            <span>هل التعويض يدخل في الضريبة؟</span>
+            <span>هل التعويض يدخل في المجموع؟</span>
+            <span>هل التعويض يدخل في التخصص؟</span>
+            <span>الترتيب</span>
+            <span>نوع الراتب الذي سوف يطبق عليه الاحتساب</span>
+        </div>
+        <app-sub-tblshamel-new-payrol-tax 
+         [index]="i" 
+         [payroltaxtype]="'ta3weed'"
+         (OnDelete)="Delete($event)"
+        *ngFor="let item of tblShamelNewPayrolTaxService.List_ta3weed ; index as i">
+    </app-sub-tblshamel-new-payrol-tax>
+            
+
+    </div>
+    <div class="middle">
+        <span class="title2">الحسميات الدائمة والمؤقتة</span>
+        <div class="spanBox spanBox2">
+            <span>اسم الحسمية على الطابعة</span>
+            <span>اسم الحسمية على الشاشة</span>
+            <span>النسبة</span>
+            <span>الترتيب</span>
+            <span>نوع الراتب الذي سوف يطبق عليه الاحتساب</span>
+        </div>
+        <app-sub-tblshamel-new-payrol-tax  [index]="i" [payroltaxtype]="'taxtemp'"
+        *ngFor="let item of tblShamelNewPayrolTaxService.List_taxtemp ; index as i" (OnDelete)="Delete($event)">
+    </app-sub-tblshamel-new-payrol-tax>
+
+    </div>
+    <div class="left">
+        <span class="title3">الحسميات ذات الأرصدة</span>
+        <div class="spanBox spanBox3">
+            <span>اسم الحسمية على الطابعة</span>
+            <span>اسم الحسمية على الشاشة</span>
+            <span>الترتيب</span>
+            <span>نوع الراتب الذي سوف يطبق عليه الاحتساب</span>
+        </div>
+    
+
+
+        <app-sub-tblshamel-new-payrol-tax  
+        [index]="i" 
+        [payroltaxtype]="'recurr'"
+        (OnDelete)="Delete($event)"
+        *ngFor="let item of tblShamelNewPayrolTaxService.List_recurr  ; index as i">
+    
+    </app-sub-tblshamel-new-payrol-tax>
+    </div>
+</div>
+
+<div id="permanentBox"></div>
+<span id="permanent">تعويض أو حسم دائم</span>
+<div id="tempBox"></div>
+<span id="temp">تعويض أو حسم مؤقت</span>
+
+<button id="saveButton" mat-raised-button color="primary" (click)="save()">حفظ</button>
+

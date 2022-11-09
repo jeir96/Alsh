@@ -1,0 +1,21 @@
+<!-- MergeServiceReason.component.html -->
+<form [formGroup]="myform" >
+  <h1 mat-dialog-title> :: <strong>{{action}}</strong>   أسباب ضم الخدمة  </h1>
+   <div mat-dialog-content>
+    <mat-form-field *ngIf="action != 'حذف'; else elseTemplate">
+      <input placeholder="{{action}} سبب ضم الخدمة" matInput
+            formControlName="MergeServiceReason_name">
+    </mat-form-field>
+    <div class="col-6">
+      <mat-checkbox [formControl]="frm_fixed" [(ngModel)]="local_data!.Fixed"> هل هو مثبت         </mat-checkbox>  
+    </div>
+    
+    <ng-template #elseTemplate>
+      هل أنت متأكد من حذف <b>{{local_data.mergeservicereason_name}}</b>؟
+    </ng-template>
+   </div>
+   <div mat-dialog-actions>
+    <button mat-button (click)="doAction()">{{action}}</button>
+    <button mat-button (click)="closeDialog()" mat-flat-button color="warn">إالغاء</button>
+   </div>
+  </form>
