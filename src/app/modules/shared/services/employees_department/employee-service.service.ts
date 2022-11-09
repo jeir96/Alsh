@@ -1,5 +1,6 @@
+import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParamsOptions, HttpParams } from
 '@angular/common/http';
@@ -13,6 +14,11 @@ import { TBLShamelEmployee } from '../../models/employees_department/TBLShamelEm
 export class EmployeeServiceService {
 
   private RestUrl = 'https://localhost:44335/api/';
+
+  employee:  TBLShamelEmployee = {} as TBLShamelEmployee;
+
+  user: Subject<number> = new Subject<number>();
+
   private httpOptions = {
     headers: new HttpHeaders( { 'Content-Type': 'application/json;charset=UTF-8' })
  };
@@ -212,7 +218,11 @@ Check_FullName(value:string,id:number|undefined, form: any): Observable<TBLShame
   if (value == null || value == undefined)
     return null;
 
-    return this.httpClient.post<TBLShamelEmployee>(this.RestUrl +`TBLShamelEmployee/check_fullname/${id}`, form, options);
+    return this.httpClient.post<TBLShamelEmployee>(
+      this.RestUrl +`TBLShamelEmployee/check_fullname/${id}`,
+       form,
+        options
+    );
 
 }
 

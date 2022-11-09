@@ -134,6 +134,14 @@ export class NewEmployeeCardComponent implements OnInit {
     private _snackBar: MatSnackBar
     ) {
 
+        this.TblMartialService.List_TBLShamelMartialState_BehaviorSubject.subscribe(
+          data=>
+          {
+            this.List_TBLSHAMELMARTIALSTATE = data;
+          }
+
+        )
+
       if(this.TblMartialService.List_TBLShamelMartialState == null ||
         this.TblMartialService.List_TBLShamelMartialState.length ==0 )
         this.TblMartialService.fill();
@@ -271,29 +279,39 @@ export class NewEmployeeCardComponent implements OnInit {
       [Validator_INSURANCE_ID(this.empService, this.Selected_Employee.id,this.pageEmployee)]);
 
     this.fcl_FNAME = new UntypedFormControl('',
-      [Validators.required, Validators.maxLength(35)],
-      [Validator_FullName(this.empService, this.Selected_Employee.id, this.Selected_Employee, this.pageEmployee )]
+      {updateOn: "blur", validators: [Validators.required, Validators.maxLength(35)],
+      // asyncValidators: [Validator_FullName(this.empService, this.Selected_Employee.id, this.Selected_Employee, this.pageEmployee)]
+      },
+
       );
 
 
       this.fcl_LNAME = new UntypedFormControl('',
-      [Validators.required, Validators.maxLength(35)],
-      [Validator_FullName(this.empService, this.Selected_Employee.id, this.Selected_Employee, this.pageEmployee )]
+      {updateOn: "blur", validators: [Validators.required, Validators.maxLength(35)],
+      //  asyncValidators: [Validator_FullName(this.empService, this.Selected_Employee.id, this.Selected_Employee, this.pageEmployee)]
+      },
       );
 
 
     this.fcl_FATHER = new UntypedFormControl('',
-      [Validators.required, Validators.maxLength(35)],
-      [Validator_FullName(this.empService, this.Selected_Employee.id, this.Selected_Employee, this.pageEmployee)]
+     {updateOn: "blur", validators: [Validators.required, Validators.maxLength(35)],
+    //  asyncValidators: [Validator_FullName(this.empService, this.Selected_Employee.id, this.Selected_Employee, this.pageEmployee)]
+    },
+
       );
 
     this.fcl_MOTHER = new UntypedFormControl('',
-      [Validators.required, Validators.maxLength(35)]);
+      {updateOn: "blur", validators: [Validators.required, Validators.maxLength(35)],
+      // asyncValidators: [Validator_FullName(this.empService, this.Selected_Employee.id, this.Selected_Employee, this.pageEmployee)]
+    },
+
+      );
 
     this.fcl_BIRTH_PLACE = new UntypedFormControl('',
-      [Validators.required, Validators.maxLength(35)]);
+      {updateOn: "blur", validators: [Validators.required, Validators.maxLength(35)]},
+    );
 
-    this.fcl_BIRTHDATE = new UntypedFormControl('');
+    this.fcl_BIRTHDATE = new UntypedFormControl('', [Validators.required]);
 
     this.fcl_KAYD_PLACE = new UntypedFormControl('',
       [Validators.required, Validators.maxLength(35)]);
@@ -301,21 +319,21 @@ export class NewEmployeeCardComponent implements OnInit {
     this.fcl_SEX_NAME = new UntypedFormControl('',
       [Validators.required, Validators.maxLength(5)]);
 
-    this.fcl_NATIONALITY_ID = new UntypedFormControl('',  [Validators.required, Validators.maxLength(5)]);
+    this.fcl_NATIONALITY_ID = new UntypedFormControl('',  [Validators.maxLength(5)]);
 
-    this.fcl_CITY_ID = new UntypedFormControl('',  [Validators.required, Validators.maxLength(5)]);
+    this.fcl_CITY_ID = new UntypedFormControl('',  [ Validators.maxLength(5)]);
 
-    this.fcl_QARAR_NUM = new UntypedFormControl('', [Validators.required, Validators.maxLength(15)]);
+    this.fcl_QARAR_NUM = new UntypedFormControl('', [ Validators.maxLength(15)]);
 
     this.fcl_QARARDATE = new UntypedFormControl('', []);
 
-    this.fcl_AREA_ID = new UntypedFormControl('',  [Validators.required, Validators.maxLength(5)]);
-    this.fcl_MINIAREA_ID = new UntypedFormControl('',  [Validators.required, Validators.maxLength(5)]);
-    this.fcl_STREETORVILLAGE_ID = new UntypedFormControl('',  [Validators.required, Validators.maxLength(5)]);
+    this.fcl_AREA_ID = new UntypedFormControl('',  [, Validators.maxLength(5)]);
+    this.fcl_MINIAREA_ID = new UntypedFormControl('',  [, Validators.maxLength(5)]);
+    this.fcl_STREETORVILLAGE_ID = new UntypedFormControl('',  [, Validators.maxLength(5)]);
 
     this.fcl_MANUALADDRESS = new UntypedFormControl('', []);
-    this.fcl_MARTIALSTATE_NAME = new UntypedFormControl('',  [Validators.required, Validators.maxLength(35)]);
-    this.fcl_PHONENUM = new UntypedFormControl('', [Validators.required, Validators.maxLength(60)]);
+    this.fcl_MARTIALSTATE_NAME = new UntypedFormControl('',  [Validators.maxLength(35)]);
+    this.fcl_PHONENUM = new UntypedFormControl('', [Validators.maxLength(60)]);
     this.fcl_ID_NUMBER = new UntypedFormControl('', [ Validators.maxLength(30)]);
     this.fcl_EDUCATIONLAST_ID = new UntypedFormControl('', []);
     this.fcl_JOBSTATEFIRST_ID = new UntypedFormControl('', []);
@@ -324,9 +342,9 @@ export class NewEmployeeCardComponent implements OnInit {
     this.fcl_INSURANCESALARY = new UntypedFormControl('', []);
     this.fcl_ACCOUNTER_ID = new UntypedFormControl('', []);
     this.fcl_ACCOUNTERSERIAL = new UntypedFormControl('', []);
-    this.fcl_REM1 = new UntypedFormControl('',  [Validators.required, Validators.maxLength(100)]);
-    this.fcl_REM2 = new UntypedFormControl('',  [Validators.required, Validators.maxLength(100)]);
-    this.fcl_REM3 = new UntypedFormControl('',  [Validators.required, Validators.maxLength(100)]);
+    this.fcl_REM1 = new UntypedFormControl('',  [Validators.maxLength(100)]);
+    this.fcl_REM2 = new UntypedFormControl('',  [Validators.maxLength(100)]);
+    this.fcl_REM3 = new UntypedFormControl('',  [Validators.maxLength(100)]);
     // this.fcl_FNAME = new UntypedFormControl('', []);
     this.fcl_EMP_IN_MILITARY_SERVICE= new UntypedFormControl('', []);
 
@@ -375,6 +393,23 @@ export class NewEmployeeCardComponent implements OnInit {
 
   ngOnInit(): void {
 
+
+    this.Form.get("FNAME").valueChanges.subscribe(value => {
+      this.empService.employee.FName = value;
+    })
+
+    this.Form.get("LNAME").valueChanges.subscribe(value => {
+      this.empService.employee.LName = value;
+    })
+
+    this.Form.get("FATHER").valueChanges.subscribe(value => {
+      this.empService.employee.Father = value;
+    })
+
+    this.Form.get("MOTHER").valueChanges.subscribe(value => {
+      this.empService.employee.Mother = value;
+    })
+
     this.filtered_TBLSHAMELMARTIALSTATE = this.fcl_MARTIALSTATE_NAME.valueChanges.pipe(
       startWith(''),
       map(value => (typeof value === 'string' ? value : value.name)),
@@ -413,6 +448,8 @@ export class NewEmployeeCardComponent implements OnInit {
       map(value => (typeof value === 'string' ? value : value.name)),
       map(name => (name ? this._filtered_NATIONALITY(name) : this.List_NATIONALITY.slice())),
     );
+
+
 }
 
 private _filtered_MARTIALSTATE(name: string): TBLShamelMartialState[] {
@@ -540,6 +577,8 @@ public Display_NATIONALITY_Property(value:TBLShamelNationality):string  {
   return value && value.Nationality_Name ? value.Nationality_Name : '';
 }
 
+
+
 public Display_AREA_Property(value:TBLShamelArea):string  {
   return value && value.area_name ? value.area_name : '';
 }
@@ -554,6 +593,41 @@ public Display_MINIAREA_Property(value:TBLShamelMiniArea):string  {
 }
 
 
+public onFnameChanges(event: any)
+{
+
+  // this.empService.user.next(event.target.value)
+
+  // console.log("alsjd")
+
+  // this.empService.employee.FName = event.target.value
+
+  console.log("form 3", event);
+
+}
+
+// public onLnameChanges(event: any)
+// {
+//   this.empService.employee.LName = event.target.value
+
+//   console.log("form 3", event);
+
+// }
+
+
+// public onFathernameChanges(event: any)
+// {
+//   this.empService.employee.Father = event.target.value
+
+//   console.log("form 3", event);
+
+// }
+
+// public onMotherNameChanges(event: any)
+// {
+//   this.empService.employee.Mother = event.target.value;
+
+// }
 
 
   Save() {

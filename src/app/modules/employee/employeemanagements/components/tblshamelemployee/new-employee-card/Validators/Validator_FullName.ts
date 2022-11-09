@@ -8,12 +8,17 @@ export function Validator_FullName( empService:EmployeeServiceService,
                                     id:number|undefined,
                                     form: any,
                                     pageEmployee:EmployeePageService) : AsyncValidatorFn
-{
+        {
 
-  console.log("form", form)
+
 
         return (control: AbstractControl)
             : Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
+
+              console.log("form1", empService.employee.FName)
+
+            console.log("form", form)
+
 
             let value_From_Control: string = control.value;
             if (!value_From_Control ||
@@ -37,7 +42,7 @@ export function Validator_FullName( empService:EmployeeServiceService,
 
 
             return empService.
-            Check_FullName(value_From_Control, id, form).
+            Check_FullName(value_From_Control, id, empService.employee).
                 pipe(
                     map(
                         (emp: TBLShamelEmployee) => {

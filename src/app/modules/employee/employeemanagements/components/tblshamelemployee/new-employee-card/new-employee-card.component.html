@@ -134,7 +134,7 @@
             <div>
               <mat-form-field appearance="fill">
                 <mat-label #FNAME>الاسم</mat-label>
-                <input type="text" placeholder="الاسم" matInput [formControl]="fcl_FNAME">
+                <input (input)="onFnameChanges($event)" type="text" placeholder="الاسم" matInput [formControl]="fcl_FNAME">
                 <mat-error *ngIf="fieldHasErrors(Form, 'FNAME')">
                   {{
                     autoPrintFirstErrorMessage(
