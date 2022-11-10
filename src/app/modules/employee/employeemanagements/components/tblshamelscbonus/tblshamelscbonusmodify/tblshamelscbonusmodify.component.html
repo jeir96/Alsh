@@ -132,7 +132,7 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-raised-button color="warn" mat-dialog-close>
+  <button mat-raised-button color="warn" mat-dialog-close class="action-button">
     <mat-icon class="mat-icon-rtl-mirror">close
     </mat-icon>
     اغلاق
@@ -142,14 +142,14 @@
 
 
 
-  <button mat-raised-button color="accent" (click)="onReset()">
+  <button mat-raised-button color="accent" (click)="onReset()" class="action-button">
     <mat-icon class="mat-icon-rtl-mirror">clear
     </mat-icon>
     مسح الشاشة
   </button>
 
 
-  <button mat-raised-button color="primary" cdkFocusInitial (click)="Save()">
+  <button mat-raised-button color="primary" cdkFocusInitial (click)="Save()" class="action-button">
     <mat-icon class="mat-icon-rtl-mirror">save
     </mat-icon>
     حفظ

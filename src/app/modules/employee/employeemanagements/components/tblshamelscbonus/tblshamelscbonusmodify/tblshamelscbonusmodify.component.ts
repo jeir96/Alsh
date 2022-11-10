@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Component, OnInit, AfterViewInit, Input, Inject } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, UntypedFormBuilder, Validators } from '@angular/forms';
@@ -30,7 +31,7 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
   //Link To Employee
   id: number;
   Selected_Emp: TBLShamelEmployee = {};
-  _Selected_Employee_SCBouns: ITBLShamelSCBonus;
+  _Selected_Employee_SCBouns: ITBLShamelSCBonus = {}
   @Input() set Selected_Employee_SCBouns(obj: ITBLShamelSCBonus) {
     this._Selected_Employee_SCBouns = obj;
     console.log('بلش');
@@ -83,12 +84,12 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
     public ShameldocumenttypeService: TblshameldocumenttypeService,
     public formValidatorsService: FormValidationHelpersService,
     public PageService: EmployeePageService,
+    public snackBar: MatSnackBar
   ) {
 
 
     this.PageService.Subject_Selected_TBLShamelEmployee.subscribe(
       data => {
-        console.log("data1", data)
         this.Selected_Emp = data;
         this.id = this.Selected_Emp.id;
       }
@@ -100,7 +101,7 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
       this.ShameldocumenttypeService.fill();
     this.ShameldocumenttypeService.List_ITBLShamelDocumentType_BehaviorSubject.subscribe(
       data => {
-        console.log("data2", data)
+        console.log("data", data)
         this.DocumentType_List = data;
         this.filteredDocumentTypeOptions = of(this.DocumentType_List);
       }
@@ -113,7 +114,7 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
       this.ShamelBonusReasonService.fill();
     this.ShamelBonusReasonService.List_TBLShamelBonusReason_BehaviorSubject.subscribe(
       data => {
-        console.log("data3", data)
+        console.log("data", data)
         this.BonusReason_List = data;
         this.filteredBonusReasonOptions = of(this.BonusReason_List);
       }
@@ -382,9 +383,9 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
     this.Selected_Employee_SCBouns.id = this.Selected_Emp.id;
   }
 
-  public async Save() {
+  public Save() {
 
-    console.log("yes")
+
 
     if (!this.Form.valid == true) {
       return;
@@ -392,9 +393,6 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
     if (!this.ValidateForm() == true) {
       return;
     }
-
-    console.log("no")
-
     this.getValue();
 
     console.log(this.Selected_Employee_SCBouns );
@@ -405,9 +403,15 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
     ) {
 
 
-      this.ShamelSCBonusService.add(this.Selected_Employee_SCBouns).toPromise().then(res => {
+      this.ShamelSCBonusService.add(this.Selected_Employee_SCBouns).subscribe(res => {
         console.log(res)
-        if (res == 1) {
+        console.log(res)
+        if (res) {
+
+          this.snackBar.open('تم بنجاح', 'موافق');
+
+
+
           this.ClearObject();
           this.ClearForm();
 
@@ -448,24 +452,6 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
       result = false;
 
     }
-
-    /*
-    if (!this.reason_id.value || this.reason_id.value<=0)
-    {
-      console.log('error2');
-      this.reason_id.setErrors({'Phone Number does not exist.': true});
-      result = false;
-
-    }
-
-
-    if (!this.documenttype_id.value || this.documenttype_id.value<=0)
-    {
-      console.log('error2');
-      this.reason_id.setErrors({'Phone Number does not exist.': true});
-      result = false;
-
-    }*/
 
     console.log("result vaildarw" + result);
     return result;

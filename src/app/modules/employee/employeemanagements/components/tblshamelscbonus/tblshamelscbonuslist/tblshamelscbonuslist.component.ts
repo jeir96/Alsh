@@ -110,8 +110,8 @@ export class TblshamelscbonuslistComponent implements OnInit, AfterViewInit {
     this.selected_employee_Bonus.id = this.Selected_Emp.id;
 
     const dialogRef = this.dialog.open(TblshamelscbonusmodifyComponent, {
-      height: '65%',
-      width: '80%',
+      height: '50%',
+      width: '60%',
       data: { obj: this.selected_employee_Bonus, id: this.Selected_Emp.id }
     });
 
