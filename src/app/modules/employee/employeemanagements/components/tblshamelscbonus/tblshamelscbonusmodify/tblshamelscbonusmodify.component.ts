@@ -6,7 +6,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
-import { Observable, of } from 'rxjs';
+import { Observable, of, forkJoin, combineLatest } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { TBLShamelBonus } from 'src/app/modules/shared/models/employees_department/TBLShamelBonus';
 import { TBLShamelBonusReason } from 'src/app/modules/shared/models/employees_department/TBLShamelBonusReason';
@@ -33,6 +33,11 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
   Selected_Emp: TBLShamelEmployee = {};
   _Selected_Employee_SCBouns: ITBLShamelSCBonus = {}
   @Input() set Selected_Employee_SCBouns(obj: ITBLShamelSCBonus) {
+
+    console.log("newest object", obj)
+
+    console.log("Bonus_List", this.Bonus_List)
+
     this._Selected_Employee_SCBouns = obj;
     console.log('بلش');
 
@@ -87,6 +92,72 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
     public snackBar: MatSnackBar
   ) {
 
+    combineLatest([
+      this.ShamelBonusReasonService.List_TBLShamelBonusReason_BehaviorSubject,
+      this.ShameldocumenttypeService.List_ITBLShamelDocumentType_BehaviorSubject,
+      this.ShamelBonusService.List_TBLShamelBonus_BehaviorSubject
+  ])
+  .subscribe( ([resons_res, documents_res, bouns_res]) => {
+
+    console.log("document list", resons_res)
+
+    console.log("document list", documents_res)
+
+    console.log("document list", bouns_res)
+
+    const is_reasons_filled = resons_res.length > 0;
+
+    const is_documents_filled = documents_res.length > 0;
+
+    const is_bouns_filled = bouns_res.length > 0;
+
+    if (data!= null  && data.obj!= null && data.id!= null && data.id> 0 && is_reasons_filled && is_documents_filled && is_bouns_filled) {
+
+
+      this.Bonus_List = bouns_res;
+
+      this.DocumentType_List = documents_res;
+
+      this.BonusReason_List = resons_res;
+
+      this.id = data.id;
+      this.Selected_Employee_SCBouns = data.obj;
+    }
+
+  })
+
+    if (this.ShameldocumenttypeService.List_ITBLShamelDocumentType == null ||
+      this.ShameldocumenttypeService.List_ITBLShamelDocumentType == undefined ||
+      this.ShameldocumenttypeService.List_ITBLShamelDocumentType.length == 0)
+      this.ShameldocumenttypeService.fill();
+
+
+
+
+    // this.ShameldocumenttypeService.List_ITBLShamelDocumentType_BehaviorSubject.subscribe(
+    //   data => {
+    //     console.log("document list", data)
+    //     this.DocumentType_List = data;
+    //     this.filteredDocumentTypeOptions = of(this.DocumentType_List);
+    //   }
+    // )
+
+    // this.ShamelBonusReasonService.List_TBLShamelBonusReason_BehaviorSubject.subscribe(
+    //   data => {
+    //     console.log("reason list", data)
+    //     this.BonusReason_List = data;
+    //     this.filteredBonusReasonOptions = of(this.BonusReason_List);
+    //   }
+    // )
+
+
+    // this.ShamelBonusService.List_TBLShamelBonus_BehaviorSubject.subscribe(
+    //   data => {
+    //     console.log("bonus list", data)
+    //     this.Bonus_List = data;
+    //     this.filteredBonusOptions = of(this.Bonus_List);
+    //   }
+    // )
 
     this.PageService.Subject_Selected_TBLShamelEmployee.subscribe(
       data => {
@@ -95,50 +166,20 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
       }
     )
 
-    if (this.ShameldocumenttypeService.List_ITBLShamelDocumentType == null ||
-      this.ShameldocumenttypeService.List_ITBLShamelDocumentType == undefined ||
-      this.ShameldocumenttypeService.List_ITBLShamelDocumentType.length == 0)
-      this.ShameldocumenttypeService.fill();
-    this.ShameldocumenttypeService.List_ITBLShamelDocumentType_BehaviorSubject.subscribe(
-      data => {
-        console.log("data", data)
-        this.DocumentType_List = data;
-        this.filteredDocumentTypeOptions = of(this.DocumentType_List);
-      }
-    )
-
-
     if (this.ShamelBonusReasonService.List_TBLShamelBonusReason == null ||
       this.ShamelBonusReasonService.List_TBLShamelBonusReason == undefined ||
       this.ShamelBonusReasonService.List_TBLShamelBonusReason.length == 0)
       this.ShamelBonusReasonService.fill();
-    this.ShamelBonusReasonService.List_TBLShamelBonusReason_BehaviorSubject.subscribe(
-      data => {
-        console.log("data", data)
-        this.BonusReason_List = data;
-        this.filteredBonusReasonOptions = of(this.BonusReason_List);
-      }
-    )
+
 
     if (this.ShamelBonusService.List_TBLShamelBonus == null ||
       this.ShamelBonusService.List_TBLShamelBonus == undefined ||
       this.ShamelBonusService.List_TBLShamelBonus.length == 0)
       this.ShamelBonusService.fill();
-    this.ShamelBonusService.List_TBLShamelBonus_BehaviorSubject.subscribe(
-      data => {
-        this.Bonus_List = data;
-        this.filteredBonusOptions = of(this.Bonus_List);
-      }
-    )
+
 
     this.BuildForm();
     this.FillArrayUsingService();
-
-    if (data!= null  && data.obj!= null && data.id!= null && data.id> 0) {
-      this.id = data.id;
-      this.Selected_Employee_SCBouns = data.obj;
-    }
-
 
 
 
@@ -158,8 +199,7 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
   }
 
 
-  public async FillArrayUsingService() {
-    try {
+  public  FillArrayUsingService() {
 
 
 
@@ -169,10 +209,6 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
           map(value => value && typeof value === 'string' ? this._filteredDocumentType(value) : this.DocumentType_List.slice())
         );
 
-    } catch (Exception: any) { }
-
-
-    try {
 
 
       this.filteredBonusOptions = this.bonus_id.valueChanges
@@ -181,11 +217,6 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
           map(value => value && typeof value === 'string' ? this._filteredBonus(value) : this.Bonus_List.slice())
         );
 
-    } catch (Exception: any) { }
-
-
-    try {
-
 
       this.filteredBonusReasonOptions = this.reason_id.valueChanges
         .pipe(
@@ -193,7 +224,6 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
           map(value => value && typeof value === 'string' ? this._filteredBonusReason(value) : this.BonusReason_List.slice())
         );
 
-    } catch (Exception: any) { }
 
 
   }
@@ -250,18 +280,12 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
 
   //#region SetValue And GetValue Function
   public ClearForm() {
-    try {
       console.log('ClearForm');
       this.bonus_id.reset();
       this.reason_id.reset();
       this.documentdate.reset();
       this.document_number.reset();
       this.documenttype_id.reset();
-
-    } catch (ex: any) {
-
-    }
-
   }
 
 
@@ -281,7 +305,16 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
 
 
         if (this.Selected_Employee_SCBouns.documentdate != null)
-          this.documentdate.setValue(moment(this.Selected_Employee_SCBouns.documentdate));
+        {
+
+          console.log("with moment", moment(this.Selected_Employee_SCBouns.documentdate))
+
+          console.log("without moment", moment(this.Selected_Employee_SCBouns.documentdate))
+
+
+
+          this.documentdate.setValue(this.Selected_Employee_SCBouns.documentdate);
+        }
 
 
 
@@ -360,8 +393,8 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
   public displayBonusProperty(value: string): string {
 
     console.log('displayStateProperty');
-    console.log(value);
-    console.log(this.Bonus_List);
+    console.log("bonus value", value);
+    console.log("bouns list", this.Bonus_List);
     console.log(IGlobalEmployeeList.TBLShamelBonusList);
 
 
@@ -430,8 +463,11 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
 
       this.ShamelSCBonusService.update(this.Selected_Employee_SCBouns).toPromise().then(res => {
         console.log(res)
-        if (res == 1) {
+        if (res) {
           this.getValue();
+
+          this.snackBar.open('تم بنجاح', 'موافق');
+
 
         } else {
         }
@@ -507,7 +543,11 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
 
   addEventDocumentDate(type: string, event: MatDatepickerInputEvent<Date>) {
 
+    console.log("gg", event.value)
+
     this.Selected_Employee_SCBouns.documentdate = moment(event.value).toDate();
+
+    console.log("gg2", moment(event.value).toDate())
 
   }
 

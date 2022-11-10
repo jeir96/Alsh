@@ -167,18 +167,18 @@ export class TblshamelscbonuslistComponent implements OnInit, AfterViewInit {
   }
 
 
-  async Update(element: ITBLShamelSCBonus) {
+  Update(element: ITBLShamelSCBonus) {
     if (element) {
       this.selected_employee_Bonus = element;
       console.log(this.selected_employee_Bonus);
 
       const dialogRef = this.dialog.open(TblshamelscbonusmodifyComponent, {
-        height: '80%',
-        width: '80%',
+        height: '65%',
+        width: '50%',
         data: { obj: this.selected_employee_Bonus, id: this.Selected_Emp.id }
       });
 
-      dialogRef.afterClosed().toPromise().then(result => {
+      dialogRef.afterClosed().subscribe(result => {
         this.FillTable();
       });
 

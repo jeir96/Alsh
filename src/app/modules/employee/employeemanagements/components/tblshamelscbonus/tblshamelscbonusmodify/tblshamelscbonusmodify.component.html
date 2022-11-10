@@ -3,7 +3,7 @@
 <mat-dialog-content class="mat-typography">
 
 
-  <form [formGroup]="Form">
+  <form [formGroup]="Form" >
 
     <div class="row justify-content-between text-left">
 
@@ -65,9 +65,9 @@
           <mat-label #DOCUMENTTYPE_ID>المستند</mat-label>
           <input type="text" matInput [formControl]="documenttype_id"
             [matAutocomplete]="auto_documenttype_id">
-            <mat-error *ngIf="formValidatorsService.fieldHasErrors(Form, 'documenttype_id')">
+            <mat-error *ngIf="fieldHasErrors(Form, 'documenttype_id')">
               {{
-                formValidatorsService.autoPrintFirstErrorMessage(
+                autoPrintFirstErrorMessage(
                   Form,
                   "documenttype_id",
                   DOCUMENTTYPE_ID.innerHTML
@@ -88,9 +88,9 @@
           <mat-label #DOCUMENT_NUMBER>رقم المستند</mat-label>
           <input matInput type="number" placeholder="12312..." value="Sushi" [formControl]="document_number"
             >
-            <mat-error *ngIf="formValidatorsService.fieldHasErrors(Form, 'document_number')">
+            <mat-error *ngIf="fieldHasErrors(Form, 'document_number')">
               {{
-                formValidatorsService.autoPrintFirstErrorMessage(
+                autoPrintFirstErrorMessage(
                   Form,
                   "document_number",
                   DOCUMENT_NUMBER.innerHTML
@@ -105,9 +105,9 @@
           <input matInput [matDatepicker]="Datepicker_documentdate"
             [formControl]="documentdate" (dateInput)="addEventDocumentDate('input', $event)"
             (dateChange)="addEventDocumentDate('change', $event)">
-            <mat-error *ngIf="formValidatorsService.fieldHasErrors(Form, 'documentdate')">
+            <mat-error *ngIf="fieldHasErrors(Form, 'documentdate')">
               {{
-                formValidatorsService.autoPrintFirstErrorMessage(
+                autoPrintFirstErrorMessage(
                   Form,
                   "documentdate",
                   DOCUMENTDATE.innerHTML
@@ -121,12 +121,6 @@
       </div>
 
     </div>
-
-
-
-
-
-
 
 
   </form>
