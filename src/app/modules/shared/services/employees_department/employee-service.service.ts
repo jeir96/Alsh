@@ -15,10 +15,6 @@ export class EmployeeServiceService {
 
   private RestUrl = 'https://localhost:44335/api/';
 
-  employee:  TBLShamelEmployee = {} as TBLShamelEmployee;
-
-  user: Subject<number> = new Subject<number>();
-
   private httpOptions = {
     headers: new HttpHeaders( { 'Content-Type': 'application/json;charset=UTF-8' })
  };
@@ -208,19 +204,21 @@ handleError(error:any) {
 // }
 
 
-Check_FullName(value:string,id:number|undefined, form: any): Observable<TBLShamelEmployee>
+Check_FullName(employee: TBLShamelEmployee,id:number|undefined): Observable<TBLShamelEmployee>
 {
 
   const headers = new HttpHeaders().set('Content-Type', 'application/json');
   const options = {  headers: headers };
   if (id == null || id == undefined)
     id =-1;
-  if (value == null || value == undefined)
+  if (employee == null || employee == undefined)
     return null;
+
+    console.log("employee2", employee);
 
     return this.httpClient.post<TBLShamelEmployee>(
       this.RestUrl +`TBLShamelEmployee/check_fullname/${id}`,
-       form,
+      employee,
         options
     );
 

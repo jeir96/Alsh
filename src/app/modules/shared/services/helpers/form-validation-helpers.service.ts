@@ -9,7 +9,7 @@ export class FormValidationHelpersService {
 
   public hasError = (form: any, controlName: string, errorName: string): boolean =>{
 
-    return form.controls[controlName].hasError(errorName);
+    return this.caclFormFieldNestedName(form, controlName).hasError(errorName);
   }
 
     private hasRequiredValidation(validationName: string): boolean
@@ -36,7 +36,7 @@ export class FormValidationHelpersService {
 
     private hasRequiredError(form: any, controlName: string): boolean {
 
-      const errors = form.controls[controlName].errors;
+      const errors = this.caclFormFieldNestedName(form, controlName).errors;
 
       if(errors && errors['required'])
       {
@@ -50,7 +50,7 @@ export class FormValidationHelpersService {
 
     private hasMaxLengthError(form: any, controlName: string): boolean {
 
-      const errors = form.controls[controlName].errors;
+      const errors = this.caclFormFieldNestedName(form, controlName).errors;
 
       if(errors && errors['maxlength'])
       {
@@ -63,7 +63,7 @@ export class FormValidationHelpersService {
 
     private hasPatternError(form: any, controlName: string): boolean {
 
-      const errors = form.controls[controlName].errors;
+      const errors = this.caclFormFieldNestedName(form, controlName).errors;
 
       if(errors && errors['pattern'])
       {
@@ -76,7 +76,7 @@ export class FormValidationHelpersService {
 
     private hasDuplicatedError(form: any, controlName: string): boolean {
 
-      const errors = form.controls[controlName].errors;
+      const errors = this.caclFormFieldNestedName(form, controlName).errors;
 
       if(errors && errors['mobNumExists'])
       {
@@ -142,7 +142,7 @@ export class FormValidationHelpersService {
             if(x.message) {
               return x.message;
             }
-            return this.printIsDuplicated(label);
+            return this.printIsDuplicated(label,{isFemale});
           }
           default: return "";
         }
@@ -154,6 +154,31 @@ export class FormValidationHelpersService {
 
     }
 
+
+    private caclFormFieldNestedName(form: any, formName: string): any
+    {
+
+      const formPathAsArray: string[] = formName.split('.')
+
+      const nestedFormValue = formPathAsArray.reduce((o,i)=> {
+
+        // console.log("o", o)
+
+        // console.log("i", i)
+
+        // console.log("o[i]", o[i])
+
+
+        return o.controls[i]
+        },
+        form
+      )
+
+
+      return nestedFormValue;
+
+    }
+
     public autoPrintFirstErrorMessage(
       form: any,
       controlName: string,
@@ -162,7 +187,9 @@ export class FormValidationHelpersService {
 
     ): string {
 
-    const formErrors = form.controls[controlName].errors;
+    const formContrlValue: any = this.caclFormFieldNestedName(form, controlName);
+
+    const formErrors = formContrlValue.errors;
 
     const errorMessages: string[] =  Object.keys(formErrors).filter(x => {
 
@@ -230,14 +257,19 @@ export class FormValidationHelpersService {
 
     private getMaxLength(form: any, controlName: string)
     {
-      return form.controls[controlName].errors["maxlength"]
+      return this.caclFormFieldNestedName(form, controlName).errors["maxlength"]
     }
 
     public fieldHasErrors(form: any, field: string): boolean {
 
-      if(form.controls[field].errors)
+      const nestedFormValue = this.caclFormFieldNestedName(form, field);
+
+      const errors = nestedFormValue.errors;
+
+
+      if(errors)
       {
-        return Object.keys(form.controls[field].errors).length > 0;
+        return Object.keys(errors).length > 0;
       }
 
       return false;
@@ -252,7 +284,7 @@ export class FormValidationHelpersService {
 
     private printControlMaxLength(form: any, controlName: string): string {
 
-      const maxLength = form.controls[controlName].errors["maxlength"]["requiredLength"];
+      const maxLength = this.caclFormFieldNestedName(form, controlName).errors["maxlength"]["requiredLength"];
 
       const maxLengthMessage = this.printMaxNumberLength(maxLength)
 

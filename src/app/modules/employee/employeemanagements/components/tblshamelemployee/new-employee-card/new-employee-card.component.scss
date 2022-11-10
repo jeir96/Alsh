@@ -13,8 +13,6 @@ mat-card-title
 .mat-card-header-text
 {
     margin:2;
-
-
 }
 
 :host {
@@ -38,12 +36,22 @@ mat-card-title
 
 
 
-button
-{
-    width: 100%;
+// button
+// {
+//     width: 100%;
 
+// }
+
+.submit-button-container {
+  margin: 1rem 0;
 }
 
+
 .submit-button {
-  margin: 1rem 0;
+  font-size: 1rem;
+  padding: 0.25rem 4rem;
+}
+
+.add-employee-card-actions {
+  text-align: left;
 }

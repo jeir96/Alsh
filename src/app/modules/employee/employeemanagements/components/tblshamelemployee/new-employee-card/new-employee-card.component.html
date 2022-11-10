@@ -130,71 +130,76 @@
               </mat-card-header>
               <mat-card-content>
 
-                <div fxLayout="column">
-            <div>
-              <mat-form-field appearance="fill">
-                <mat-label #FNAME>الاسم</mat-label>
-                <input (input)="onFnameChanges($event)" type="text" placeholder="الاسم" matInput [formControl]="fcl_FNAME">
-                <mat-error *ngIf="fieldHasErrors(Form, 'FNAME')">
-                  {{
-                    autoPrintFirstErrorMessage(
-                      Form,
-                      "FNAME",
-                      FNAME.innerHTML
-                    )
-                  }}
-                </mat-error>
-              </mat-form-field>
-            </div>
-            <div>
-              <mat-form-field appearance="fill">
-                <mat-label #LNAME>الكنية</mat-label>
-                <input type="text" placeholder="الكنية" matInput [formControl]="fcl_LNAME">
-                <mat-error *ngIf="fieldHasErrors(Form, 'FNAME')">
-                  {{
-                    autoPrintFirstErrorMessage(
-                      Form,
-                      "LNAME",
-                      LNAME.innerHTML,
-                      true
-                    )
-                  }}
-                </mat-error>
-              </mat-form-field>
-            </div>
+            <div fxLayout="column">
+            <ng-container formGroupName="FAMILY_FG">
+
+              <div>
+                <mat-form-field appearance="fill">
+                  <mat-label #FNAME>الاسم</mat-label>
+                  <input type="text" placeholder="الاسم" matInput formControlName="FNAME">
+                   <mat-error *ngIf="fieldHasErrors(Form, 'FAMILY_FG.FNAME')">
+                    {{
+                      autoPrintFirstErrorMessage(
+                        Form,
+                        "FAMILY_FG.FNAME",
+                        FNAME.innerHTML
+                      )
+                    }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field appearance="fill">
+                  <mat-label #LNAME>الكنية</mat-label>
+                  <input type="text" placeholder="الكنية" matInput formControlName="LNAME">
+                  <mat-error *ngIf="fieldHasErrors(Form, 'FAMILY_FG.LNAME')">
+                    {{
+                      autoPrintFirstErrorMessage(
+                        Form,
+                        "FAMILY_FG.LNAME",
+                        LNAME.innerHTML,
+                        true
+                      )
+                    }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
 
 
 
-            <div>
-              <mat-form-field appearance="fill">
-                <mat-label #FATHER>الاب</mat-label>
-                <input type="text" placeholder="الاب" matInput [formControl]="fcl_FATHER">
-                <mat-error *ngIf="fieldHasErrors(Form, 'FNAME')">
-                  {{
-                    autoPrintFirstErrorMessage(
-                      Form,
-                      "FATHER",
-                      FATHER.innerHTML
-                    )
-                  }}
-                </mat-error>
-              </mat-form-field>
-            </div>
-            <div>
-              <mat-form-field appearance="fill">
-                <mat-label #MOTHER>الام</mat-label>
-                <input type="text" placeholder="الام" matInput [formControl]="fcl_MOTHER">
-                <mat-error *ngIf="fieldHasErrors(Form, 'MOTHER')">
-                  {{
-                    autoPrintFirstErrorMessage(
-                      Form,
-                      "MOTHER",
-                      MOTHER.innerHTML
-                    )
-                  }}
-                </mat-error>
-              </mat-form-field>
-            </div>
+              <div>
+                <mat-form-field appearance="fill">
+                  <mat-label #FATHER>الاب</mat-label>
+                  <input type="text" placeholder="الاب" matInput formControlName="FATHER">
+                  <mat-error *ngIf="fieldHasErrors(Form, 'FAMILY_FG.FNAME')">
+                    {{
+                      autoPrintFirstErrorMessage(
+                        Form,
+                        "FAMILY_FG.FATHER",
+                        FATHER.innerHTML
+                      )
+                    }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field appearance="fill">
+                  <mat-label #MOTHER>الام</mat-label>
+                  <input type="text" placeholder="الام" matInput formControlName="MOTHER">
+                  <mat-error *ngIf="fieldHasErrors(Form, 'FAMILY_FG.MOTHER')">
+                    {{
+                      autoPrintFirstErrorMessage(
+                        Form,
+                        "FAMILY_FG.MOTHER",
+                        MOTHER.innerHTML
+                      )
+                    }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+          </ng-container>
+
+
             <div>
               <mat-form-field appearance="fill">
                 <mat-label #BIRTH_PLACE>مكان الولادة</mat-label>
@@ -377,7 +382,6 @@
 
 
           <div>
-            {{ filtered_AREA | async}}
             <mat-form-field appearance="fill">
               <mat-label #AREA_ID>المنطقة</mat-label>
               <input matInput placeholder="اختر المنطقة" [formControl]="fcl_AREA_ID" [matAutocomplete]="auto_AREA_ID">
@@ -393,7 +397,7 @@
               <mat-autocomplete #auto_AREA_ID="matAutocomplete" [displayWith]="Display_AREA_Property"
                 (optionSelected)="OnSelect_AREA_Change($event)">
                 <mat-option *ngFor="let option of filtered_AREA | async" [value]="option">
-                  {{option.area_name}}
+                  {{option.Area_Name}}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
@@ -608,9 +612,238 @@
 
   </div>
 
-  <div class="submit-button">
-    <button mat-button (click)="Save()" color="primary"> حفظ </button>
+  <div class="d-flex justify-content-center submit-button-container">
+    <button class="submit-button my-2" mat-flat-button  (click)="Save()"  color="primary">حفظ</button>
   </div>
 
 
 </form>
+
+
+
+<mat-card>
+  <mat-card-header>
+    <h2 class="m-0">
+      موظف جديد
+    </h2>
+  </mat-card-header>
+  <hr />
+
+
+  <mat-card-content>
+    <div class="row">
+      <div class="col-md-3">
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label #ID>رقم الاضبارة</mat-label>
+            <input type="text" matInput [formControl]="fcl_ID" >
+
+            <mat-error *ngIf="fieldHasErrors(Form, 'ID')">
+              {{
+                autoPrintFirstErrorMessage(
+                  Form,
+                  "ID",
+                  ID.innerHTML
+                )
+              }}
+            </mat-error>
+
+
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label #ID>رقم الاضبارة</mat-label>
+            <input type="text" matInput [formControl]="fcl_ID" >
+
+            <mat-error *ngIf="fieldHasErrors(Form, 'ID')">
+              {{
+                autoPrintFirstErrorMessage(
+                  Form,
+                  "ID",
+                  ID.innerHTML
+                )
+              }}
+            </mat-error>
+
+
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label #ID>رقم الاضبارة</mat-label>
+            <input type="text" matInput [formControl]="fcl_ID" >
+
+            <mat-error *ngIf="fieldHasErrors(Form, 'ID')">
+              {{
+                autoPrintFirstErrorMessage(
+                  Form,
+                  "ID",
+                  ID.innerHTML
+                )
+              }}
+            </mat-error>
+
+
+          </mat-form-field>
+        </div>
+      </div><div class="col-md-3">
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label #ID>رقم الاضبارة</mat-label>
+            <input type="text" matInput [formControl]="fcl_ID" >
+
+            <mat-error *ngIf="fieldHasErrors(Form, 'ID')">
+              {{
+                autoPrintFirstErrorMessage(
+                  Form,
+                  "ID",
+                  ID.innerHTML
+                )
+              }}
+            </mat-error>
+
+
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label #ID>رقم الاضبارة</mat-label>
+            <input type="text" matInput [formControl]="fcl_ID" >
+
+            <mat-error *ngIf="fieldHasErrors(Form, 'ID')">
+              {{
+                autoPrintFirstErrorMessage(
+                  Form,
+                  "ID",
+                  ID.innerHTML
+                )
+              }}
+            </mat-error>
+
+
+          </mat-form-field>
+        </div>
+
+      </div>
+      <div class="col-md-3">
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label #ID>رقم الاضبارة</mat-label>
+            <input type="text" matInput [formControl]="fcl_ID" >
+
+            <mat-error *ngIf="fieldHasErrors(Form, 'ID')">
+              {{
+                autoPrintFirstErrorMessage(
+                  Form,
+                  "ID",
+                  ID.innerHTML
+                )
+              }}
+            </mat-error>
+
+
+          </mat-form-field>
+        </div>
+
+      </div>
+      <div class="col-md-3">
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label #ID>رقم الاضبارة</mat-label>
+            <input type="text" matInput [formControl]="fcl_ID" >
+
+            <mat-error *ngIf="fieldHasErrors(Form, 'ID')">
+              {{
+                autoPrintFirstErrorMessage(
+                  Form,
+                  "ID",
+                  ID.innerHTML
+                )
+              }}
+            </mat-error>
+
+
+          </mat-form-field>
+        </div>
+
+      </div>
+      <div class="col-md-3">
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label #ID>رقم الاضبارة</mat-label>
+            <input type="text" matInput [formControl]="fcl_ID" >
+
+            <mat-error *ngIf="fieldHasErrors(Form, 'ID')">
+              {{
+                autoPrintFirstErrorMessage(
+                  Form,
+                  "ID",
+                  ID.innerHTML
+                )
+              }}
+            </mat-error>
+
+
+          </mat-form-field>
+        </div>
+
+      </div>
+      <div class="col-md-3">
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label #ID>رقم الاضبارة</mat-label>
+            <input type="text" matInput [formControl]="fcl_ID" >
+
+            <mat-error *ngIf="fieldHasErrors(Form, 'ID')">
+              {{
+                autoPrintFirstErrorMessage(
+                  Form,
+                  "ID",
+                  ID.innerHTML
+                )
+              }}
+            </mat-error>
+
+
+          </mat-form-field>
+        </div>
+
+      </div>
+      <div class="col-md-3">
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label #ID>رقم الاضبارة</mat-label>
+            <input type="text" matInput [formControl]="fcl_ID" >
+
+            <mat-error *ngIf="fieldHasErrors(Form, 'ID')">
+              {{
+                autoPrintFirstErrorMessage(
+                  Form,
+                  "ID",
+                  ID.innerHTML
+                )
+              }}
+            </mat-error>
+
+
+          </mat-form-field>
+        </div>
+
+      </div>
+    </div>
+
+  </mat-card-content>
+
+
+  <mat-card-actions class="d-flex justify-content-end">
+    <button class="py-1 px-8 my-2" style="padding: 0.25rem 4rem;font-size: 1rem;" mat-flat-button  (click)="Save()"  color="primary">حفظ</button>
+  </mat-card-actions>
+
+</mat-card>

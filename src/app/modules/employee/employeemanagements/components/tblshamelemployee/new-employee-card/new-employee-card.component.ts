@@ -38,9 +38,9 @@ export class NewEmployeeCardComponent implements OnInit {
 
 
 
-  arr: TBLShamelSex[] = [{FIXED: 0, Sex_ID: 3, Sex_Name: "abc"}]
+  // arr: TBLShamelSex[] = [{FIXED: 0, Sex_ID: 3, Sex_Name: "abc"}]
 
-  sexArray: Observable<TBLShamelSex[]> = of(this.arr)
+  // sexArray: Observable<TBLShamelSex[]> = of(this.arr)
 
   _Selected_Employee : TBLShamelEmployee = {};
   @Input() set  Selected_Employee(passFromParent:TBLShamelEmployee)
@@ -84,6 +84,9 @@ export class NewEmployeeCardComponent implements OnInit {
 
 
   Form: UntypedFormGroup;
+
+  fcl_FAMILY_FG: UntypedFormGroup;
+
   fcl_ID: UntypedFormControl;
   fcl_PAYROL_ID: UntypedFormControl;
   fcl_COMPUTER_ID: UntypedFormControl;
@@ -182,6 +185,7 @@ export class NewEmployeeCardComponent implements OnInit {
               this.TblStreetService.List_TBLShamelStreetOrVillage_BehaviorSubject.subscribe(
                 data=>
                 {
+                  console.log("data", data)
                   this.List_STREETORVILLAGE = data;
                 }
               )
@@ -199,64 +203,36 @@ export class NewEmployeeCardComponent implements OnInit {
               )
 
 
-
-
-            if(this.TblStreetService.List_TBLShamelStreetOrVillage == null ||
-              this.TblStreetService.List_TBLShamelStreetOrVillage.length ==0 )
-              this.TblStreetService.fill();
-              this.TblStreetService.List_TBLShamelStreetOrVillage_BehaviorSubject.subscribe(
-                data=>
+            if(this.TblStreetService.List_TBLShamelStreetOrVillage)
+              this.List_STREETORVILLAGE = this.TblStreetService.List_TBLShamelStreetOrVillage;
+            else
+            {
+              this.TblStreetService.list().subscribe
+              (
+                (data)=>
                 {
-                  this.List_STREETORVILLAGE = data;
-                }
-              )
+                  this.List_STREETORVILLAGE = data as TBLShamelStreetOrVillage[];
+                  }
+              );
+            }
 
-
-
-
-    if(this.TblStreetService.List_TBLShamelStreetOrVillage)
-      this.List_STREETORVILLAGE = this.TblStreetService.List_TBLShamelStreetOrVillage;
-    else
-    {
-      this.TblStreetService.list().subscribe
-      (
-        (data)=>
-        {
-          this.List_STREETORVILLAGE = data as TBLShamelStreetOrVillage[];
-          }
-      );
-    }
-
-
-    if(this.TblStreetService.List_TBLShamelStreetOrVillage)
-      this.List_STREETORVILLAGE = this.TblStreetService.List_TBLShamelStreetOrVillage;
-    else
-    {
-      this.TblStreetService.list().subscribe
-      (
-        (data)=>
-        {
-          this.List_STREETORVILLAGE = data as TBLShamelStreetOrVillage[];
-          }
-      );
-    }
-
-    if(this.TblNationalityService.List_TBLShamelNationality)
-    this.List_NATIONALITY = this.TblNationalityService.List_TBLShamelNationality;
-  else
-  {
-    this.TblNationalityService.list().subscribe
-    (
-      (data)=>
-      {
-        this.List_NATIONALITY = data as TBLShamelNationality[];
-        }
-    );
-  }
+            if(this.TblNationalityService.List_TBLShamelNationality)
+            this.List_NATIONALITY = this.TblNationalityService.List_TBLShamelNationality;
+            else
+            {
+              this.TblNationalityService.list().subscribe
+              (
+                (data)=>
+                {
+                  this.List_NATIONALITY = data as TBLShamelNationality[];
+                  }
+              );
+            }
 
 
 
     this.Form = new UntypedFormGroup({});
+
     this.fcl_ID = new UntypedFormControl('',
       [Validators.required, , Validators.maxLength(10), Validators.pattern('^(0|[1-9][0-9]*)$')],
       [Validator_ID(this.empService, this.Selected_Employee.id,this.pageEmployee)]
@@ -278,34 +254,52 @@ export class NewEmployeeCardComponent implements OnInit {
       [Validators.required, Validators.maxLength(10), Validators.pattern('^(0|[1-9][0-9]*)$')],
       [Validator_INSURANCE_ID(this.empService, this.Selected_Employee.id,this.pageEmployee)]);
 
-    this.fcl_FNAME = new UntypedFormControl('',
-      {updateOn: "blur", validators: [Validators.required, Validators.maxLength(35)],
-      // asyncValidators: [Validator_FullName(this.empService, this.Selected_Employee.id, this.Selected_Employee, this.pageEmployee)]
+
+    // this.fcl_FNAME = new UntypedFormControl('',
+    //     {updateOn: "blur", validators: [Validators.required, Validators.maxLength(35)],
+    //     asyncValidators: [Validator_FullName(this.empService, this.Selected_Employee.id, this.Selected_Employee, this.pageEmployee)]
+    //     },
+    //   );
+
+    //   this.fcl_LNAME = new UntypedFormControl('',
+    //     {updateOn: "blur", validators: [Validators.required, Validators.maxLength(35)],
+    //     asyncValidators: [Validator_FullName(this.empService, this.Selected_Employee.id, this.Selected_Employee, this.pageEmployee)]
+    //     },
+    //   );
+
+
+    // this.fcl_FATHER = new UntypedFormControl('',
+    //   {updateOn: "blur", validators: [Validators.required, Validators.maxLength(35)],
+    //   asyncValidators: [Validator_FullName(this.empService, this.Selected_Employee.id, this.Selected_Employee, this.pageEmployee)]
+    //   },
+    //   );
+
+    // this.fcl_MOTHER = new UntypedFormControl('',
+    //   {updateOn: "blur", validators: [Validators.required, Validators.maxLength(35)],
+    //   // asyncValidators: [Validator_FullName(this.empService, this.Selected_Employee.id, this.Selected_Employee, this.pageEmployee)]
+    //  },
+    // );
+
+    this.fcl_FAMILY_FG = new UntypedFormGroup(
+      {
+        FNAME: this.fcl_FNAME =  new UntypedFormControl('',
+        [Validators.required, Validators.maxLength(35)],
+        ),
+        LNAME: this.fcl_LNAME = new UntypedFormControl('',
+        [Validators.required, Validators.maxLength(35)],
+
+        ),
+        FATHER: this.fcl_FATHER = new UntypedFormControl('',
+        [Validators.required, Validators.maxLength(35)],
+        ),
+        MOTHER: this.fcl_MOTHER = new UntypedFormControl('',
+        [Validators.required, Validators.maxLength(35)],
+        )
       },
-
-      );
-
-
-      this.fcl_LNAME = new UntypedFormControl('',
-      {updateOn: "blur", validators: [Validators.required, Validators.maxLength(35)],
-      //  asyncValidators: [Validator_FullName(this.empService, this.Selected_Employee.id, this.Selected_Employee, this.pageEmployee)]
-      },
-      );
-
-
-    this.fcl_FATHER = new UntypedFormControl('',
-     {updateOn: "blur", validators: [Validators.required, Validators.maxLength(35)],
-    //  asyncValidators: [Validator_FullName(this.empService, this.Selected_Employee.id, this.Selected_Employee, this.pageEmployee)]
-    },
-
-      );
-
-    this.fcl_MOTHER = new UntypedFormControl('',
-      {updateOn: "blur", validators: [Validators.required, Validators.maxLength(35)],
-      // asyncValidators: [Validator_FullName(this.empService, this.Selected_Employee.id, this.Selected_Employee, this.pageEmployee)]
-    },
-
-      );
+      {
+        asyncValidators: [Validator_FullName(this.empService, this.Selected_Employee.id, this.pageEmployee)]
+      }
+    )
 
     this.fcl_BIRTH_PLACE = new UntypedFormControl('',
       {updateOn: "blur", validators: [Validators.required, Validators.maxLength(35)]},
@@ -314,10 +308,12 @@ export class NewEmployeeCardComponent implements OnInit {
     this.fcl_BIRTHDATE = new UntypedFormControl('', [Validators.required]);
 
     this.fcl_KAYD_PLACE = new UntypedFormControl('',
-      [Validators.required, Validators.maxLength(35)]);
+      [Validators.required, Validators.maxLength(35)]
+      );
 
     this.fcl_SEX_NAME = new UntypedFormControl('',
-      [Validators.required, Validators.maxLength(5)]);
+      [Validators.required, Validators.maxLength(5)]
+    );
 
     this.fcl_NATIONALITY_ID = new UntypedFormControl('',  [Validators.maxLength(5)]);
 
@@ -345,7 +341,6 @@ export class NewEmployeeCardComponent implements OnInit {
     this.fcl_REM1 = new UntypedFormControl('',  [Validators.maxLength(100)]);
     this.fcl_REM2 = new UntypedFormControl('',  [Validators.maxLength(100)]);
     this.fcl_REM3 = new UntypedFormControl('',  [Validators.maxLength(100)]);
-    // this.fcl_FNAME = new UntypedFormControl('', []);
     this.fcl_EMP_IN_MILITARY_SERVICE= new UntypedFormControl('', []);
 
 
@@ -355,11 +350,7 @@ export class NewEmployeeCardComponent implements OnInit {
     this.Form.addControl('COMPUTER_ID', this.fcl_COMPUTER_ID);
     this.Form.addControl('GLOBAL_ID', this.fcl_GLOBAL_ID);
     this.Form.addControl('INSURANCE_ID', this.fcl_INSURANCE_ID);
-    this.Form.addControl('FNAME', this.fcl_FNAME);
-    this.Form.addControl('LNAME', this.fcl_LNAME);
-
-    this.Form.addControl('FATHER', this.fcl_FATHER);
-    this.Form.addControl('MOTHER', this.fcl_MOTHER);
+    this.Form.addControl("FAMILY_FG", this.fcl_FAMILY_FG);
     this.Form.addControl('BIRTH_PLACE', this.fcl_BIRTH_PLACE);
     this.Form.addControl('BIRTHDATE', this.fcl_BIRTHDATE);
     this.Form.addControl('KAYD_PLACE', this.fcl_KAYD_PLACE);
@@ -392,23 +383,6 @@ export class NewEmployeeCardComponent implements OnInit {
 
 
   ngOnInit(): void {
-
-
-    this.Form.get("FNAME").valueChanges.subscribe(value => {
-      this.empService.employee.FName = value;
-    })
-
-    this.Form.get("LNAME").valueChanges.subscribe(value => {
-      this.empService.employee.LName = value;
-    })
-
-    this.Form.get("FATHER").valueChanges.subscribe(value => {
-      this.empService.employee.Father = value;
-    })
-
-    this.Form.get("MOTHER").valueChanges.subscribe(value => {
-      this.empService.employee.Mother = value;
-    })
 
     this.filtered_TBLSHAMELMARTIALSTATE = this.fcl_MARTIALSTATE_NAME.valueChanges.pipe(
       startWith(''),
@@ -472,7 +446,7 @@ private _filtered_STREETORVILLAGE(name: string): TBLShamelStreetOrVillage[] {
 
 private _filtered_Area(name: string): TBLShamelArea[] {
   const filterValue = name.toLowerCase();
-  return this.List_AREA.filter(option => option.area_name.includes(filterValue));
+  return this.List_AREA.filter(option => option.Area_Name.includes(filterValue));
 }
 private _filtered_MiniArea(name: string): TBLShamelMiniArea[] {
 
@@ -485,8 +459,6 @@ private _filtered_MiniArea(name: string): TBLShamelMiniArea[] {
   return   this.List_TBLShamelMiniArea.slice();
 
   }else{
-
-
 
   console.log(this.Selected_Employee.Area_ID);
   const filterValue = name.toLowerCase();
@@ -507,9 +479,6 @@ private _filtered_NATIONALITY(name: string): TBLShamelNationality[] {
 }
 
 
-
-
-
 public OnSelect_MARTIALSTATE_Change(event: MatAutocompleteSelectedEvent) {
   if (event  && this.Selected_Employee )
   {
@@ -517,9 +486,6 @@ public OnSelect_MARTIALSTATE_Change(event: MatAutocompleteSelectedEvent) {
     this.Selected_Employee.MartialState_Name = ((event.option.value as TBLShamelMartialState).MartialState_Name) ;
   }
 }
-
-
-
 
 
 public OnSelect_SEX_Change(event: MatAutocompleteSelectedEvent) {
@@ -540,10 +506,9 @@ public OnSelect_NATIONALITY_Change(event: MatAutocompleteSelectedEvent) {
 public OnSelect_AREA_Change(event: MatAutocompleteSelectedEvent) {
   if (event  && this.Selected_Employee )
   {
-    console.log( event.option.value);
+    console.log("value", )
+    console.log("event.option.value", event.option.value);
     this.Selected_Employee.Area_ID = ((event.option.value as TBLShamelArea).area_id) ;
-
-
   }
 }
 
@@ -580,7 +545,7 @@ public Display_NATIONALITY_Property(value:TBLShamelNationality):string  {
 
 
 public Display_AREA_Property(value:TBLShamelArea):string  {
-  return value && value.area_name ? value.area_name : '';
+  return value && value.Area_Name ? value.Area_Name : '';
 }
 
 public Display_STREETORVILLAGE_Property(value:TBLShamelStreetOrVillage):string  {
@@ -592,44 +557,6 @@ public Display_MINIAREA_Property(value:TBLShamelMiniArea):string  {
   return value && value.MiniArea_Name ? value.MiniArea_Name : '';
 }
 
-
-public onFnameChanges(event: any)
-{
-
-  // this.empService.user.next(event.target.value)
-
-  // console.log("alsjd")
-
-  // this.empService.employee.FName = event.target.value
-
-  console.log("form 3", event);
-
-}
-
-// public onLnameChanges(event: any)
-// {
-//   this.empService.employee.LName = event.target.value
-
-//   console.log("form 3", event);
-
-// }
-
-
-// public onFathernameChanges(event: any)
-// {
-//   this.empService.employee.Father = event.target.value
-
-//   console.log("form 3", event);
-
-// }
-
-// public onMotherNameChanges(event: any)
-// {
-//   this.empService.employee.Mother = event.target.value;
-
-// }
-
-
   Save() {
 
 
@@ -639,12 +566,15 @@ public onFnameChanges(event: any)
 
   console.log(this.Form)
 
+
+
   if (!this.Form.valid)
-  return;
+    return;
 
   this.FromControl2Object();
 
-  console.log(this.Selected_Employee);
+
+
   if (this.Selected_Employee.id != null  &&
     this.Selected_Employee.id >0 &&
     this.pageEmployee. ModeEntry === 'update')
@@ -671,6 +601,7 @@ public onFnameChanges(event: any)
         {
           if (data>0)
           {
+          // this.Form.reset();
           this._snackBar.open('تم بنجاح', 'موافق');
           }
         }
