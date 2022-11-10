@@ -18,6 +18,7 @@ import { TBLShamelBonusService } from 'src/app/modules/shared/services/employees
 import { TBLShamelSCBonusService } from 'src/app/modules/shared/services/employees_department/tblshamel-scbonus.service';
 import { TblshameldocumenttypeService } from 'src/app/modules/shared/services/employees_department/tblshameldocumenttype.service';
 import { EmployeePageService } from '../../employee-page-service';
+import { FormValidationHelpersService } from 'src/app/modules/shared/services/helpers/form-validation-helpers.service';
 
 @Component({
   selector: 'app-tblshamelscbonusmodify',
@@ -61,11 +62,11 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
 
   // Access To Element in Form
   Form: UntypedFormGroup;
-  bonus_id = new UntypedFormControl();
-  reason_id = new UntypedFormControl();
-  documenttype_id = new UntypedFormControl();
-  document_number = new UntypedFormControl();
-  documentdate = new UntypedFormControl();
+  bonus_id: UntypedFormControl;
+  reason_id: UntypedFormControl;
+  documenttype_id: UntypedFormControl;
+  document_number: UntypedFormControl;
+  documentdate: UntypedFormControl;
 
   //Local Var
 
@@ -80,14 +81,14 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
     public ShamelBonusReasonService: TBLShamelBonusReasonService,
     public ShamelBonusService: TBLShamelBonusService,
     public ShameldocumenttypeService: TblshameldocumenttypeService,
-    private fb: UntypedFormBuilder,
+    public formValidatorsService: FormValidationHelpersService,
     public PageService: EmployeePageService,
   ) {
 
 
-
     this.PageService.Subject_Selected_TBLShamelEmployee.subscribe(
       data => {
+        console.log("data1", data)
         this.Selected_Emp = data;
         this.id = this.Selected_Emp.id;
       }
@@ -99,6 +100,7 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
       this.ShameldocumenttypeService.fill();
     this.ShameldocumenttypeService.List_ITBLShamelDocumentType_BehaviorSubject.subscribe(
       data => {
+        console.log("data2", data)
         this.DocumentType_List = data;
         this.filteredDocumentTypeOptions = of(this.DocumentType_List);
       }
@@ -111,6 +113,7 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
       this.ShamelBonusReasonService.fill();
     this.ShamelBonusReasonService.List_TBLShamelBonusReason_BehaviorSubject.subscribe(
       data => {
+        console.log("data3", data)
         this.BonusReason_List = data;
         this.filteredBonusReasonOptions = of(this.BonusReason_List);
       }
@@ -198,20 +201,20 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
     try {
 
 
-      this.bonus_id = new UntypedFormControl([Validators.required, Validators.minLength(5)]);
-      this.reason_id = new UntypedFormControl();
-      this.documenttype_id = new UntypedFormControl();
-      this.documentdate = new UntypedFormControl();
-      this.document_number = new UntypedFormControl();
+      this.bonus_id = new UntypedFormControl('', [Validators.required, Validators.maxLength(5)]);
+      this.reason_id = new UntypedFormControl('', [Validators.maxLength(5)]);
+      this.documenttype_id = new UntypedFormControl('', [Validators.required, Validators.maxLength(5)]);
+      this.documentdate = new UntypedFormControl('', [Validators.required]);
+      this.document_number = new UntypedFormControl('', [Validators.required, Validators.maxLength(15)]);
 
+      this.Form = new UntypedFormGroup({});
 
-      this.Form = this.fb.group({
-      });
       this.Form.addControl('bonus_id', this.bonus_id);
       this.Form.addControl('reason_id', this.reason_id);
       this.Form.addControl('documenttype_id', this.documenttype_id);
       this.Form.addControl('documentdate', this.documentdate);
       this.Form.addControl('document_number', this.document_number);
+
     } catch (Exception: any) {
       console.log(Exception);
     }
@@ -381,7 +384,7 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
 
   public async Save() {
 
-
+    console.log("yes")
 
     if (!this.Form.valid == true) {
       return;
@@ -389,6 +392,9 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
     if (!this.ValidateForm() == true) {
       return;
     }
+
+    console.log("no")
+
     this.getValue();
 
     console.log(this.Selected_Employee_SCBouns );
@@ -475,6 +481,42 @@ export class TblshamelscbonusmodifyComponent implements OnInit, AfterViewInit {
     return this.Form.controls[control].hasError(error);
   }
 
+
+   // Helper Function For Display Validate in Html Template
+
+   public hasError = (form: any, controlName: string, errorName: string): boolean =>{
+
+    return this.formValidatorsService.hasError(form, controlName, errorName);
+  }
+
+  public fieldHasErrors(form: any, field: string)
+  {
+    return this.formValidatorsService.fieldHasErrors(form, field);
+  }
+
+  public printFirstErrorMessage(
+    form: any,
+    controlName: string,
+    label: string,
+    errors: {name: string, message?: string}[],
+    isFemale?: boolean
+  ): string {
+
+    return this.formValidatorsService.printFirstErrorMessage(form, controlName, label, errors, isFemale);
+
+  }
+
+
+  public autoPrintFirstErrorMessage(
+    form: any,
+    controlName: string,
+    label: string,
+    isFemale?: boolean
+  ): string {
+
+    return this.formValidatorsService.autoPrintFirstErrorMessage(form, controlName,label, isFemale);
+
+  }
 
 
   addEventDocumentDate(type: string, event: MatDatepickerInputEvent<Date>) {

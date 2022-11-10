@@ -11,6 +11,7 @@ import { EmployeePageService } from "../../employee-page-service";
 
 import { ConfirmationdialogComponent } from "../../common/confirmationdialog/confirmationdialog.component";
 import { TblshamelscbonusmodifyComponent } from "../tblshamelscbonusmodify/tblshamelscbonusmodify.component";
+import { FormValidationHelpersService } from "src/app/modules/shared/services/helpers/form-validation-helpers.service";
 
 @Component({
   selector: 'app-tblshamelscbonuslist',
@@ -44,10 +45,12 @@ export class TblshamelscbonuslistComponent implements OnInit, AfterViewInit {
     public PageService: EmployeePageService,
     public ShamelSCBonusService: TBLShamelSCBonusService,
     public dialog: MatDialog,
+    public formValidatorsService: FormValidationHelpersService,
     private snackBar: MatSnackBar) {
     this.dataSource = new MatTableDataSource([]);
     this.PageService.Subject_Selected_TBLShamelEmployee.subscribe(
       data => {
+        console.log("data", data)
         this.Selected_Emp = data;
       }
     )
@@ -101,19 +104,13 @@ export class TblshamelscbonuslistComponent implements OnInit, AfterViewInit {
 
 
 
-
-
-
-
-
-
   Add(): void {
 
     this.selected_employee_Bonus = {};
     this.selected_employee_Bonus.id = this.Selected_Emp.id;
 
     const dialogRef = this.dialog.open(TblshamelscbonusmodifyComponent, {
-      height: '80%',
+      height: '65%',
       width: '80%',
       data: { obj: this.selected_employee_Bonus, id: this.Selected_Emp.id }
     });

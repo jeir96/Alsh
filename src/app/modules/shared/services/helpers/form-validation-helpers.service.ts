@@ -262,6 +262,7 @@ export class FormValidationHelpersService {
 
     public fieldHasErrors(form: any, field: string): boolean {
 
+
       const nestedFormValue = this.caclFormFieldNestedName(form, field);
 
       const errors = nestedFormValue.errors;
