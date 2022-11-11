@@ -1,12 +1,12 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Component, OnInit, AfterViewInit, Input, Inject, OnDestroy } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, UntypedFormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
-import { Observable, of, forkJoin, combineLatest, filter, tap, Subscription } from 'rxjs';
+import { Observable, combineLatest, tap, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { TBLShamelBonus } from 'src/app/modules/shared/models/employees_department/TBLShamelBonus';
 import { TBLShamelBonusReason } from 'src/app/modules/shared/models/employees_department/TBLShamelBonusReason';
