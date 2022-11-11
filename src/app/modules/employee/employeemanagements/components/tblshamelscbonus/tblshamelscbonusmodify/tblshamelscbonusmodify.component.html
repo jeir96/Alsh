@@ -1,8 +1,8 @@
 <h2 mat-dialog-title>مراسيم زيادة الراتب</h2>
 
 <mat-dialog-content class="mat-typography">
-
-
+  <!-- *ngIf="Bonus_List.length > 0 && DocumentType_List.length > 0 && BonusReason_List.length > 0" -->
+  {{ Selected_Employee_SCBouns }}
   <form [formGroup]="Form" >
 
     <div class="row justify-content-between text-left">
