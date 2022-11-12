@@ -136,18 +136,18 @@ export class TblshamelscbonuslistComponent implements OnInit, AfterViewInit {
 
 
 
-      dialogRef.afterClosed().toPromise().then((confirmed: boolean) => {
+      dialogRef.afterClosed().subscribe((confirmed: boolean) => {
         if (confirmed) {
 
           const snack = this.snackBar.open('سوف يتم الآن الحذف');
 
 
 
-          this.ShamelSCBonusService.delete(element.serial).toPromise().then(res => {
+          this.ShamelSCBonusService.delete(element.serial).subscribe(res => {
             snack.dismiss();
 
             console.log(res);
-            if (res == 1)
+            if (res)
               this.FillTable();
 
           });
@@ -173,8 +173,8 @@ export class TblshamelscbonuslistComponent implements OnInit, AfterViewInit {
       console.log(this.selected_employee_Bonus);
 
       const dialogRef = this.dialog.open(TblshamelscbonusmodifyComponent, {
-        height: '50%',
-        width: '50%',
+        height: '40%',
+        width: '60%',
         data: { obj: this.selected_employee_Bonus, id: this.Selected_Emp.id }
       });
 
