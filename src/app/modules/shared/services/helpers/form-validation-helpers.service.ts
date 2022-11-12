@@ -7,6 +7,8 @@ export class FormValidationHelpersService {
 
   constructor() { }
 
+  // private errorTypes: "required" | "pattern" | "maxLength";
+
   public hasError = (form: any, controlName: string, errorName: string): boolean =>{
 
     return this.caclFormFieldNestedName(form, controlName).hasError(errorName);
@@ -33,6 +35,21 @@ export class FormValidationHelpersService {
     }
 
 
+
+
+    private hasErrorOfType(form: any, controlName: string, errorType: string): boolean {
+
+      const errors = this.caclFormFieldNestedName(form, controlName).errors;
+
+      if(errors && errors[errorType])
+      {
+
+        return errors[errorType] != undefined;
+      }
+
+      return false;
+
+    }
 
     private hasRequiredError(form: any, controlName: string): boolean {
 
@@ -103,7 +120,7 @@ export class FormValidationHelpersService {
 
         if(hasMaxLengthValidation)
         {
-          return this.hasMaxLengthError(form, controlName);
+          return this.hasErrorOfType(form, controlName, "maxlength");
         }
 
         return this.hasError(form, controlName, x.name)
@@ -201,25 +218,25 @@ export class FormValidationHelpersService {
 
       if(hasRequiredValidation)
       {
-        return this.hasRequiredError(form, controlName)
+        return this.hasErrorOfType(form, controlName, "required")
       }
 
       if(hasPatternValidation)
       {
-        return this.hasPatternError(form, controlName)
+        return this.hasErrorOfType(form, controlName, "pattern")
       }
 
       if(hasMaxLengthValidation)
       {
-        return this.hasMaxLengthError(form, controlName);
+        return this.hasErrorOfType(form, controlName, "maxlength");
       }
 
       if(hasDuplicatedValidation)
       {
-        return this.hasDuplicatedError(form, controlName);
+        return this.hasErrorOfType(form, controlName, "mobNumExists");
       }
 
-      return this.hasRequiredError(form, controlName)
+      return this.hasErrorOfType(form, controlName, "required")
 
     })
     // map errors on form field to messages and return first one
@@ -250,15 +267,13 @@ export class FormValidationHelpersService {
 
     })
 
-
     return errorMessages[0]
 
   }
-
-    private getMaxLength(form: any, controlName: string)
-    {
-      return this.caclFormFieldNestedName(form, controlName).errors["maxlength"]
-    }
+    // private getMaxLength(form: any, controlName: string)
+    // {
+    //   return this.caclFormFieldNestedName(form, controlName).errors["maxlength"]
+    // }
 
     public fieldHasErrors(form: any, field: string): boolean {
 

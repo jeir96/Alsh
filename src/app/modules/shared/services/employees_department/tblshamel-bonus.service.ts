@@ -33,7 +33,7 @@ export class TBLShamelBonusService {
   fill()  {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const options = {  headers: headers };
-     this.httpClient.get<TBLShamelBonus[]>(this.RestUrl +"TBLShamelBonus",options) .subscribe    (
+     this.httpClient.get<TBLShamelBonus[]>(this.RestUrl +"TBLShamelBonus",options) .subscribe(
       data=>
       {
         console.log("bonus list 0", data)

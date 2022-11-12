@@ -5,7 +5,7 @@
 
     <div class="row justify-content-between text-left">
 
-      <div class="form-group col-sm-6 flex-column d-flex">
+      <div class="form-group col-sm-6 flex-column d-flex mb-1">
 
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label #BOUNS_ID>المكافئة</mat-label>
@@ -30,7 +30,7 @@
         </mat-form-field>
       </div>
 
-      <div class="form-group col-sm-6 flex-column d-flex">
+      <div class="form-group col-sm-6 flex-column d-flex mb-1">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label #REASON_ID>السبب</mat-label>
           <input type="text" matInput [formControl]="reason_id"
@@ -57,7 +57,7 @@
     <div class="row justify-content-between text-left">
 
 
-      <div class="form-group col-sm-4 flex-column d-flex">
+      <div class="form-group col-sm-4 flex-column d-flex mb-1">
 
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label #DOCUMENTTYPE_ID>المستند</mat-label>
@@ -81,7 +81,7 @@
           </mat-autocomplete>
         </mat-form-field>
       </div>
-      <div class="form-group col-sm-4 flex-column d-flex">
+      <div class="form-group col-sm-4 flex-column d-flex mb-1">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label #DOCUMENT_NUMBER>رقم المستند</mat-label>
           <input matInput type="number" placeholder="12312..." value="Sushi" [formControl]="document_number"
@@ -97,7 +97,7 @@
             </mat-error>
         </mat-form-field>
       </div>
-      <div class="form-group col-sm-4 flex-column d-flex">
+      <div class="form-group col-sm-4 flex-column d-flex mb-1">
         <mat-form-field appearance="fill">
           <mat-label #DOCUMENTDATE>تاريخ المستند</mat-label>
           <input matInput [matDatepicker]="Datepicker_documentdate"
@@ -129,10 +129,6 @@
     </mat-icon>
     اغلاق
   </button>
-
-
-
-
 
   <button mat-raised-button color="accent" (click)="onReset()" class="action-button">
     <mat-icon class="mat-icon-rtl-mirror">clear
