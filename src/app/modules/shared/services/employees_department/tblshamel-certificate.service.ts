@@ -20,10 +20,10 @@ export class TBLShamelCertificateService {
  
   constructor(private httpClient : HttpClient) { }
 
-  list()  {
+  list() :Observable<ITBLShamelCertificate[]>  {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const options = {  headers: headers };  
-    return this.httpClient.get(this.RestUrl +"TBLShamelCertificate",options);  
+    return this.httpClient.get<ITBLShamelCertificate[]>(this.RestUrl +"TBLShamelCertificate",options);  
     
   }
 

@@ -82,9 +82,9 @@ import { IconModule } from '@coreui/icons-angular';
 
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MY_DATE_FORMATS } from '../../shared/models/employees_department/MY_DATE_FORMATS';
-import { AutoCompleteEmployeeNameComponent } from './components/auto-complete-employee-name/auto-complete-employee-name.component';
-import { OptionsScrollDirective } from './components/auto-complete-employee-name/options-scroll.directive';
-import { AutoEmployeeNameComponent } from './components/auto-employee-name/auto-employee-name.component';
+
+
+
 import { ConfirmationdialogComponent } from './components/common/confirmationdialog/confirmationdialog.component';
 import { DeleteemployeeComponent } from './components/deleteemployee/deleteemployee/deleteemployee.component';
 import { EmployeeListSearchComponent } from './components/employee-list-search/employee-list-search.component';
@@ -95,7 +95,7 @@ import { ListEmployeeComponent } from './components/list-employee/list-employee.
 import { DataEntryDialogComponent } from './components/tblshamelemployee/data-entry-dialog/data-entry-dialog.component';
 import { EditEmployeeCardComponent } from './components/tblshamelemployee/edit-employee-card/edit-employee-card.component';
 import { EmpShowDataComponent } from './components/tblshamelemployee/emp-show-data/emp-show-data.component';
-import { EmployeeSeachDialogComponent } from './components/tblshamelemployee/employee-seach-dialog/employee-seach-dialog.component';
+import { EmployeeSeachDialogComponent } from './components/employee-seach-dialog/employee-seach-dialog.component';
 import { NewEmployeeCardComponent } from './components/tblshamelemployee/new-employee-card/new-employee-card.component';
 import { ManagementTBLShamelEmployeeDocPicComponent } from './components/TBLShamelEmployeeDocPic/management-tblshamel-employee-doc-pic/management-tblshamel-employee-doc-pic.component';
 import { TBLShamelEmployeeDocPicComponent } from './components/TBLShamelEmployeeDocPic/tblshamel-employee-doc-pic/tblshamel-employee-doc-pic.component';
@@ -112,7 +112,6 @@ import { TblshamelscjobstatemodifyComponent } from './components/tblshamelscjobs
 import { TblshamelsccancelpunishmentmodifyComponent } from './components/tblshamelscpunishment/tblshamelsccancelpunishmentmodify/tblshamelsccancelpunishmentmodify.component';
 import { TblshamelscpunishmentlistComponent } from './components/tblshamelscpunishment/tblshamelscpunishmentlist/tblshamelscpunishmentlist.component';
 import { TblshamelscpunishmentmodifyComponent } from './components/tblshamelscpunishment/tblshamelscpunishmentmodify/tblshamelscpunishmentmodify.component';
-import { TestAutoCompleteEmployeeNameComponent } from './components/test-auto-complete-employee-name/test-auto-complete-employee-name.component';
 import { EncodingComponent } from './encodingtable/encoding.component';
 import { TblShamelBonusAddComponent } from './encodingtable/TblShamelBonus/tbl-shamel-bonus-add/tbl-shamel-bonus-add.component';
 import { TblShamelBonusListComponent } from './encodingtable/TblShamelBonus/tbl-shamel-bonus-list/tbl-shamel-bonus-list.component';
@@ -234,10 +233,6 @@ export const MY_FORMATS = {
   
   
 
-    AutoCompleteEmployeeNameComponent,
-    OptionsScrollDirective,
-    TestAutoCompleteEmployeeNameComponent,
-    AutoEmployeeNameComponent,
     EncodingComponent,
     TblShamelBonusAddComponent,
     TblShamelBonusListComponent,

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParamsOptions } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ITBLShamelDocumentType } from '../../models/employees_department/ITBLShamelDocumentType';
 import { TBLShamelSex } from '../../models/employees_department/TBLShamelSex';
 
@@ -22,7 +22,7 @@ export class TBLShamelSexService {
  
   constructor(private httpClient : HttpClient) { }
 
-  list()  {
+  list() :Observable<TBLShamelSex[]> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const options = {  headers: headers };  
     console.log("TBLShamelSex");

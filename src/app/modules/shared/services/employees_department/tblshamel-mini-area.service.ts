@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParamsOptions } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { TBLShamelMiniArea } from '../../models/employees_department/TBLShamelMiniArea';
 
 @Injectable({
@@ -20,10 +20,10 @@ export class TBLShamelMiniAreaService {
 
   constructor(private httpClient : HttpClient) { }
 
-  list()  {
+  list() : Observable<TBLShamelMiniArea[]> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const options = {  headers: headers };  
-    return this.httpClient.get(this.RestUrl +"TBLShamelMiniArea",options);      
+    return this.httpClient.get<TBLShamelMiniArea[]>(this.RestUrl +"TBLShamelMiniArea",options);      
   }
 
   fill()  {

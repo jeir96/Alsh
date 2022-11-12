@@ -7,7 +7,7 @@ export interface ITBLShamelIncMarsoom {
     incmarsoomdata?:string;
     changedate ?:Date  ;
     changereason_id?:number  ;
-    documenttype_id?:string  ;
+    documenttype_id?:number  ;
     document_number?:string  ;
     documentdate?:Date  ;
     begindate?:Date  ;

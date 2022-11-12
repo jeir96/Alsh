@@ -12,16 +12,16 @@
 
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>الشهادة</mat-label>
-          <input type="text" matInput [formControl]="input_certificate_id" formControlName="input_certificate_id"
+          <input type="text" matInput [formControl]="certificate_id" formControlName="input_certificate_id"
             [matAutocomplete]="auto_certificate_id">
           <mat-error *ngIf="errorHandling('input_certificate_id', 'required')">
             اختر الشهادة
           </mat-error>
           <mat-error
-            *ngIf="((input_certificate_id.invalid || input_certificate_id.errors)  && (input_certificate_id.dirty || input_certificate_id.touched) )">
+            *ngIf="((certificate_id.invalid || certificate_id.errors)  && (certificate_id.dirty || certificate_id.touched) )">
           </mat-error>
           <mat-hint
-            *ngIf="((input_certificate_id.invalid || input_certificate_id.errors)  && (input_certificate_id.dirty || input_certificate_id.touched) )">
+            *ngIf="((certificate_id.invalid || certificate_id.errors)  && (certificate_id.dirty || certificate_id.touched) )">
             <span class="mat-error">اختر الشهادة</span>
           </mat-hint>
           <mat-autocomplete #auto_certificate_id="matAutocomplete" [displayWith]="displayCertificateProperty.bind(this)"
@@ -37,7 +37,7 @@
 
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>الاختصاص </mat-label>
-          <input type="text" matInput [formControl]="input_specification_id" [matAutocomplete]="auto_specification_id">
+          <input type="text" matInput [formControl]="specification_id" [matAutocomplete]="auto_specification_id">
           <mat-autocomplete #auto_specification_id="matAutocomplete"
             [displayWith]="displaySpecificationProperty.bind(this)"
             (optionSelected)="OnSelectSpecificationChange($event)">
@@ -55,14 +55,14 @@
       <div class="form-group col-sm-4 flex-column d-flex">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>سنة تخرج</mat-label>
-          <input matInput type="number" placeholder="Ex. Pizza" value="Sushi" [formControl]="input_graduationyear"
+          <input matInput type="number" placeholder="Ex. Pizza" value="Sushi" [formControl]="graduationyear"
             [(ngModel)]="Selected_Employee_Education.graduationyear">
         </mat-form-field>
       </div>
       <div class="form-group col-sm-4 flex-column d-flex">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>مدة الدراسة</mat-label>
-          <input matInput type="number" placeholder="Ex. Pizza" value="Sushi" [formControl]="input_studyduration"
+          <input matInput type="number" placeholder="Ex. Pizza" value="Sushi" [formControl]="studyduration"
             [(ngModel)]="Selected_Employee_Education.studyduration">
         </mat-form-field>
       </div>
@@ -72,7 +72,7 @@
 
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>التقيم</mat-label>
-          <input type="text" matInput [formControl]="input_rank_id" [matAutocomplete]="auto_rank_id">
+          <input type="text" matInput [formControl]="rank_id" [matAutocomplete]="auto_rank_id">
           <mat-autocomplete #auto_rank_id="matAutocomplete" [displayWith]="displayRankProperty.bind(this)"
             (optionSelected)="OnSelectRankChange($event)">
             <mat-option *ngFor="let option of filteredRankOptions | async" [value]="option.rank_id">
@@ -91,7 +91,7 @@
       <div class="form-group col-sm-6 flex-column d-flex">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>الدولة</mat-label>
-          <input type="text" matInput [formControl]="input_country_id" [matAutocomplete]="auto_country_id">
+          <input type="text" matInput [formControl]="country_id" [matAutocomplete]="auto_country_id">
           <mat-autocomplete #auto_country_id="matAutocomplete" [displayWith]="displayCountryProperty.bind(this)"
             (optionSelected)="OnSelectCountryChange($event)">
             <mat-option *ngFor="let option of filteredCountryOptions | async" [value]="option.country_id">
@@ -104,7 +104,7 @@
       <div class="form-group col-sm-6 flex-column d-flex">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>المدينة</mat-label>
-          <input type="text" matInput [formControl]="input_city_id" [matAutocomplete]="auto_city_id">
+          <input type="text" matInput [formControl]="city_id" [matAutocomplete]="auto_city_id">
           <mat-autocomplete #auto_city_id="matAutocomplete" [displayWith]="displayStateProperty.bind(this)"
             (optionSelected)="OnSelectStateChange($event)">
             <mat-option *ngFor="let option of filteredStateOptions | async" [value]="option.state_id">

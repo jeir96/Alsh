@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParamsOptions } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { TBLShamelMartialState } from '../../models/employees_department/TBLShamelMartialState';
 
 @Injectable({
@@ -18,10 +18,10 @@ export class TBLShamelMartialStateService {
  
   constructor(private httpClient : HttpClient) { }
 
-  list()  {
+  list() :Observable<TBLShamelMartialState[]> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const options = {  headers: headers };  
-    return this.httpClient.get(this.RestUrl +"TBLShamelMartialState",options);      
+    return this.httpClient.get<TBLShamelMartialState[]>(this.RestUrl +"TBLShamelMartialState",options);      
   }
 
   fill()  {

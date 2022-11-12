@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParamsOptions } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ITBLShamelPunishment } from '../../models/employees_department/ITBLShamelPunishment';
 
 @Injectable({
@@ -22,10 +22,10 @@ export class TBLShamelPunishmentService {
  
   constructor(private httpClient : HttpClient) { }
 
-  list()  {
+  list() :Observable<ITBLShamelPunishment[]> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const options = {  headers: headers };  
-    return this.httpClient.get(this.RestUrl +"TBLShamelPunishment",options);  
+    return this.httpClient.get<ITBLShamelPunishment[]>(this.RestUrl +"TBLShamelPunishment",options);  
     
   }
 

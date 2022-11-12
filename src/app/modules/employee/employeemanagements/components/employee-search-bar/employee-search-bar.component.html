@@ -1,79 +1,83 @@
-
-<form [formGroup]="SearchForm" class="example-form" >
-
-          <div  fxLayout="row" fxLayoutAlign="center" fxLayoutAlign="center strech">
-
-            <div fxFlex="20%">
-              <img src="" class="rounded"  alt="ddd"/>
-            </div>
-
-           
-
-            <div fxFlex="30%"  >
-              <mat-form-field   appearance="fill" class="full-width">
-                <mat-label>اسم الموظف</mat-label>
-                <input type="text" 
-                    placeholder="اسم الموظف"
-                    aria-label="اسم الموظف"
-                    matInput                         
-                    [formControl]="autocomplete_EmployeeName"
-                    [matAutocomplete]="auto" />
-                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="display_Employee" (optionSelected)="OnSelectEmpFullNameChange($event)">
-                    
-                      <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
-                      <ng-container *ngIf="!isLoading">
-                      <mat-option *ngFor="let employee of filteredEmployeeNameList"
-                        [value]="employee"
-                                      
-                        >
-                        {{employee.fullname}}
-                      </mat-option>
-                      </ng-container>
-
-                    </mat-autocomplete>                        
-                    
-                </mat-form-field>
-
-
-            </div>
- 
-            <div fxFlex="40px">
-              <button fxFlex="40px" mat-button (click)="openEmpSearchDialog()" >Open dialog</button>
-            </div>
-            
-  
-            <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center" >
-              <mat-form-field  appearance="fill"  fxFlex="70%" class="full-width">            
-                      <mat-label>رقم الإضبارة</mat-label>
-                      <input matInput  placeholder="رقم الإضبارة" value="" [formControl]="input_Employee_ID" (keydown.enter)="Employee_ID_Filter(input_Employee_ID.value)" />            
-              </mat-form-field>
-
-            </div>
-  
-
-            
-            <div fxFlex="90px" fxLayout ="row" fxLayoutAlign="center" fxLayoutGap="5">
-              <button fxFlex="45px" mat-raised-button color="primary" (click)="btnNextId(input_Employee_ID.value)"> التالي </button>
-              <button fxFlex="45px" mat-raised-button color="primary" (click)="btnPrevId(input_Employee_ID.value)"> السابق </button>
-
-            </div>
-
-  
-            <div   fxLayout="row" fxLayoutAlign="center"  fxFlex="20%">
-              <mat-form-field  appearance="fill"  fxFlex="70%"  class="full-width"   >            
-                <mat-label>رقم الحاسوب</mat-label>
-                <input matInput placeholder="رقم الحاسوب" value="" [formControl]="input_Employee_Computer_ID" (keydown.enter)="Computer_ID_Filter(input_Employee_Computer_ID.value)" />          
-              </mat-form-field>
-
-            </div>
-  
-            <div fxFlex="90px" fxLayout ="row" fxLayoutAlign="center" fxLayoutGap="5">
-              <button fxFlex="45px" mat-raised-button color="primary" (click)="btnNextComputer_ID(input_Employee_Computer_ID.value)"> التالي </button>
-              <button fxFlex="45px" mat-raised-button color="primary" (click)="btnPrevComputer_ID(input_Employee_Computer_ID.value)"> السابق </button>
-            </div>         
-  
-          </div>
-         
+<form [formGroup]="Form" class="example-form">
+  <c-container fluid>
+    <c-row>
+      <c-col>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>اسم الموظف</mat-label>
+          <input matInput [matAutocomplete]="auto_FullName" formControlName='fullname'>
+          <mat-autocomplete #auto_FullName="matAutocomplete" [displayWith]="displayEmployeeFn"
+            (optionSelected)='onEmployeeSelected($event.option.value)'>            
+            <ng-container>
+              <mat-option *ngFor="let emp of List_Employee_Filter | async" [value]="emp">
+                <small>{{ emp.fullname }}</small>
+              </mat-option>
+            </ng-container>
+          </mat-autocomplete>
+          <button mat-raised-button matSuffix color="primary" (click)="searchEmployee()">...</button>
+        </mat-form-field>
+      </c-col>
+      <c-col>
         
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>الوضع بالملاك</mat-label>
+          <input id="malakstate_name" matInput formControlName="malakstate_name" >
+        </mat-form-field>
         
-  </form>
+      </c-col>
+    </c-row>
+    <c-row>
+      <c-col>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>رقم الإضبارة</mat-label>
+          <input id="id" matInput formControlName="id" (change)="idChanged()">
+        </mat-form-field>
+      </c-col>
+      <c-col>
+      </c-col>
+      <c-col>
+        <button mat-raised-button color="primary" (click)="previousId()">
+          <
+        </button>
+      </c-col>
+      <c-col>
+        <button mat-raised-button color="primary" (click)="nextId()">></button>
+      </c-col>
+    </c-row>
+    <c-row>
+      <c-col>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>رقم الذاتي السجل العام بالدولة</mat-label>
+          <input id="id" matInput formControlName="global_id" (change)="idChanged()">
+        </mat-form-field>
+      </c-col>
+      <c-col>
+      </c-col>
+      <c-col>
+        <button mat-raised-button color="primary" (click)="previous_global_id()">
+          <
+        </button>
+      </c-col>
+      <c-col>
+        <button mat-raised-button color="primary" (click)="next_global_id()">></button>
+      </c-col>
+    </c-row>
+    <c-row>
+      <c-col>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>رقم الحاسوب</mat-label>
+          <input id="id" matInput formControlName="computer_id" (change)="idChanged()">
+        </mat-form-field>
+      </c-col>
+      <c-col>
+      </c-col>
+      <c-col>
+        <button mat-raised-button color="primary" (click)="previous_computer_id()">
+          <
+        </button>
+      </c-col>
+      <c-col>
+        <button mat-raised-button color="primary" (click)="next_computer_id()">></button>
+      </c-col>
+    </c-row>
+  </c-container>
+</form>

@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParamsOptions } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ITBLShamelSCPunishment } from '../../models/employees_department/ITBLShamelSCPunishment';
 
 @Injectable({
@@ -13,35 +14,25 @@ export class TBLShamelSCPunishmentService {
  
   constructor(private httpClient : HttpClient) { }
 
-  list(id:number)  {
-    const headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
-    const options = {  headers: headers };  
-    return this.httpClient.get(this.RestUrl +"TBLShamelSCPunishment/"+id,options);  
-    
+  list(id:number) :Observable<ITBLShamelSCPunishment[]>  {   
+    return this.httpClient.get<ITBLShamelSCPunishment[]>(this.RestUrl +"TBLShamelSCPunishment/"+id);      
   }
 
 
-  delete(serial:number )  {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    const options = {  headers: headers };  
+  delete(serial:number )  {  
     return this.httpClient.delete("https://localhost:44335/api/TBLShamelSCPunishment/"+serial);
   }
 
 
-  add(obj : ITBLShamelSCPunishment )  {
-    const headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});  
-    const options = { headers: headers };    
-    return this.httpClient.post("https://localhost:44335/api/TBLShamelSCPunishment",obj,options); 
-
+  add(obj : ITBLShamelSCPunishment )  {   
+    return this.httpClient.post("https://localhost:44335/api/TBLShamelSCPunishment",obj); 
   }
 
-  update(obj : ITBLShamelSCPunishment )  {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    const httpParams: HttpParamsOptions = { 'obj': obj } as HttpParamsOptions;
-  
-    const options = {  headers: headers };
-    console.log(this.RestUrl +"TBLShamelSCPunishment/"+obj.serial);
-    return this.httpClient.put(this.RestUrl +"TBLShamelSCPunishment/"+obj.serial,obj,options);
+  update(obj : ITBLShamelSCPunishment )  {   
+    return this.httpClient.put(this.RestUrl +"TBLShamelSCPunishment/"+obj.serial,obj);
   }
 
+  Validate(obj : ITBLShamelSCPunishment ):Observable<ITBLShamelSCPunishment>  {   
+    return this.httpClient.post<ITBLShamelSCPunishment>("https://localhost:44335/api/TBLShamelSCPunishment/Validate",obj); 
+  }
 }

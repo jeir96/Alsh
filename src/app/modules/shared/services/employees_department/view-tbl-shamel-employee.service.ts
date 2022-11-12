@@ -1,8 +1,6 @@
 import { HttpHeaders, HttpClient, HttpParams, HttpParamsOptions } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, of } from "rxjs";
-import { IEmployeeNameList } from "../../models/employees_department/IEmployeeNameList";
-import { ITBLShamelYear } from "../../models/employees_department/ITBLShamelYear";
+import { Observable, of } from "rxjs";
 import { TBLShamelEmployee } from "../../models/employees_department/TBLShamelEmployee";
 import { ViewTBLShamelEmployee } from "../../models/employees_department/ViewTBLSamelEmployee";
 
@@ -71,16 +69,7 @@ List_ViewTBLSamelEmployee(PageNumber:number,request?:ViewTBLSamelEmployeeSearch 
   }
 
 
-  SearchByID(id:string ) :Observable<ViewTBLShamelEmployee[]> {
-
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
   
-    const options = {  headers: headers };
-    
-    return this.httpClient.get<ViewTBLShamelEmployee[]>(this.RestUrl +`ViewTBLShamelEmployee/SearchByID/${id}`,options);  
-    
-  }
-
 
   
 employee_FullName_List(searchName:string )  {
@@ -106,110 +95,63 @@ employee_FullName_List1(searchName:string,pageNumber:number, pageSize:number
 
 
 
-search_by_employee_name_info(request: TblShamelSearchByEmployeeNameInfoRequest )  {
-
-  const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-//   let Search = {
-//      'fname': fname,
-//      'lname':lname,
-//      'mother':mother,
-//      'father':father
-//  } as HttpParamsOptions;
-  
-  return this.httpClient.post(this.RestUrl +"ViewTBLShamelEmployee/search_by_employee_name_info",request ,this.httpOptions) as Observable<TblShamelSearchByEmployeeNameInfo[]>;  
-  
+search_by_employee_name_info(request: TblShamelSearchByEmployeeNameInfoRequest ) :Observable<ViewTBLShamelEmployee[]> {  
+  return this.httpClient.post<ViewTBLShamelEmployee[]>(this.RestUrl +"ViewTBLShamelEmployee/search_by_employee_name_info",request ) ;    
 }
 
 
-prev_Computer_ID(Computer_ID:string )  {
-
-  const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-  const httpParams: HttpParamsOptions = {
-     'Computer_ID': Computer_ID
- } as HttpParamsOptions;  
-  const options = { params: new HttpParams(httpParams), headers: headers };
-  const options1 = {  headers: headers };
-
-  return this.httpClient.get(this.RestUrl +"ViewTBLShamelEmployee/prev_Computer_ID/"+Computer_ID,options);  
-  
+prev_computer_id(Computer_ID:string ):Observable <ViewTBLShamelEmployee>  {
+  return this.httpClient.get<ViewTBLShamelEmployee>(this.RestUrl +"ViewTBLShamelEmployee/prev_computer_id/"+Computer_ID);  
 }
 
-next_Computer_ID(Computer_ID:string )  {
-
-  const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-  const httpParams: HttpParamsOptions = {
-     'Computer_ID': Computer_ID
- } as HttpParamsOptions;  
-  const options = { params: new HttpParams(httpParams), headers: headers };
-  const options1 = {  headers: headers };
-
-  return this.httpClient.get(this.RestUrl +"ViewTBLShamelEmployee/next_Computer_ID/"+Computer_ID,options);  
-  
-}
-
-prev_id(id:string )  {
-
-  const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
- 
-  const options = { headers: headers };
-
-  return this.httpClient.get(this.RestUrl +"ViewTBLShamelEmployee/prev_id/"+id,options) as Observable<{Result:ViewTBLShamelEmployee}>;  
-  
+next_computer_id(Computer_ID:string )  {
+  return this.httpClient.get<ViewTBLShamelEmployee>(this.RestUrl +"ViewTBLShamelEmployee/next_computer_id/"+Computer_ID);  
 }
 
 
-next_id(id:string )  {
-
-  const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-  const httpParams: HttpParamsOptions = {
-     'id': id
- } as HttpParamsOptions;  
-  const options = { params: new HttpParams(httpParams), headers: headers };
-  const options1 = {  headers: headers };
-
-  return this.httpClient.get(this.RestUrl +"ViewTBLShamelEmployee/next_id/"+id,options) as Observable<{Result:ViewTBLShamelEmployee}>;  
-  
+prev_global_id(Computer_ID:string ):Observable <ViewTBLShamelEmployee>  {
+  return this.httpClient.get<ViewTBLShamelEmployee>(this.RestUrl +"ViewTBLShamelEmployee/prev_global_id/"+Computer_ID);  
 }
 
-prev_accounter(id:number, serial: number )  {
+next_global_id(Computer_ID:string )  {
+  return this.httpClient.get<ViewTBLShamelEmployee>(this.RestUrl +"ViewTBLShamelEmployee/next_global_id/"+Computer_ID);  
+}
 
-  const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
- 
-  const options = { headers: headers };
+prev_id(id:string ):Observable <ViewTBLShamelEmployee> {
+    return this.httpClient.get<ViewTBLShamelEmployee>(this.RestUrl +"ViewTBLShamelEmployee/prev_id/"+id) ;    
+}
 
-  return this.httpClient.get(this.RestUrl +"TBLShamelEmployee/prev_accounter/"+id+"/"+serial,options) as Observable<{Result:ViewTBLShamelEmployee}>;  
-  
+
+next_id(id:string ):Observable <ViewTBLShamelEmployee>  {
+  return this.httpClient.get<ViewTBLShamelEmployee>(this.RestUrl +"ViewTBLShamelEmployee/next_id/"+id) ;    
+}
+
+prev_accounter(id:number, serial: number )  :Observable <ViewTBLShamelEmployee> {
+  return this.httpClient.get<ViewTBLShamelEmployee>(this.RestUrl +"TBLShamelEmployee/prev_accounter/"+id+"/"+serial) ;    
 }
 
 next_accounter(id:number, serial: number ) :Observable<TBLShamelEmployee>  {
-
-  const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
- 
-  const options = { headers: headers };
-
-  return this.httpClient.get<TBLShamelEmployee>(this.RestUrl +"TBLShamelEmployee/next_accounter/"+id+"/"+serial,options) ;  
-  
+  return this.httpClient.get<TBLShamelEmployee>(this.RestUrl +"TBLShamelEmployee/next_accounter/"+id+"/"+serial) ;    
 }
  
 
 search_by_accounter(id:number, serial: number ) :Observable<TBLShamelEmployee>  {
+  return this.httpClient.get<TBLShamelEmployee>(this.RestUrl +"TBLShamelEmployee/search_by_accounter/"+id+"/"+serial) ;    
+}
 
-  const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
- 
-  const options = { headers: headers };
-
-  return this.httpClient.get<TBLShamelEmployee>(this.RestUrl +"TBLShamelEmployee/search_by_accounter/"+id+"/"+serial,options) ;  
+search_by_id(id:string ) :Observable<ViewTBLShamelEmployee> {
+  return this.httpClient.get<ViewTBLShamelEmployee>(this.RestUrl +`ViewTBLShamelEmployee/search_by_id/${id}`);  
   
 }
 
+Search_global_id(global_id:string ) :Observable<ViewTBLShamelEmployee> {
+  return this.httpClient.get<ViewTBLShamelEmployee>(this.RestUrl +`ViewTBLShamelEmployee/Search_global_id/${global_id}`);    
+}
 
-  }
+Search_computer_id(computer_id:string ) :Observable<ViewTBLShamelEmployee> {
+  return this.httpClient.get<ViewTBLShamelEmployee>(this.RestUrl +`ViewTBLShamelEmployee/Search_computer_id/${computer_id}`);    
+}
+
+}
   

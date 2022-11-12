@@ -44,4 +44,9 @@ export class TBLShamelSCFreeHolidayService {
     return this.httpClient.put(this.RestUrl +"TBLShamelSCFreeHoliday/"+obj.serial,obj,options);
   }
 
+  Validate(obj : ITBLShamelSCFreeHoliday )  {
+    return this.httpClient.post(this.RestUrl +"TBLShamelSCFreeHoliday/Validate",obj);
+  }
+  
+
 }

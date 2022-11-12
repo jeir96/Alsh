@@ -10,7 +10,7 @@ export interface ITBLShamelSCJobState {
     id ?: number  ;
     changedate?:Date  ;
     changereason_id ?:number  ;
-    documenttype_id?:string  ;
+    documenttype_id?:number  ;
     doc_number?:string  ;
     doc_date?:Date  ;
     department_id?:number;

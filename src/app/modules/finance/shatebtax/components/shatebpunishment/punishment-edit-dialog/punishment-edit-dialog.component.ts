@@ -251,9 +251,9 @@ export class PunishmentEditDialogComponent implements OnInit {
 
   OnIdChange($event: any) {
     let id = this.Form.controls['id'].value;
-    this.viewTBLShamelEmployeeService.SearchByID(id).subscribe
-      ((data: ViewTBLShamelEmployee[]) => {
-        if (data != null && data.length > 0) {
+    this.viewTBLShamelEmployeeService.search_by_id(id).subscribe
+      ((data: ViewTBLShamelEmployee) => {
+        if (data != null ) {
           //   this.Form.controls['id'].setErrors({ match: false, notUnique: true });
 
         } else {

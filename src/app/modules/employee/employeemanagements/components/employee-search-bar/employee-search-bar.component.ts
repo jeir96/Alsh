@@ -1,15 +1,20 @@
 import { _isNumberValue } from '@angular/cdk/coercion';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, UntypedFormBuilder } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { startWith, map, BehaviorSubject, filter, distinctUntilChanged, debounceTime, switchMap, tap, finalize } from 'rxjs';
-import { EmployeeSeachDialogComponent } from '../tblshamelemployee/employee-seach-dialog/employee-seach-dialog.component';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { startWith, map, debounceTime, switchMap, tap, finalize, forkJoin, Observable, of } from 'rxjs';
 import { ViewTBLShamelEmployeeService } from 'src/app/modules/shared/services/employees_department/view-tbl-shamel-employee.service';
-import { IEmployeeNameList } from 'src/app/modules/shared/models/employees_department/IEmployeeNameList';
-import { TBLShamelEmployee } from 'src/app/modules/shared/models/employees_department/TBLShamelEmployee';
 import { EmployeeServiceService } from 'src/app/modules/shared/services/employees_department/employee-service.service';
-import { IGlobalEmployeeList } from 'src/app/modules/shared/services/employees_department/IGlobalEmployeeList';
+import { SearchEmployeeDialogComponent } from 'src/app/modules/finance/payrol/componenets/employee/search-employee-dialog/search-employee-dialog.component';
+import { TblShamelNewPayrolAddPageServiceService } from 'src/app/modules/finance/payrol/componenets/newpayroladd/TbLShamelNewPayrol/tbl-shamel-new-payrol-add-page-service.service';
+import { ITBLShamelAccounter } from 'src/app/modules/shared/models/employees_department/TBLShamelAccounter';
+import { TBLShamelMonth } from 'src/app/modules/shared/models/employees_department/TBLShamelMonth';
+import { TBLShamelYear } from 'src/app/modules/shared/models/employees_department/TBLShamelYear';
+import { ViewTBLShamelEmployee } from 'src/app/modules/shared/models/employees_department/ViewTBLSamelEmployee';
+import { TBLShamelAccounterService } from 'src/app/modules/shared/services/employees_department/tblshamel-accounter.service';
+import { TBLShamelMonthService } from 'src/app/modules/shared/services/employees_department/tblshamel-month.service';
+import { TBLShamelYearService } from 'src/app/modules/shared/services/employees_department/tblshamel-year.service';
+import { EmployeeSeachDialogComponent } from '../employee-seach-dialog/employee-seach-dialog.component';
 
 @Component({
   selector: 'app-employee-search-bar',
@@ -17,234 +22,256 @@ import { IGlobalEmployeeList } from 'src/app/modules/shared/services/employees_d
   styleUrls: ['./employee-search-bar.component.scss']
 })
 export class EmployeeSearchBarComponent implements OnInit {
-  isLoading:any;
-  errorMsg:any;
 
-  SearchForm: UntypedFormGroup ;
-  autocomplete_EmployeeName = new UntypedFormControl();
-  input_Employee_Computer_ID =new UntypedFormControl();
-  input_Employee_ID =new UntypedFormControl();
-
-  EmployeeNameList:IEmployeeNameList[] = [];
-  filteredEmployeeNameList: IEmployeeNameList[];
-  
-  SelectedEmp :  BehaviorSubject<TBLShamelEmployee> = new BehaviorSubject({});
-  @Output() OnFindEmployee = new EventEmitter<TBLShamelEmployee>();
-
-  constructor( private fb: UntypedFormBuilder,
-    public restApi:EmployeeServiceService,
-
-    public viewTBLShamelEmployeeService:ViewTBLShamelEmployeeService,
-    public GlobalEmployeeList : IGlobalEmployeeList,
-    public dialog: MatDialog, ) {
-
-      this.SelectedEmp.subscribe(data =>
-        {
-          let I:IEmployeeNameList =
-          {
-            computer_id : data?.Computer_ID,
-            fullname : data?.FullName,
-            payrol_id : data?.Payrol_ID,
-            id:data?.id,
-            global_id:data?.Global_ID,
-            insurance_id:data?.Insurance_ID?.toString()
-          };
-
-          this.input_Employee_Computer_ID.setValue(this.SelectedEmp.getValue().Computer_ID) ;
-          this.input_Employee_ID.setValue(this.SelectedEmp.getValue().id)    ;
-          this.autocomplete_EmployeeName.setValue(I);
-
-          this.OnFindEmployee.emit(data);
-        }
-      );
-
-      if (IGlobalEmployeeList.EmployeeNameList && IGlobalEmployeeList.EmployeeNameList.length>0){
-        this.EmployeeNameList=IGlobalEmployeeList.EmployeeNameList;   
-       }else{
-    
-        this.viewTBLShamelEmployeeService.getEmpFullName("").subscribe(
-          (data:any) => {
-          
-          this.EmployeeNameList=data;   
-           console.log(data);
-    
-        });
-    
-       }
-       this.BuildSeachForm();
-
-     }
-
-     BuildSeachForm()
-     {
-      this.SearchForm = this.fb.group({
-        });
-        this.SearchForm .addControl('autocomplete_EmployeeName',this.autocomplete_EmployeeName);
-        this.SearchForm .addControl('input_Employee_ID',this.input_Employee_ID);
-        this.SearchForm .addControl('input_Employee_Computer_ID',this.input_Employee_Computer_ID);
-        
-  
-     }
-     
-  ngOnInit(): void {
-
-
-    this.autocomplete_EmployeeName.valueChanges
-      .pipe(
-        filter(res => {
-          return res !== null && res.length >= 4
-        }),
-        distinctUntilChanged(),
-        debounceTime(1000),
-        tap(() => {
-          this.errorMsg = "";
-          this.filteredEmployeeNameList = [];
-          this.isLoading = true;
-        }),
-        switchMap(value => 
-          this.viewTBLShamelEmployeeService.getEmpFullName(value)
-          .pipe(
-            finalize(() => {
-              this.isLoading = false
-            }),
-          )
-        )
-      )
-      .subscribe((data: any) => {
-        if (data == undefined) {
-          this.errorMsg = '';
-          this.filteredEmployeeNameList = [];
-        } else {
-          this.errorMsg = "";
-          this.filteredEmployeeNameList= data;
-        }
-        console.log('أنا عون');
-        console.log(this.filteredEmployeeNameList);
+  _Selected_Employee: ViewTBLShamelEmployee;
+  set Selected_Employee(obj:ViewTBLShamelEmployee)
+  {
+    this._Selected_Employee = obj;
+    if (this._Selected_Employee.id!= null && this._Selected_Employee.id >0)
+    {
+      this.employeeService.search_by_id(this._Selected_Employee.id.toString()).
+      subscribe(res => {
+        this.pageService.TBLShamelEmployee = res;
       });
-
     }
 
 
- OnSelectEmpFullNameChange(event: MatAutocompleteSelectedEvent) {
-  let x :IEmployeeNameList = event.option.value as IEmployeeNameList;
-  if (x && x.id)
-  {
-    
-   this.restApi.search_by_id(x.id.toString()).subscribe(
-    (data:any) => {
-      this.SelectedEmp .next(data);     
-      
-  });
-
+    this.bindValue ();
 
   }
- }
-
- display_Employee(emp : IEmployeeNameList)
- {
-  return emp && emp.fullname ? emp.fullname : '';
- }
-
- Computer_ID_Filter(val: any) {
-
-  if (val && _isNumberValue(val) )
+  get  Selected_Employee():ViewTBLShamelEmployee
   {
-    this.restApi.search_by_Computer_ID(val).subscribe(
-      (data:any) => {
-        
-        this.SelectedEmp .next(data);
-        
+return this._Selected_Employee;
+  }
+
+  // Filtering
+
+  List_Employee: ViewTBLShamelEmployee[];
+  List_Employee_Filter: Observable<ViewTBLShamelEmployee[]>;
+  Form: FormGroup;
+  
+  constructor(
+    public dialog: MatDialog,
+    private frmBuilder: FormBuilder,
  
+    public viewTBLShamelEmployeeService: ViewTBLShamelEmployeeService,
+    public employeeService: EmployeeServiceService,
+    public pageService: TblShamelNewPayrolAddPageServiceService
+  ) {
+    this.BuildForm();
+  }
+
+  ngOnInit(): void {
+  }
+
+  BuildForm() {
+    this.Form = this.frmBuilder.group({
+      'global_id': new FormControl<number | null>(null),
+      'computer_id': new FormControl<number | null>(null),
+      'id': new FormControl<number | null>(null),
+      'fullname': new FormControl<ViewTBLShamelEmployee | null>(null),
+      'malakstate_name': new FormControl<string | null>(null)
     });
+    if (this.Form != null) {
+      this.Form.controls['fullname']
+        .valueChanges
+        .pipe(
+          debounceTime(200),
+          tap(() => { }),
+          switchMap((value: string) => this.viewTBLShamelEmployeeService.getEmpFullName2(value)
+            .pipe(
+              finalize(() => { }),
+            )
+          )
+        )
+        .subscribe(emps => {
+          if (emps != null && emps.length > 0
+          ) {
+            this.List_Employee = emps;
+            this.List_Employee_Filter = of(emps);
+           
+          }
+        });
 
+    }
   }
 
-
-  }
-
-  Employee_ID_Filter(val: any) {
-
-    if (val && _isNumberValue(val) )
+  bindValue ()
+  {
+    if (this.Selected_Employee == null || this.Selected_Employee.id == null)
     {
+      this.Form.reset();
+      return;
+
+    }
    
-   this.restApi.search_by_id(val).subscribe(
-     (data:any) => {        
-       this.SelectedEmp .next(data);
-     
-   });
-  }
-  }
-
-
-  btnNextId(id:string)
-  {
-    if (id &&  _isNumberValue(id))
-  {
-    this.viewTBLShamelEmployeeService.next_id(id).subscribe(
-      (data:any) => {
-       
-
-            
-        this.SelectedEmp.next(data);
-    });
-  }
-  }
-
-  btnPrevId(id:string)
-  {
-    if (id &&  _isNumberValue(id))
-    {
-    this.viewTBLShamelEmployeeService.prev_id(id).subscribe(
-      (data:any) => {
-        console.log('انا ضمن prev');                      
-            console.log(data);
-        this.SelectedEmp.next(data); 
-    });
-  }
-  }
-
-  btnNextComputer_ID(Computer_ID:string)
-  {
-    if (Computer_ID && _isNumberValue(Computer_ID) )
-  {
     
-    this.viewTBLShamelEmployeeService.next_Computer_ID(Computer_ID).subscribe(
-      (data:any) => {
-      
-     
-        this.SelectedEmp .next(data);
+    if (this.Selected_Employee != null ) 
+      this.Form.controls['fullname'].setValue(this.Selected_Employee);
+  
+
+    if (this.Selected_Employee.id != null && this.Selected_Employee.id > 0) 
+
+      this.Form.controls['id'].setValue(this.Selected_Employee.id);
+  
+
+  if (this.Selected_Employee.id != null && this.Selected_Employee.id > 0) {
+    this.Form.controls['id'].setValue(this.Selected_Employee.id);
+
+    if (this.Selected_Employee != null && this.Selected_Employee.global_id != null && this.Selected_Employee.global_id != null)
+      this.Form.controls['global_id'].setValue(this.Selected_Employee.global_id);
+
+    if (this.Selected_Employee != null && this.Selected_Employee.computer_id != null && this.Selected_Employee.computer_id != null)
+      this.Form.controls['computer_id'].setValue(this.Selected_Employee.computer_id);
+
+    if (this.Selected_Employee != null && this.Selected_Employee.malakstate_name != null && this.Selected_Employee.malakstate_name != null)
+      this.Form.controls['malakstate_name'].setValue(this.Selected_Employee.malakstate_name);
+
+   
+  }
+  }
+
+  displayEmployeeFn(emp: ViewTBLShamelEmployee) {
+    if (emp != null && emp.id > 0) {
+      return emp.fullname;
+    }
+    return '';
+  }
+
+
+  onEmployeeSelected(emp: any) {
+
+    
+
+    this.Selected_Employee = emp;
+
+   
+  }
+
+  searchEmployee() {
+    const dialogRef = this.dialog.open(EmployeeSeachDialogComponent, {
+      width: '750px',
+      data: {},
     });
-  }
-  }
 
-  btnPrevComputer_ID(Computer_ID:string)
-  {
-    console.log(Computer_ID);
-    console.log(_isNumberValue(Computer_ID));
-    console.log(Computer_ID &&  _isNumberValue(Computer_ID) ==true);
-
-
-    if (Computer_ID &&  _isNumberValue(Computer_ID) ==true)
-    {
-      console.log('dsdsdsd');
-
-    this.viewTBLShamelEmployeeService.prev_Computer_ID(Computer_ID).subscribe(
-      (data:any) => {
-        
-        this.SelectedEmp.next(data);  
-
-             
-         
-    });
-  }
-  }
-
-  openEmpSearchDialog() {
-    const dialogConfig = new MatDialogConfig();    
-    const dialogRef = this.dialog.open(EmployeeSeachDialogComponent,dialogConfig );
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      this.Selected_Employee = result;
+
     });
+  }
+
+  next_global_id() {
+    if (this.Selected_Employee != null &&
+      this.Selected_Employee.global_id != null) {
+
+      this.viewTBLShamelEmployeeService.next_global_id(this.Selected_Employee.global_id).subscribe(
+        res => {
+          this.Selected_Employee = res;
+        }
+      );
+    }
+
+  }
+
+  previous_global_id() {
+
+    if (this.Selected_Employee != null &&
+      this.Selected_Employee.global_id != null &&
+      this.Selected_Employee.global_id != null) {
+
+
+      this.viewTBLShamelEmployeeService.prev_global_id(this.Selected_Employee.global_id).subscribe(
+        res => {
+          this.Selected_Employee = res;
+        }
+      );
+    }
+  }
+
+
+  previous_computer_id() {
+    if (this.Selected_Employee != null &&
+      this.Selected_Employee.computer_id != null) {
+        this.viewTBLShamelEmployeeService.prev_computer_id(this.Selected_Employee.computer_id.toString()).subscribe(
+        res => {
+          this.Selected_Employee = res;
+        }
+      );
+    }
+
+  }
+
+  next_computer_id() {
+
+    if (this.Selected_Employee != null &&
+      this.Selected_Employee.computer_id != null &&
+      this.Selected_Employee.computer_id != null) {
+
+      this.viewTBLShamelEmployeeService.next_computer_id(this.Selected_Employee.computer_id.toString()).subscribe(
+        res => {
+          this.Selected_Employee = res;
+        }
+      );
+    }
+  }
+
+  computer_id_Changed() {
+    if (this.Form != null &&
+      this.Form.controls['computer_id'].value != null &&
+      this.Form.controls['computer_id'].value != null) {
+      this.viewTBLShamelEmployeeService.Search_computer_id(this.Form.controls['computer_id'].value).subscribe(
+        res => {
+          this.Selected_Employee = res;
+        }
+      );
+    }
+  }
+
+  global_id_Changed() {
+    if (this.Form != null &&
+      this.Form.controls['global_id'].value != null &&
+      this.Form.controls['global_id'].value != null) {
+      this.viewTBLShamelEmployeeService.Search_global_id(this.Form.controls['global_id'].value ).subscribe(
+        res => {
+          this.Selected_Employee = res;
+        }
+      );
+    }
+  }
+
+  nextId() {
+    if (this.Selected_Employee != null &&
+      this.Selected_Employee.id != null) {
+      this.viewTBLShamelEmployeeService.next_id(this.Selected_Employee.id.toString()).subscribe(
+        res => {
+          this.Selected_Employee = res;
+        }
+      );
+    }
+  }
+
+  previousId() {
+    if (this.Selected_Employee != null &&
+      this.Selected_Employee.id != null) {
+      this.viewTBLShamelEmployeeService.prev_id(this.Selected_Employee.id.toString()).subscribe(
+        res => {
+          this.Selected_Employee = res;
+        }
+      );
+    }
+  }
+
+  idChanged() {
+
+    if (this.Form != null &&
+      this.Form.controls['id'].value != null &&
+      this.Form.controls['id'].value != null)  {
+      this.viewTBLShamelEmployeeService.search_by_id(this.Form.controls['id'].value.toString()).subscribe(
+        res => {
+          this.Selected_Employee = res;
+        }
+      );
+    }
   }
 
 }

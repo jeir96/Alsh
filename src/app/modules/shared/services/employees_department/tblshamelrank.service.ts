@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParamsOptions } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TransitionCheckState } from '@angular/material/checkbox';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ITBLShamelRank } from '../../models/employees_department/ITBLShamelRank';
 
 @Injectable({
@@ -22,11 +22,10 @@ export class TblshamelrankService {
  
   constructor(private httpClient : HttpClient) { }
 
-  list()  {
+  list() : Observable<ITBLShamelRank[]> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const options = {  headers: headers };  
-    return this.httpClient.get(this.RestUrl +"TBLShamelRank",options);  
-    
+    return this.httpClient.get<ITBLShamelRank[]>(this.RestUrl +"TBLShamelRank",options);      
   }
 
   fill()  {

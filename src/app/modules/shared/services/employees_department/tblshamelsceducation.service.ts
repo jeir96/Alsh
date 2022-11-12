@@ -53,4 +53,16 @@ export class TblshamelsceducationService {
     return this.httpClient.put(this.RestUrl +"TBLShamelSCEducation/"+obj.serial,obj,options);
   }
 
+  Validate(obj : ITBLShamelSCEducation )  {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const httpParams: HttpParamsOptions = { 'obj': obj } as HttpParamsOptions;
+  
+    const options = {  headers: headers };
+    console.log(this.RestUrl +"TBLShamelSCEducation/"+obj.serial);
+    return this.httpClient.put(this.RestUrl +"TBLShamelSCEducation/Validate",obj);
+  }
+
+
+  
+
 }

@@ -17,7 +17,7 @@ export function  Validate_ID( TBLShamelEmployeeService:ViewTBLShamelEmployeeServ
 
 
 
-        return TBLShamelEmployeeService.SearchByID (formControl.value).
+        return TBLShamelEmployeeService.search_by_id (formControl.value).
         pipe(map(
           (data:any ) => 
           {           

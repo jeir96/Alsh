@@ -56,7 +56,7 @@ export interface TBLShamelEmployee {
       Rem2?:string;
       Rem3?:string;
       Qarar_Num?:string;
-      QararDate?:string;
+      QararDate?:Date;
       Photo?:string;    
       EnterUserName?:string;
       EnterDate?:string;

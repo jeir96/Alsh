@@ -71,7 +71,6 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, OnChanges
 
 
   ngOnInit() {
-    // alert("abcde")
 
 
 

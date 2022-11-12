@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParamsOptions } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ITBLShamelPunishmentReason } from '../../models/employees_department/ITBLShamelPunishmentReason';
 
 @Injectable({
@@ -19,11 +19,10 @@ export class TBLShamelPunishmentReasonService {
  
   constructor(private httpClient : HttpClient) { }
 
-  list()  {
+  list() :Observable<ITBLShamelPunishmentReason[]> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const options = {  headers: headers };  
-    return this.httpClient.get(this.RestUrl +"TBLShamelPunishmentReason",options);  
-    
+    return this.httpClient.get<ITBLShamelPunishmentReason[]>(this.RestUrl +"TBLShamelPunishmentReason",options);      
   }
 
 

@@ -1,12 +1,12 @@
 
-import { Component, OnInit, AfterViewInit, Input, Inject, NgZone } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, UntypedFormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, AfterViewInit, Input, Inject, NgZone, OnDestroy } from '@angular/core';
+import { UntypedFormGroup, UntypedFormControl, UntypedFormBuilder, Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as _moment from 'moment';
 import { Moment } from 'moment';
-import { Observable, of, startWith, map } from 'rxjs';
+import { Observable, of, startWith, map, Subscription, combineLatest, forkJoin } from 'rxjs';
 import { ITBLShamelChangeReason } from 'src/app/modules/shared/models/employees_department/ITBLShamelChangeReason';
 import { ITBLShamelClass } from 'src/app/modules/shared/models/employees_department/ITBLShamelClass';
 import { ITBLShamelDepartment } from 'src/app/modules/shared/models/employees_department/ITBLShamelDepartment';
@@ -15,6 +15,7 @@ import { ITBLShamelIncMarsoom } from 'src/app/modules/shared/models/employees_de
 import { ITBLShamelJobKind } from 'src/app/modules/shared/models/employees_department/ITBLShamelJobKind';
 import { ITBLShamelJobName } from 'src/app/modules/shared/models/employees_department/ITBLShamelJobName';
 import { ITBLShamelSCJobState } from 'src/app/modules/shared/models/employees_department/ITBLShamelSCJobState';
+import { TBLShamelSCFreeHolidayService } from 'src/app/modules/shared/services/employees_department/tblshamel-scfree-holiday.service';
 import { TblshamelchangereasonService } from 'src/app/modules/shared/services/employees_department/tblshamelchangereason.service';
 import { TblshamelclassService } from 'src/app/modules/shared/services/employees_department/tblshamelclass.service';
 import { TblshameldepartmentService } from 'src/app/modules/shared/services/employees_department/tblshameldepartment.service';
@@ -32,9 +33,9 @@ const moment = _moment;
   templateUrl: './tblshamelscjobstatemodify.component.html',
   styleUrls: ['./tblshamelscjobstatemodify.component.scss']
 })
-export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit {
+export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit, OnDestroy {
   //Link To Employee 
-  id: number;
+  id_employee: number;
   Selected_Emp: ITBLShamelSCJobState = {};
 
   _Selected_Employee_JobState: ITBLShamelSCJobState = {};
@@ -46,8 +47,8 @@ export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit
       this._Selected_Employee_JobState != undefined &&
       this._Selected_Employee_JobState.serial != null &&
       this._Selected_Employee_JobState.serial > 0) {
-      console.log('سث');
-      this.SetValue();
+
+
     }
   }
 
@@ -80,21 +81,24 @@ export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit
   ChangeReason_List: ITBLShamelChangeReason[] = [];
   filteredChangeReasonOptions: Observable<ITBLShamelChangeReason[]>;
 
+  _Subscription: Subscription;
 
   // Access To Element in Form
-  Form: UntypedFormGroup;
-  incmarsoom_id: UntypedFormControl;
-  changedate: UntypedFormControl;
-  doc_date: UntypedFormControl;
-  begindate: UntypedFormControl;
-  doc_number: UntypedFormControl;
-  salary: UntypedFormControl;
-  changereason_id: UntypedFormControl;
-  documenttype_id: UntypedFormControl;
-  department_id: UntypedFormControl;
-  jobname_id: UntypedFormControl;
-  jobkind_id: UntypedFormControl;
-  class_id: UntypedFormControl;
+  Form: FormGroup;
+  serial: FormControl<number | null>;
+  id: FormControl<number | null>;
+  incmarsoom_id: FormControl<number | null>;
+  changedate: FormControl<Date | null>;
+  doc_date: FormControl<Date | null>;
+  begindate: FormControl<Date | null>;
+  doc_number: FormControl<string | null>;
+  salary: FormControl<number | null>;
+  changereason_id: FormControl<number | null>;
+  documenttype_id: FormControl<number | null>;
+  department_id: FormControl<number | null>;
+  jobname_id: FormControl<number | null>;
+  jobkind_id: FormControl<number | null>;
+  class_id: FormControl<number | null>;
 
 
 
@@ -114,94 +118,179 @@ export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit
     public documentTypeService: TblshameldocumenttypeService,
     public classService: TblshamelclassService,
     public changereasonService: TblshamelchangereasonService,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private ngZone: NgZone,
   ) {
 
-    this.PageService.Subject_Selected_TBLShamelEmployee.subscribe(
-      data => {
-        this.Selected_Emp = data;
-        this.id = this.Selected_Emp.id;
-      }
-    )
+    if (data != null && data.obj != null && data.id != null && data.id > 0) {
+      this.id_employee = data.id;
+      this.Selected_Employee_JobState = data.obj;
+    }
+    this.BuildForm();
+    this.Load_Data();
 
+  }
+  ngOnDestroy(): void {
 
+    this._Subscription.unsubscribe();
+  }
+
+  Load_TBLShamelChangeReason(): Observable<ITBLShamelChangeReason[]> {
     if (this.changereasonService.List_ITBLShamelChangeReason == null ||
       this.changereasonService.List_ITBLShamelChangeReason == undefined ||
       this.changereasonService.List_ITBLShamelChangeReason.length == 0)
-      this.changereasonService.fill();
-    this.changereasonService.List_ITBLShamelChangeReason_BehaviorSubject.subscribe(
-      data => {
-        this.ChangeReason_List = data;
-        this.filteredChangeReasonOptions = of(this.ChangeReason_List);
-      }
-    )
+      return this.changereasonService.list();
+    return of(this.changereasonService.List_ITBLShamelChangeReason);
+  }
 
 
+
+
+  Load_TBLShamelIncMarsoom(): Observable<ITBLShamelIncMarsoom[]> {
     if (this.marsoomService.List_ITBLShamelIncMarsoom == null ||
       this.marsoomService.List_ITBLShamelIncMarsoom == undefined ||
       this.marsoomService.List_ITBLShamelIncMarsoom.length == 0)
-      this.marsoomService.fill();
-    this.marsoomService.List_ITBLShamelIncMarsoom_BehaviorSubject.subscribe(
-      data => {
-        this.Marsoom_List = data;
-        this.filteredMarsoomOptions = of(this.Marsoom_List);
-      }
-    )
+      return this.marsoomService.list();
+    return of(this.marsoomService.List_ITBLShamelIncMarsoom);
+
+  }
 
 
 
+
+  Load_TBLShamelDepartment(): Observable<ITBLShamelDepartment[]> {
     if (this.departmentService.List_ITBLShamelDepartment == null ||
       this.departmentService.List_ITBLShamelDepartment == undefined ||
       this.departmentService.List_ITBLShamelDepartment.length == 0)
-      this.departmentService.fill();
-    this.departmentService.List_ITBLShamelDepartment_BehaviorSubject.subscribe(
-      data => {
-        this.Department_List = data;
-        this.filteredDepartmentOptions = of(this.Department_List);
-      }
-    )
+      return this.departmentService.list();
 
-
-    if (this.jobNameService.list_ITBLShamelJobName == null ||
-      this.jobNameService.list_ITBLShamelJobName == undefined ||
-      this.jobNameService.list_ITBLShamelJobName.length == 0)
-      this.jobNameService.fill();
-    this.jobNameService.List_ITBLShamelJobName_BehaviorSubject.subscribe(
-      data => {
-        this.JobName_List = data;
-        this.filteredJobNameOptions = of(this.JobName_List);
-      }
-    )
-
-    if (this.jobKindService.list_ITBLShamelJobKind == null ||
-      this.jobKindService.list_ITBLShamelJobKind == undefined ||
-      this.jobKindService.list_ITBLShamelJobKind.length == 0)
-      this.jobKindService.fill();
-    this.jobKindService.List_ITBLShamelJobKind_BehaviorSubject.subscribe(
-      data => {
-        this.JobKind_List = data;
-        this.filteredJobKindOptions = of(this.JobKind_List);
-      }
-    )
-
-
-    this.BuildForm();
-    this.FillArrayUsingService();
-
-    if (data!= null  && data.obj!= null && data.id!= null && data.id> 0) {
-      this.id = data.id;
-      this.Selected_Employee_JobState = data.obj;
-    }
-
-
-
-
-
+    return of(this.departmentService.List_ITBLShamelDepartment);
 
 
 
   }
+
+
+
+  Load_ITBLShamelJobName(): Observable<ITBLShamelJobName[]> {
+    if (this.jobNameService.list_ITBLShamelJobName == null ||
+      this.jobNameService.list_ITBLShamelJobName == undefined ||
+      this.jobNameService.list_ITBLShamelJobName.length == 0)
+      return this.jobNameService.list();
+    return of(this.jobNameService.list_ITBLShamelJobName);
+  }
+
+  Load_ITBLShamelJobKind(): Observable<ITBLShamelJobKind[]> {
+    if (this.jobKindService.list_ITBLShamelJobKind == null ||
+      this.jobKindService.list_ITBLShamelJobKind == undefined ||
+      this.jobKindService.list_ITBLShamelJobKind.length == 0)
+      return this.jobKindService.list();
+    return of(this.jobKindService.list_ITBLShamelJobKind);
+  }
+
+
+  Load_TBLShamelDocumentType(): Observable<ITBLShamelDocumentType[]> {
+    if (this.documentTypeService.List_ITBLShamelDocumentType == null ||
+      this.documentTypeService.List_ITBLShamelDocumentType == undefined ||
+      this.documentTypeService.List_ITBLShamelDocumentType.length == 0)
+      return this.documentTypeService.list();
+    return of(this.documentTypeService.List_ITBLShamelDocumentType);
+
+  }
+
+
+  Load_Data() {
+    combineLatest([this.PageService.Subject_Selected_TBLShamelEmployee]).subscribe
+      (
+        res => {
+          this.Selected_Emp = res[0];
+          if (this.Selected_Emp != null && this.Selected_Emp.id != null)
+            this.id_employee = this.Selected_Emp.id;
+
+          this._Subscription = forkJoin(
+            this.Load_TBLShamelChangeReason(),
+            this.Load_TBLShamelIncMarsoom(),
+            this.Load_TBLShamelDepartment(),
+            this.Load_ITBLShamelJobName(),
+            this.Load_ITBLShamelJobKind(),
+            this.Load_TBLShamelDocumentType()
+          ).subscribe(
+            res => {
+
+              this.ChangeReason_List = res[0];
+              this.filteredChangeReasonOptions = of(this.ChangeReason_List);
+              this.changereasonService.List_ITBLShamelChangeReason = res[0];
+              this.changereasonService.List_ITBLShamelChangeReason_BehaviorSubject.next(this.ChangeReason_List);
+
+
+              this.Marsoom_List = res[1];
+              this.filteredMarsoomOptions = of(this.Marsoom_List);
+              this.marsoomService.List_ITBLShamelIncMarsoom = res[1];
+              this.marsoomService.List_ITBLShamelIncMarsoom_BehaviorSubject.next(this.Marsoom_List);
+
+
+
+              this.Department_List = res[2];
+              this.filteredDepartmentOptions = of(this.Department_List);
+              this.departmentService.List_ITBLShamelDepartment = res[2];
+              this.departmentService.List_ITBLShamelDepartment_BehaviorSubject.next(this.Department_List);
+
+              this.JobName_List = res[3];
+              this.filteredJobNameOptions = of(this.JobName_List);
+              this.jobNameService.list_ITBLShamelJobName = res[3];
+              this.jobNameService.List_ITBLShamelJobName_BehaviorSubject.next(this.JobName_List);
+
+
+              this.JobKind_List = res[4];
+              this.filteredJobKindOptions = of(this.JobKind_List);
+              this.jobKindService.list_ITBLShamelJobKind = res[4];
+              this.jobKindService.List_ITBLShamelJobKind_BehaviorSubject.next(this.JobKind_List);
+
+
+              this.DocumentType_List = res[5];
+              this.filteredDocumentTypeOptions = of(res[5]);
+              this.documentTypeService.List_ITBLShamelDocumentType = res[5];
+              this.documentTypeService.List_ITBLShamelDocumentType_BehaviorSubject.next(res[5]);
+
+
+              this.FillArrayUsingService();
+
+              this.SetValue();
+            }
+          )
+        }
+      )
+  }
+
+  //#endregion
+  public BuildForm() {
+    try {
+      // Access To Element in Form
+      this.Form = this.fb.group(
+        {
+          'serial': this.serial = new FormControl<number | null>(null, []),
+          'id': this.id = new FormControl<number | null>(null, []),
+          'incmarsoom_id': this.incmarsoom_id = new FormControl<number | null>(null, []),
+          'changedate': this.changedate = new FormControl<Date | null>(null, []),
+          'doc_date': this.doc_date = new FormControl<Date | null>(null, []),
+          'begindate': this.begindate = new FormControl<Date | null>(null, []),
+          'doc_number': this.doc_number = new FormControl<string | null>(null, []),
+          'salary': this.salary = new FormControl<number | null>(null, []),
+          'changereason_id': this.changereason_id = new FormControl<number | null>(null, []),
+          'documenttype_id': this.documenttype_id = new FormControl<number | null>(null, []),
+          'department_id': this.department_id = new FormControl<number | null>(null, []),
+          'jobname_id': this.jobname_id = new FormControl<number | null>(null, []),
+          'jobkind_id': this.jobkind_id = new FormControl<number | null>(null, []),
+          'class_id': this.class_id = new FormControl<number | null>(null, []),
+        });
+
+
+    } catch (ex: any) {
+
+    }
+  }
+
+
 
 
   ngAfterViewInit() {
@@ -227,7 +316,7 @@ export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit
           map(value => value && typeof value === 'string' ? this._filteredMarsoom(value) : this.Marsoom_List.slice())
         );
     } catch (ex: any) {
-      console.log(ex);
+
 
     }
 
@@ -254,7 +343,7 @@ export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit
         );
 
     } catch (ex: any) {
-      console.log(ex);
+
 
     }
 
@@ -268,7 +357,7 @@ export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit
         );
 
     } catch (ex: any) {
-      console.log(ex);
+
 
     }
 
@@ -308,47 +397,9 @@ export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit
 
     }
 
-
-
   }
 
-  public BuildForm() {
-    try {
 
-
-      this.incmarsoom_id = new UntypedFormControl({ value: '' }, [Validators.required, Validators.minLength(5)]);
-      this.changedate = new UntypedFormControl({ value: '' },);
-      this.doc_date = new UntypedFormControl('');
-      this.begindate = new UntypedFormControl({ value: '' });
-      this.doc_number = new UntypedFormControl('');
-      this.salary = new UntypedFormControl('');
-      this.changereason_id = new UntypedFormControl('');
-      this.documenttype_id = new UntypedFormControl('');
-      this.department_id = new UntypedFormControl('');
-      this.jobname_id = new UntypedFormControl('');
-      this.jobkind_id = new UntypedFormControl('');
-      this.class_id = new UntypedFormControl('');
-
-      this.Form = this.fb.group({
-      });
-      this.Form.addControl('incmarsoom_id', this.incmarsoom_id);
-      this.Form.addControl('changedate', this.changedate);
-      this.Form.addControl('begindate', this.begindate);
-      this.Form.addControl('changereason_id', this.changereason_id);
-      this.Form.addControl('class_id', this.class_id);
-      this.Form.addControl('department_id', this.department_id);
-      this.Form.addControl('doc_date', this.doc_date);
-      this.Form.addControl('doc_number', this.doc_number);
-      this.Form.addControl('documenttype_id', this.documenttype_id);
-      this.Form.addControl('jobkind_id', this.jobkind_id);
-      this.Form.addControl('jobname_id', this.jobname_id);
-      this.Form.addControl('salary', this.salary);
-
-    } catch (ex: any) {
-      console.log(ex);
-
-    }
-  }
 
   private _filteredMarsoom(value: string): ITBLShamelIncMarsoom[] {
     if (value != null) {
@@ -359,7 +410,7 @@ export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit
   }
 
   private _filteredChangeReason(value: string): ITBLShamelChangeReason[] {
-    if (value != null){
+    if (value != null) {
       const filterValue = value;
       return this.ChangeReason_List.filter(obj => obj.changereason_name.includes(filterValue));
     }
@@ -413,20 +464,6 @@ export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit
   //#region SetValue And GetValue Function
   public ClearForm() {
     try {
-
-
-      this.salary.reset();
-      this.jobname_id.reset();
-      this.jobkind_id.reset();
-      this.incmarsoom_id.reset();
-      this.documenttype_id.reset();
-      this.doc_number.reset();
-      this.doc_date.reset();
-      this.department_id.reset();
-      this.class_id.reset();
-      this.changereason_id.reset();
-      this.begindate.reset();
-      this.changedate.reset();
       this.Form.reset();
     } catch (ex: any) {
       console.log(ex);
@@ -442,11 +479,18 @@ export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit
 
     try {
       if (this.Selected_Employee_JobState != null &&
-        this.Selected_Employee_JobState != undefined &&
-        this.Selected_Employee_JobState.serial != null &&
-        this.Selected_Employee_JobState.serial > 0
+        this.Selected_Employee_JobState != undefined
+
       ) {
-        console.log("iside setvlaue");
+
+        if (this.Selected_Employee_JobState.serial != null &&
+          this.Selected_Employee_JobState.serial != undefined)
+          this.serial.setValue(this.Selected_Employee_JobState.serial);
+
+        if (this.Selected_Employee_JobState.id != null &&
+          this.Selected_Employee_JobState.id != undefined)
+          this.serial.setValue(this.Selected_Employee_JobState.id);
+
 
         if (this.Selected_Employee_JobState.changedate != null &&
           this.Selected_Employee_JobState.changedate != undefined)
@@ -461,24 +505,35 @@ export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit
           this.doc_date.setValue(moment(this.Selected_Employee_JobState.doc_date).toDate());
 
 
+        if (this.Selected_Employee_JobState.class_id != null &&
+          this.Selected_Employee_JobState.class_id != undefined)
+          this.class_id.setValue(this.Selected_Employee_JobState.class_id);
 
-        this.class_id.setValue(this.Selected_Employee_JobState.class_id);
-        this.department_id.setValue(this.Selected_Employee_JobState.department_id);
+        if (this.Selected_Employee_JobState.department_id != null &&
+          this.Selected_Employee_JobState.department_id != undefined)
+          this.department_id.setValue(this.Selected_Employee_JobState.department_id);
+
+        if (this.Selected_Employee_JobState.doc_number != null &&
+          this.Selected_Employee_JobState.doc_number != undefined)
+          this.doc_number.setValue(this.Selected_Employee_JobState.doc_number);
+
+        if (this.Selected_Employee_JobState.documenttype_id != null &&
+          this.Selected_Employee_JobState.documenttype_id != undefined)
+          this.documenttype_id.setValue(this.Selected_Employee_JobState.documenttype_id);
+
+        if (this.Selected_Employee_JobState.jobkind_id != null &&
+          this.Selected_Employee_JobState.jobkind_id != undefined)
+          this.jobkind_id.setValue(this.Selected_Employee_JobState.jobkind_id);
+
+        if (this.Selected_Employee_JobState.jobname_id != null &&
+          this.Selected_Employee_JobState.jobname_id != undefined)
+          this.jobname_id.setValue(this.Selected_Employee_JobState.jobname_id);
+
+        if (this.Selected_Employee_JobState.salary != null &&
+          this.Selected_Employee_JobState.salary != undefined)
+          this.salary.setValue(this.Selected_Employee_JobState.salary);
 
 
-        this.doc_number.setValue(this.Selected_Employee_JobState.doc_number);
-        this.documenttype_id.setValue(this.Selected_Employee_JobState.documenttype_id);
-        this.jobkind_id.setValue(this.Selected_Employee_JobState.jobkind_id);
-        this.jobname_id.setValue(this.Selected_Employee_JobState.jobname_id);
-        this.salary.setValue(this.Selected_Employee_JobState.salary);
-
-        console.log("after set");
-
-
-
-
-
-        //this.Form.patchValue();
 
       }
     } catch (ex: any) {
@@ -504,18 +559,47 @@ export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit
           this.Selected_Employee_JobState.begindate = moment(this.begindate.value).toDate();
 
 
-        this.Selected_Employee_JobState.changereason_id = this.changereason_id.value;
-        this.Selected_Employee_JobState.class_id = this.class_id.value;
-        this.Selected_Employee_JobState.department_id = this.department_id.value;
+        if (this.changereason_id.value != null &&
+          this.changereason_id.value != undefined)
+          this.Selected_Employee_JobState.changereason_id = this.changereason_id.value;
+
+
+        if (this.class_id.value != null &&
+          this.class_id.value != undefined)
+          this.Selected_Employee_JobState.class_id = this.class_id.value;
+
+
+        if (this.department_id.value != null &&
+          this.department_id.value != undefined)
+          this.Selected_Employee_JobState.department_id = this.department_id.value;
+
+
         if (this.doc_date.value != null &&
           this.doc_date.value != undefined)
           this.Selected_Employee_JobState.doc_date = moment(this.doc_date.value).toDate();
 
-        this.Selected_Employee_JobState.doc_number = this.doc_number.value;
-        this.Selected_Employee_JobState.documenttype_id = this.documenttype_id.value;
-        this.Selected_Employee_JobState.jobkind_id = this.jobkind_id.value;
-        this.Selected_Employee_JobState.jobname_id = this.jobname_id.value;
-        this.Selected_Employee_JobState.salary = this.salary.value;
+        if (this.doc_number.value != null &&
+          this.doc_number.value != undefined)
+          this.Selected_Employee_JobState.doc_number = this.doc_number.value;
+
+
+        if (this.documenttype_id.value != null &&
+          this.documenttype_id.value != undefined)
+          this.Selected_Employee_JobState.documenttype_id = this.documenttype_id.value;
+
+        if (this.jobkind_id.value != null &&
+          this.jobkind_id.value != undefined)
+          this.Selected_Employee_JobState.jobkind_id = this.jobkind_id.value;
+
+        if (this.jobname_id.value != null &&
+          this.jobname_id.value != undefined)
+          this.Selected_Employee_JobState.jobname_id = this.jobname_id.value;
+
+        if (this.salary.value != null &&
+          this.salary.value != undefined)
+          this.Selected_Employee_JobState.salary = this.salary.value;
+
+
 
 
       }
@@ -540,14 +624,26 @@ export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit
       let indexMarsoom = event.option.value;
       if (indexMarsoom && indexMarsoom > 0) {
         let MarsoomObject: ITBLShamelIncMarsoom | undefined = this.Marsoom_List.find(obj => obj.incmarsoom_id == indexMarsoom);
-        if (MarsoomObject) {
-          console.log(MarsoomObject);
-          this.changereason_id.setValue(MarsoomObject?.changereason_id);
-          this.changedate.setValue(MarsoomObject?.changedate);
-          this.doc_date.setValue(MarsoomObject?.documentdate);
-          this.begindate.setValue(MarsoomObject?.begindate);
-          this.doc_number.setValue(MarsoomObject?.document_number);
-          this.documenttype_id.setValue(MarsoomObject?.documenttype_id);
+        if (MarsoomObject != null) {
+
+          if (MarsoomObject?.changereason_id != null)
+            this.changereason_id.setValue(MarsoomObject?.changereason_id);
+
+          if (MarsoomObject?.changedate != null)
+            this.changedate.setValue(moment(MarsoomObject?.changedate).toDate());
+
+          if (MarsoomObject?.documentdate != null)
+            this.doc_date.setValue(moment(MarsoomObject?.documentdate).toDate());
+
+          if (MarsoomObject?.begindate != null)
+            this.begindate.setValue(moment(MarsoomObject?.begindate).toDate());
+
+          if (MarsoomObject?.document_number != null)
+            this.doc_number.setValue(MarsoomObject?.document_number);
+
+          if (MarsoomObject?.documenttype_id != null)
+            this.documenttype_id.setValue(+MarsoomObject?.documenttype_id);
+
         }
 
       }
@@ -662,19 +758,6 @@ export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit
     return '';
   }
 
-  //#endregion
-
-  public ClearObject() {
-    try {
-      if (!this.Selected_Employee_JobState)
-        this.Selected_Employee_JobState = {};
-
-      this.Selected_Employee_JobState.id = this.Selected_Emp.id;
-
-    } catch (ex: any) { }
-
-
-  }
 
   public async Save() {
 
@@ -682,7 +765,6 @@ export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit
       return;
     this.getValue();
 
-    console.log("this.Form.invalid" + this.Form.valid);
 
 
     if (this.Form.valid == false) {
@@ -697,7 +779,7 @@ export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit
       this.jobstateService.add(this.Selected_Employee_JobState).toPromise().then(res => {
         console.log(res)
         if (res == 1) {
-          this.ClearObject();
+
           this.ClearForm();
         } else {
 
@@ -716,7 +798,7 @@ export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit
       this.jobstateService.update(this.Selected_Employee_JobState).toPromise().then(res => {
         console.log(res)
         if (res == 1) {
-          this.getValue();
+
 
         } else {
         }
@@ -782,15 +864,11 @@ export class TblshamelscjobstatemodifyComponent implements OnInit, AfterViewInit
 
 
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-    let changedate: Moment = this.changedate.value;
+
     if (this.changedate.value != null)
       this.Selected_Employee_JobState.changedate = moment(event.value).toDate();
   }
 
 
-  setDefaultDate() {
-    this.Form.patchValue({
-      //     startdate: moment("12/25/1995", "MM/DD/YYYY")
-    });
-  }
+
 }

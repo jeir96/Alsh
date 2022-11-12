@@ -8,7 +8,7 @@ import { EmployeePageService } from '../../employee-page-service';
 import { Component, OnInit, AfterViewInit, Input, Inject } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Observable, of, startWith, map } from 'rxjs';
+import { Observable, of, startWith, map, combineLatest, forkJoin, Subscription } from 'rxjs';
 import { ITBLShamelDocumentType } from 'src/app/modules/shared/models/employees_department/ITBLShamelDocumentType';
 import { ITBLShamelFreeHolidayReason } from 'src/app/modules/shared/models/employees_department/ITBLShamelFreeHolidayReason';
 import { ITBLShamelSCFreeHoliday } from 'src/app/modules/shared/models/employees_department/ITBLShamelSCFreeHoliday';
@@ -16,6 +16,7 @@ import { IGlobalEmployeeList } from 'src/app/modules/shared/services/employees_d
 import { TBLShamelFreeHolidayReasonService } from 'src/app/modules/shared/services/employees_department/tblshamel-free-holiday-reason.service';
 import { TBLShamelSCFreeHolidayService } from 'src/app/modules/shared/services/employees_department/tblshamel-scfree-holiday.service';
 import { TblshameldocumenttypeService } from 'src/app/modules/shared/services/employees_department/tblshameldocumenttype.service';
+import { SubscriptionLike } from 'subsink/dist/subsink';
 
 const moment = _moment;
 
@@ -28,20 +29,16 @@ const moment = _moment;
 export class TblshamelscfreeholidaymodifyComponent implements OnInit, AfterViewInit {
 
 
-  id: number;
+  id_employee: number;
   Selected_Emp: TBLShamelEmployee = {};
   _Selected_Employee_SCFreeHoliday: ITBLShamelSCFreeHoliday
   @Input() set Selected_Employee_SCFreeHoliday(obj: ITBLShamelSCFreeHoliday) {
     this._Selected_Employee_SCFreeHoliday = obj;
-    console.log('بلش');
+
 
     if (this._Selected_Employee_SCFreeHoliday != null &&
       this._Selected_Employee_SCFreeHoliday != undefined &&
-      this._Selected_Employee_SCFreeHoliday .serial != null)
-       {
-      console.log('سث');
-      console.log(this._Selected_Employee_SCFreeHoliday);
-      this.SetValue();
+      this._Selected_Employee_SCFreeHoliday.serial != null) {
     }
   }
 
@@ -62,16 +59,18 @@ export class TblshamelscfreeholidaymodifyComponent implements OnInit, AfterViewI
 
   // Access To Element in Form
   Form: FormGroup;
-  duration = new FormControl();
-  startdate = new FormControl();
-  enddate = new FormControl();
-  reason_id = new FormControl();
-  documenttype_id = new FormControl();
-  document_number = new FormControl();
-  documentdate = new FormControl();
+  serial: FormControl<number | null>;
+  id: FormControl<number | null>;
+  duration: FormControl<number | null>;
+  startdate: FormControl<Date | null>;
+  enddate: FormControl<Date | null>;
+  reason_id: FormControl<number | null>;
+  documenttype_id: FormControl<number | null>;
+  document_number: FormControl<string | null>;
+  documentdate: FormControl<Date | null>;
 
   //Local Var
-
+  _Subscription: Subscription;
   submitted = false;
   loading: boolean = false;
 
@@ -85,50 +84,111 @@ export class TblshamelscfreeholidaymodifyComponent implements OnInit, AfterViewI
     private fb: FormBuilder,
     public PageService: EmployeePageService,
   ) {
-    this.PageService.Subject_Selected_TBLShamelEmployee.subscribe(
-      data => {
-        this.Selected_Emp = data;
-        this.id = this.Selected_Emp.id;
-      }
-    )
-
-    if (this.ShamelFreeHolidayReasonService.List_TBLShamelFreeHolidayReason == null ||
-      this.ShamelFreeHolidayReasonService.List_TBLShamelFreeHolidayReason == undefined ||
-      this.ShamelFreeHolidayReasonService.List_TBLShamelFreeHolidayReason.length == 0)
-      this.ShamelFreeHolidayReasonService.fill();
-    this.ShamelFreeHolidayReasonService.List_TBLShamelFreeHolidayReason_BehaviorSubject.subscribe(
-      data => {
-        this.FreeHolidayReason_List = data;
-        this.filteredFreeHolidayReasonOptions = of(this.FreeHolidayReason_List);
-      }
-    )
-
-    if (this.ShameldocumenttypeService.List_ITBLShamelDocumentType == null ||
-      this.ShameldocumenttypeService.List_ITBLShamelDocumentType == undefined ||
-      this.ShameldocumenttypeService.List_ITBLShamelDocumentType.length == 0)
-      this.ShameldocumenttypeService.fill();
-    this.ShameldocumenttypeService.List_ITBLShamelDocumentType_BehaviorSubject.subscribe(
-      data => {
-        this.DocumentType_List = data;
-        this.filteredDocumentTypeOptions = of(this.DocumentType_List);
-      }
-    )
-
-    this.BuildForm();
-    this.FillArrayUsingService();
-
-    if (data!= null  && data.obj!= null && data.id!= null && data.id> 0) {
-      this.id = data.id;
+    if (data != null && data.obj != null && data.id != null && data.id > 0) {
+      this.id_employee = data.id;
       this.Selected_Employee_SCFreeHoliday = data.obj;
     }
 
+    this.BuildForm();
+    this.Load_Data();
 
 
 
 
 
+
+
+    if (data != null && data.obj != null && data.id != null && data.id > 0) {
+      this.id_employee = data.id;
+      this.Selected_Employee_SCFreeHoliday = data.obj;
+    }
+    this.BuildForm();
+    this.Load_Data();
 
   }
+
+  ngOnDestroy(): void {
+    this._Subscription.unsubscribe();
+  }
+
+  Load_TBLShamelFreeHolidayReason(): Observable<ITBLShamelFreeHolidayReason[]> {
+    if (this.ShamelFreeHolidayReasonService.List_TBLShamelFreeHolidayReason == null ||
+      this.ShamelFreeHolidayReasonService.List_TBLShamelFreeHolidayReason == undefined ||
+      this.ShamelFreeHolidayReasonService.List_TBLShamelFreeHolidayReason.length == 0)
+      return this.ShamelFreeHolidayReasonService.list();
+    return of(this.ShamelFreeHolidayReasonService.List_TBLShamelFreeHolidayReason);
+  }
+
+
+
+
+  Load_TBLShamelDocumentType(): Observable<ITBLShamelDocumentType[]> {
+    if (this.ShameldocumenttypeService.List_ITBLShamelDocumentType == null ||
+      this.ShameldocumenttypeService.List_ITBLShamelDocumentType == undefined ||
+      this.ShameldocumenttypeService.List_ITBLShamelDocumentType.length == 0)
+      return this.ShameldocumenttypeService.list();
+    return of(this.ShameldocumenttypeService.List_ITBLShamelDocumentType);
+
+  }
+
+
+
+
+
+  Load_Data() {
+    combineLatest([this.PageService.Subject_Selected_TBLShamelEmployee]).subscribe
+      (
+        res => {
+          this.Selected_Emp = res[0];
+          if (this.Selected_Emp != null && this.Selected_Emp.id != null)
+            this.id_employee = this.Selected_Emp.id;
+          this._Subscription = forkJoin(
+            this.Load_TBLShamelFreeHolidayReason(),
+            this.Load_TBLShamelDocumentType()
+          ).subscribe(
+            res => {
+              this.FreeHolidayReason_List = res[0];
+              this.filteredFreeHolidayReasonOptions = of(res[0]);
+              this.ShamelFreeHolidayReasonService.List_TBLShamelFreeHolidayReason = res[0];
+              this.ShamelFreeHolidayReasonService.List_TBLShamelFreeHolidayReason_BehaviorSubject.next(this.FreeHolidayReason_List);
+
+              this.DocumentType_List = res[1];
+              this.filteredDocumentTypeOptions = of(this.DocumentType_List);
+              this.ShameldocumenttypeService.List_ITBLShamelDocumentType = res[1];
+              this.ShameldocumenttypeService.List_ITBLShamelDocumentType_BehaviorSubject.next(this.DocumentType_List);
+
+              this.FillArrayUsingService();
+
+              this.SetValue();
+            }
+          )
+        }
+      )
+  }
+
+  //#endregion
+  public BuildForm() {
+    try {
+      // Access To Element in Form
+      this.Form = this.fb.group(
+        {
+          'serial': this.serial = new FormControl<number | null>(null, []),
+          'id': this.id = new FormControl<number | null>(null, []),
+          'duration': this.duration = new FormControl<number | null>(null, []),
+          'startdate': this.startdate = new FormControl<Date | null>(null, []),
+          'enddate': this.enddate = new FormControl<Date | null>(null, []),
+          'reason_id': this.reason_id = new FormControl<number | null>(null, []),
+          'documenttype_id': this.documenttype_id = new FormControl<number | null>(null, []),
+          'document_number': this.document_number = new FormControl<string | null>(null, []),
+          'documentdate': this.documentdate = new FormControl<Date | null>(null, []),
+        });
+
+
+    } catch (ex: any) {
+
+    }
+  }
+
 
 
 
@@ -175,38 +235,8 @@ export class TblshamelscfreeholidaymodifyComponent implements OnInit, AfterViewI
 
   }
 
-  public BuildForm() {
-    try {
-      console.log('Build Form');
-      console.log(this.Selected_Employee_SCFreeHoliday);
-
-      this.duration = new FormControl([Validators.required]);
-      this.startdate = new FormControl([Validators.required]);
-      this.enddate = new FormControl([Validators.required]);
-      this.document_number = new FormControl();
-      this.reason_id = new FormControl();
-      this.documenttype_id = new FormControl();
-      this.document_number = new FormControl();
-      this.documentdate = new FormControl();
 
 
-
-      this.Form = this.fb.group({
-      });
-      this.Form.addControl('duration', this.duration);
-      this.Form.addControl('startdate', this.startdate);
-      this.Form.addControl('enddate', this.enddate);
-      this.Form.addControl('reason_id', this.reason_id);
-
-      this.Form.addControl('documenttype_id', this.documenttype_id);
-      this.Form.addControl('documentdate', this.documentdate);
-      this.Form.addControl('document_number', this.document_number);
-
-    } catch (Exception: any) {
-      console.log(Exception);
-    }
-  }
-  //#endregion
 
 
   //#region Filter Of  
@@ -234,15 +264,7 @@ export class TblshamelscfreeholidaymodifyComponent implements OnInit, AfterViewI
   //#region SetValue And GetValue Function
   public ClearForm() {
     try {
-      console.log('ClearForm');
-      this.duration.reset();
-      this.startdate.reset();
-      this.enddate.reset();
-      this.reason_id.reset();
-      this.documentdate.reset();
-      this.document_number.reset();
-      this.documenttype_id.reset();
-
+      this.Form.reset();
     } catch (ex: any) {
 
     }
@@ -253,31 +275,41 @@ export class TblshamelscfreeholidaymodifyComponent implements OnInit, AfterViewI
   //#region SetValue And GetValue Function
   public SetValue() {
     try {
-     
+
       if (this.Selected_Employee_SCFreeHoliday != null) {
 
-        this.reason_id.setValue(this.Selected_Employee_SCFreeHoliday.reason_id);
+        if (this.Selected_Employee_SCFreeHoliday.reason_id != null &&
+          this.Selected_Employee_SCFreeHoliday.reason_id != undefined)
+          this.reason_id.setValue(this.Selected_Employee_SCFreeHoliday.reason_id);
 
-        
-        this.duration.setValue(this.Selected_Employee_SCFreeHoliday.duration);
 
-        if (this.Selected_Employee_SCFreeHoliday.startdate!= null &&
-           this.Selected_Employee_SCFreeHoliday.startdate != undefined)        
-        this.startdate.setValue(moment(this.Selected_Employee_SCFreeHoliday.startdate).toDate());
+        if (this.Selected_Employee_SCFreeHoliday.duration != null &&
+          this.Selected_Employee_SCFreeHoliday.duration != undefined)
+          this.duration.setValue(this.Selected_Employee_SCFreeHoliday.duration);
 
-        if (this.Selected_Employee_SCFreeHoliday.enddate!= null &&
-            this.Selected_Employee_SCFreeHoliday.enddate != undefined)        
-        this.enddate.setValue(moment(this.Selected_Employee_SCFreeHoliday.enddate).toDate());
+        if (this.Selected_Employee_SCFreeHoliday.startdate != null &&
+          this.Selected_Employee_SCFreeHoliday.startdate != undefined)
+          this.startdate.setValue(moment(this.Selected_Employee_SCFreeHoliday.startdate).toDate());
 
-        this.documenttype_id.setValue(this.Selected_Employee_SCFreeHoliday.documenttype_id);
+        if (this.Selected_Employee_SCFreeHoliday.enddate != null &&
+          this.Selected_Employee_SCFreeHoliday.enddate != undefined)
+          this.enddate.setValue(moment(this.Selected_Employee_SCFreeHoliday.enddate).toDate());
 
-        if (this.Selected_Employee_SCFreeHoliday.documentdate!= null &&
-            this.Selected_Employee_SCFreeHoliday.documentdate != undefined)        
-        this.documentdate.setValue(moment(this.Selected_Employee_SCFreeHoliday.documentdate).toDate());
+        if (this.Selected_Employee_SCFreeHoliday.documenttype_id != null &&
+          this.Selected_Employee_SCFreeHoliday.documenttype_id != undefined)
+          this.documenttype_id.setValue(this.Selected_Employee_SCFreeHoliday.documenttype_id);
 
-        this.document_number.setValue(this.Selected_Employee_SCFreeHoliday.document_number);
+        if (this.Selected_Employee_SCFreeHoliday.documentdate != null &&
+          this.Selected_Employee_SCFreeHoliday.documentdate != undefined)
+          this.documentdate.setValue(moment(this.Selected_Employee_SCFreeHoliday.documentdate).toDate());
 
-        this.reason_id.setValue(this.Selected_Employee_SCFreeHoliday.reason_id);
+        if (this.Selected_Employee_SCFreeHoliday.document_number != null &&
+          this.Selected_Employee_SCFreeHoliday.document_number != undefined)
+          this.document_number.setValue(this.Selected_Employee_SCFreeHoliday.document_number);
+
+        if (this.Selected_Employee_SCFreeHoliday.reason_id != null &&
+          this.Selected_Employee_SCFreeHoliday.reason_id != undefined)
+          this.reason_id.setValue(this.Selected_Employee_SCFreeHoliday.reason_id);
 
       }
 
@@ -292,19 +324,28 @@ export class TblshamelscfreeholidaymodifyComponent implements OnInit, AfterViewI
     try {
 
       if (this.Selected_Employee_SCFreeHoliday != null) {
-        console.log(this.reason_id);
-        this.Selected_Employee_SCFreeHoliday.id = this.id;
-        this.Selected_Employee_SCFreeHoliday.reason_id = this.reason_id.value;
-        this.Selected_Employee_SCFreeHoliday.duration = this.duration.value;
 
-        if (this.enddate.value!= null &&this.enddate.value!= undefined )
-        this.Selected_Employee_SCFreeHoliday.enddate = moment(this.enddate.value).toDate();
-        if (this.startdate.value!= null &&this.startdate.value!= undefined )
-        this.Selected_Employee_SCFreeHoliday.startdate = moment(this.startdate.value).toDate();
-        this.Selected_Employee_SCFreeHoliday.documenttype_id = this.documenttype_id.value;
-        this.Selected_Employee_SCFreeHoliday.document_number = this.document_number.value;
-        if (this.documentdate.value!= null &&this.documentdate.value!= undefined )
-        this.Selected_Employee_SCFreeHoliday.documentdate = moment(this.documentdate.value).toDate();
+        this.Selected_Employee_SCFreeHoliday.id = this.id_employee;
+        if (this.reason_id.value != null && this.reason_id.value != null)
+          this.Selected_Employee_SCFreeHoliday.reason_id = this.reason_id.value;
+
+        if (this.duration.value != null && this.duration.value != null)
+          this.Selected_Employee_SCFreeHoliday.duration = this.duration.value;
+
+        if (this.enddate.value != null && this.enddate.value != undefined)
+          this.Selected_Employee_SCFreeHoliday.enddate = moment(this.enddate.value).toDate();
+
+        if (this.startdate.value != null && this.startdate.value != null)
+          this.Selected_Employee_SCFreeHoliday.startdate = moment(this.startdate.value).toDate();
+
+        if (this.documenttype_id.value != null && this.documenttype_id.value != null)
+          this.Selected_Employee_SCFreeHoliday.documenttype_id = this.documenttype_id.value;
+
+        if (this.document_number.value != null && this.document_number.value != null)
+          this.Selected_Employee_SCFreeHoliday.document_number = this.document_number.value;
+
+        if (this.documentdate.value != null && this.documentdate.value != undefined)
+          this.Selected_Employee_SCFreeHoliday.documentdate = moment(this.documentdate.value).toDate();
 
 
       }
@@ -358,11 +399,6 @@ export class TblshamelscfreeholidaymodifyComponent implements OnInit, AfterViewI
 
 
 
-  public ClearObject() {
-    if (!this.Selected_Employee_SCFreeHoliday)
-      this.Selected_Employee_SCFreeHoliday = {};
-    this.Selected_Employee_SCFreeHoliday.id = this.id;
-  }
 
   public async Save() {
 
@@ -383,8 +419,8 @@ export class TblshamelscfreeholidaymodifyComponent implements OnInit, AfterViewI
       this.ShamelSCFreeHolidayService.add(this.Selected_Employee_SCFreeHoliday).toPromise().then(res => {
         console.log(res)
         if (res == 1) {
-          this.ClearObject();
-          this.ClearForm();
+
+
         } else {
 
 
@@ -440,7 +476,7 @@ export class TblshamelscfreeholidaymodifyComponent implements OnInit, AfterViewI
   }
 
   public onReset(): void {
-    this.submitted = false;
+
     this.Form.reset();
   }
   /* Handle form errors in Angular 8 */
@@ -451,23 +487,23 @@ export class TblshamelscfreeholidaymodifyComponent implements OnInit, AfterViewI
 
 
   addEventDocumentDate(type: string, event: MatDatepickerInputEvent<Date>) {
-if (event.value!= null)
-    this.Selected_Employee_SCFreeHoliday.documentdate = moment(event.value).toDate();;
+    if (event.value != null)
+      this.Selected_Employee_SCFreeHoliday.documentdate = moment(event.value).toDate();;
 
   }
 
 
   addEventStartDate(type: string, event: MatDatepickerInputEvent<Date>) {
-    if (event.value!= null)
-    this.Selected_Employee_SCFreeHoliday.startdate = moment(event.value).toDate();
+    if (event.value != null)
+      this.Selected_Employee_SCFreeHoliday.startdate = moment(event.value).toDate();
 
   }
 
 
 
   addEventEndDate(type: string, event: MatDatepickerInputEvent<Date>) {
-    if (event.value!= null)
-    this.Selected_Employee_SCFreeHoliday.enddate = moment(event.value).toDate();;
+    if (event.value != null)
+      this.Selected_Employee_SCFreeHoliday.enddate = moment(event.value).toDate();;
 
   }
 

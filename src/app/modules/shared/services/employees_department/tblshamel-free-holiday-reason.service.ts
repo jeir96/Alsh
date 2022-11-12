@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParamsOptions } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ITBLShamelFreeHolidayReason } from '../../models/employees_department/ITBLShamelFreeHolidayReason';
 
 @Injectable({
@@ -21,12 +21,12 @@ export class TBLShamelFreeHolidayReasonService {
  
   constructor(private httpClient : HttpClient) { }
 
-  list()  {
+  list() :Observable<ITBLShamelFreeHolidayReason[]> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const options = {  headers: headers };  
-    return this.httpClient.get(this.RestUrl +"TBLShamelFreeHolidayReason",options);  
-    
+    return this.httpClient.get<ITBLShamelFreeHolidayReason[]>(this.RestUrl +"TBLShamelFreeHolidayReason",options);      
   }
+  
 
   fill()  {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');

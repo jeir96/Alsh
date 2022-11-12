@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParamsOptions } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ITBLShamelJobName } from '../../models/employees_department/ITBLShamelJobName';
 
 @Injectable({
@@ -20,11 +20,10 @@ export class TblshameljobnameService {
  
   constructor(private httpClient : HttpClient) { }
 
-  list()  {
+  list() : Observable<ITBLShamelJobName[]>  {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const options = {  headers: headers };  
-    return this.httpClient.get(this.RestUrl +"TBLShamelJobName/list",options);  
-    
+    return this.httpClient.get<ITBLShamelJobName[]>(this.RestUrl +"TBLShamelJobName/list",options);      
   }
 
   fill()  {

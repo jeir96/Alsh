@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParamsOptions } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ITBLShamelChangeReason } from '../../models/employees_department/ITBLShamelChangeReason';
 
 @Injectable({
@@ -18,11 +18,11 @@ List_ITBLShamelChangeReason_BehaviorSubject : BehaviorSubject<ITBLShamelChangeRe
  
   constructor(private httpClient : HttpClient) { }
 
-  list()  {
+  list()  :Observable<ITBLShamelChangeReason[]>{
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const options = {  headers: headers };  
     console.log("TBLShamelChangeReason");
-    return this.httpClient.get(this.RestUrl +"TBLShamelChangeReason/list",options);    
+    return this.httpClient.get<ITBLShamelChangeReason[]>(this.RestUrl +"TBLShamelChangeReason/list",options);    
   }
 
   fill ()  {

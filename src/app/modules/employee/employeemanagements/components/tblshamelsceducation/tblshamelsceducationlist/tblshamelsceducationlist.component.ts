@@ -17,7 +17,7 @@ import { TblshamelsceducationmodifyComponent } from "../tblshamelsceducationmodi
   styleUrls: ['./tblshamelsceducationlist.component.scss']
 })
 export class TblshamelsceducationlistComponent implements OnInit, AfterViewInit {
-  //Join Variable
+  //Join Variable   
   Selected_Emp: TBLShamelEmployee = {};
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -114,7 +114,7 @@ export class TblshamelsceducationlistComponent implements OnInit, AfterViewInit 
 
 
     const dialogRef = this.dialog.open(TblshamelsceducationmodifyComponent, {
-      height: '70%',
+      height: '80%',
       width: '80%',
       data: { obj: this.selected_employee_education, id: this.Selected_Emp.id }
     });
@@ -180,7 +180,7 @@ export class TblshamelsceducationlistComponent implements OnInit, AfterViewInit 
 
 
       const dialogRef = this.dialog.open(TblshamelsceducationmodifyComponent, {
-        height: '70%',
+        height: '80%',
         width: '80%',
         data: { obj: this.selected_employee_education, id: this.Selected_Emp.id }
       });

@@ -6,13 +6,16 @@ export interface ViewTBLShamelEmployee
     id?:number;
     payrol_id?:string;
     computer_id?:number;
-    global_id?:number;
+    global_id?:string;
     insurance_id?:number;
       fName?:string;
     lname ?:string;
     father ?:string;
     mother ?:string;
     malakstate_name?:string;
+    martialstate_name?:string;
+
+
     TBLShamelSCJobState_Last?: ITBLShamelSCJobState,
     accounter_id ?: number
     accounterserial ?: number

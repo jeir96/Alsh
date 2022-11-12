@@ -704,7 +704,7 @@ export class EditEmployeeCardComponent implements OnInit {
 
       addQararDateEvent(type: string, event: MatDatepickerInputEvent<Date>) {
         let  changedate: Moment = this.  input_QararDate.value;
-        this.SelectedEmp. QararDate = moment(event.value).toString();
+        this.SelectedEmp. QararDate = moment(event.value).toDate();
       }
       
       Save()

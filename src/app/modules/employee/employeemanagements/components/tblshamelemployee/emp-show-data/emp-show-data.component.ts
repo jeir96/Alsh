@@ -29,8 +29,8 @@ export class EmpShowDataComponent implements OnInit {
   @Input() SelectedEmp : TBLShamelEmployee;
   @Input() SelectedViewEmp : ViewTBLShamelEmployee;
 
-
-
+ 
+  
 
 
   PhotoUrl:SafeUrl;
@@ -39,7 +39,7 @@ export class EmpShowDataComponent implements OnInit {
     public dialog: MatDialog,
     private fb: UntypedFormBuilder,
     private pageService : EmployeePageService
-    ) {
+    ) { 
 
       this.pageService.Subject_Selected_TBLShamelEmployee.subscribe
       (
@@ -65,20 +65,19 @@ console.log(this.SelectedEmp );
 
       )
 
-
+      
 
 
     }
 
 
   ngOnInit(): void {
-    alert("asdlkj")
     console.log( 'iside child');
     console.log( this.SelectedEmp);
     let objectURL = 'data:image/jpeg;base64,' + this.SelectedEmp.Photo;
-    this.PhotoUrl    = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-
-
+    this.PhotoUrl    = this.sanitizer.bypassSecurityTrustUrl(objectURL); 
+ 
+            
 
 
   }
@@ -119,7 +118,7 @@ console.log(this.SelectedEmp );
       const dialogRef = this.dialog.open(EditEmployeeCardComponent, {
         data: { dataEmp: this.SelectedEmp },
       });
-
+  
       dialogRef.afterClosed().subscribe(result => {
         console.log(`Dialog result: ${result}`);
       });

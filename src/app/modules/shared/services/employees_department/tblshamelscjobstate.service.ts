@@ -21,8 +21,7 @@ export class TblshamelscjobstateService {
   list(id:number)  {
     const headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
     const options = {  headers: headers };  
-    return this.httpClient.get(this.RestUrl +"TBLShamelSCJobState/"+id,options);  
-    
+    return this.httpClient.get(this.RestUrl +"TBLShamelSCJobState/"+id,options);      
   }
 
   fill (id:number)  {
@@ -35,8 +34,7 @@ export class TblshamelscjobstateService {
         this.List_ITBLShamelSCJobState = data;
         this.List_ITBLShamelSCJobState_BehaviorSubject.next(this.List_ITBLShamelSCJobState);
       }
-     )
-    
+     )    
   }
 
 
@@ -47,6 +45,7 @@ export class TblshamelscjobstateService {
   }
 
 
+
   add(obj : ITBLShamelSCJobState )  {
     const headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});  
     const options = { headers: headers };    
@@ -54,13 +53,25 @@ export class TblshamelscjobstateService {
 
   }
 
+
+
   update(obj : ITBLShamelSCJobState )  {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    const httpParams: HttpParamsOptions = { 'obj': obj } as HttpParamsOptions;
-  
+    const httpParams: HttpParamsOptions = { 'obj': obj } as HttpParamsOptions;  
     const options = {  headers: headers };
     console.log(this.RestUrl +"TBLShamelSCJobState/"+obj.serial);
     return this.httpClient.put(this.RestUrl +"TBLShamelSCJobState/"+obj.serial,obj,options);
   }
 
+
+  Validate(obj : ITBLShamelSCJobState )  {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const httpParams: HttpParamsOptions = { 'obj': obj } as HttpParamsOptions;  
+    const options = {  headers: headers };
+  
+   return this.httpClient.put(this.RestUrl +"TBLShamelSCJobState/Validate",obj,options);
+  }
+
+
+ 
 }
