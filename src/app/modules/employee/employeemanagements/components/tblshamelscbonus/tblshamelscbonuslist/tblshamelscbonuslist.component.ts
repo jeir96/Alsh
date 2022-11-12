@@ -110,12 +110,12 @@ export class TblshamelscbonuslistComponent implements OnInit, AfterViewInit {
     this.selected_employee_Bonus.id = this.Selected_Emp.id;
 
     const dialogRef = this.dialog.open(TblshamelscbonusmodifyComponent, {
-      height: '50%',
+      height: '40%',
       width: '60%',
       data: { obj: this.selected_employee_Bonus, id: this.Selected_Emp.id }
     });
 
-    dialogRef.afterClosed().toPromise().then(result => {
+    dialogRef.afterClosed().subscribe(result => {
       this.FillTable();
     });
   }
@@ -173,7 +173,7 @@ export class TblshamelscbonuslistComponent implements OnInit, AfterViewInit {
       console.log(this.selected_employee_Bonus);
 
       const dialogRef = this.dialog.open(TblshamelscbonusmodifyComponent, {
-        height: '65%',
+        height: '50%',
         width: '50%',
         data: { obj: this.selected_employee_Bonus, id: this.Selected_Emp.id }
       });
