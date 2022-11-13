@@ -3,7 +3,7 @@ import { FormGroup, FormControl, UntypedFormGroup, Validators } from '@angular/f
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as _moment from 'moment';
-import { Observable, startWith, map, of, combineLatest, forkJoin, Subscription } from 'rxjs';
+import { Observable, startWith, map, of, combineLatest, forkJoin, Subscription, tap } from 'rxjs';
 import { TBLShamelArea } from 'src/app/modules/shared/models/employees_department/TBLShamelArea';
 import { TBLShamelEmployee } from 'src/app/modules/shared/models/employees_department/TBLShamelEmployee';
 import { TBLShamelMartialState } from 'src/app/modules/shared/models/employees_department/TBLShamelMartialState';
@@ -23,6 +23,7 @@ import { EmployeePageService } from '../../employee-page-service';
 import { Validator_COMPUTER_ID } from './Validators/Validator_COMPUTER_ID';
 import { Validator_FullName } from './Validators/Validator_FullName';
 import { Validator_GLOBAL_ID } from './Validators/validator_GLOBAL_ID';
+import { Validator_ID } from './Validators/Validator_ID';
 import { Validator_INSURANCE_ID } from './Validators/Validator_INSURANCE_ID';
 import { Validator_PAYROL_ID } from './Validators/Validator_PAYROL_ID';
 const moment = _moment;
@@ -71,7 +72,7 @@ export class NewEmployeeCardComponent implements OnInit, OnDestroy {
   filtered_STREETORVILLAGE: Observable<TBLShamelStreetOrVillage[]>;
 
 
-  Form: UntypedFormGroup;
+  Form: FormGroup;
   id: FormControl;
   Payrol_ID: FormControl;
   Computer_ID: FormControl;
@@ -133,13 +134,10 @@ export class NewEmployeeCardComponent implements OnInit, OnDestroy {
 
   BuildForm() {
 
-
-
-
-
-
     this.Form = new FormGroup({
-      id: this.id = new FormControl<number | null>(null, [Validators.required],),
+      id: this.id = new FormControl<number | null>(null,
+         [Validators.required],
+        [Validator_ID(this.empService, this.Selected_Employee.id, this.pageEmployee)]),
 
       'Payrol_ID': this.Payrol_ID = new FormControl<number | null>(null,
         [Validators.required, Validators.maxLength(10)],
@@ -158,18 +156,22 @@ export class NewEmployeeCardComponent implements OnInit, OnDestroy {
         [Validator_INSURANCE_ID(this.empService, this.Selected_Employee.id, this.pageEmployee)]),
 
       'FName': this.FName = new FormControl<number | null>(null,
-        [Validators.required, Validators.maxLength(35)]),
+        [Validators.required, Validators.maxLength(35)],
+        [Validator_FullName(this.empService, this.Selected_Employee)]),
 
 
       'LName': this.LName = new FormControl<number | null>(null,
-        [Validators.required, Validators.maxLength(35)], [Validator_FullName(this.empService, this.Form.value)]),
+        [Validators.required, Validators.maxLength(35)],
+        [Validator_FullName(this.empService, this.Selected_Employee)]),
 
 
       'Father': this.Father = new FormControl<number | null>(null,
-        [Validators.required, Validators.maxLength(35)], [Validator_FullName(this.empService, this.Form.value)]),
+        [Validators.required, Validators.maxLength(35)],
+        [Validator_FullName(this.empService, this.Selected_Employee)]),
 
       'Mother': this.Mother = new FormControl<number | null>(null,
-        [Validators.required, Validators.maxLength(35)], [Validator_FullName(this.empService, this.Form.value)]),
+        [Validators.required, Validators.maxLength(35)],
+        [Validator_FullName(this.empService, this.Selected_Employee)]),
 
 
       'Birth_Place': this.Birth_Place = new FormControl<number | null>(null,
@@ -188,7 +190,7 @@ export class NewEmployeeCardComponent implements OnInit, OnDestroy {
       'QararDate': this.QararDate = new FormControl<number | null>(null, [Validators.required]),
 
       'Nationality_ID': this.Nationality_ID = new FormControl<number | null>(null, [Validators.required]),
-      'City_ID': this.City_ID = new FormControl<number | null>(null, [Validators.required]),
+      'City_ID': this.City_ID = new FormControl<number | null>(null),
       'Area_ID': this.Area_ID = new FormControl<number | null>(null, []),
       'MiniArea_ID': this.MiniArea_ID = new FormControl<number | null>(null, []),
       'StreetOrVillage_ID': this.StreetOrVillage_ID = new FormControl<number | null>(null, []),
@@ -208,6 +210,8 @@ export class NewEmployeeCardComponent implements OnInit, OnDestroy {
       'Rem3': this.Rem3 = new FormControl<number | null>(null, []),
       'Emp_IN_Military_Service': this.Emp_IN_Military_Service = new FormControl<number | null>(null, []),
     });
+
+    console.log("this form", this.Form)
 
   }
 
@@ -271,12 +275,14 @@ export class NewEmployeeCardComponent implements OnInit, OnDestroy {
   Load_Data() {
 
     this._Subscription = forkJoin(
+      [
       this.Load_BLShamelMartialState(),
       this.Load_TBLShamelSex(),
       this.Load_TBLShamelArea(),
       this.Load_TBLShamelStreetOrVillage(),
       this.Load_TBLShamelMiniArea(),
       this.Load_TBLShamelNationality()
+      ]
     ).subscribe(
       res => {
         this.List_TBLSHAMELMARTIALSTATE = res[0];
@@ -330,6 +336,7 @@ export class NewEmployeeCardComponent implements OnInit, OnDestroy {
   FillArrayUsingService() {
     this.filtered_TBLSHAMELMARTIALSTATE = this.MartialState_Name.valueChanges.pipe(
       startWith(''),
+      map(value => value == null ?  '' : value),
       map(value => (typeof value === 'string' ? value : value.name)),
       map(name => (name ? this._filtered_MARTIALSTATE(name) : this.List_TBLSHAMELMARTIALSTATE.slice())),
     );
@@ -337,12 +344,14 @@ export class NewEmployeeCardComponent implements OnInit, OnDestroy {
 
     this.filtered_SEX = this.Sex_Name.valueChanges.pipe(
       startWith(''),
+      map(value => value == null ?  '' : value),
       map(value => (typeof value === 'string' ? value : value.name)),
       map(name => (name && name.length > 0 ? this._filtered_SEX(name) : this.List_SEX.slice())),
     );
 
     this.filtered_AREA = this.Area_ID.valueChanges.pipe(
       startWith(''),
+      map(value => value == null ?  '' : value),
       map(value => (typeof value === 'string' ? value : value.name)),
       map(name => (name ? this._filtered_Area(name) : this.List_AREA.slice())),
     );
@@ -350,6 +359,7 @@ export class NewEmployeeCardComponent implements OnInit, OnDestroy {
 
     this.filtered_STREETORVILLAGE = this.StreetOrVillage_ID.valueChanges.pipe(
       startWith(''),
+      map(value => value == null ? '' : value),
       map(value => (typeof value === 'string' ? value : value.name)),
       map(name => (name ? this._filtered_STREETORVILLAGE(name) : this.List_STREETORVILLAGE.slice())),
     );
@@ -357,12 +367,14 @@ export class NewEmployeeCardComponent implements OnInit, OnDestroy {
 
     this.filtered_TBLShamelMiniArea = this.MiniArea_ID.valueChanges.pipe(
       startWith(''),
+      map(value => value == null ?  '' : value),
       map(value => (typeof value === 'string' ? value : value.name)),
       map(name => this._filtered_MiniArea(name)),
     );
 
     this.filtered_NATIONALITY = this.Nationality_ID.valueChanges.pipe(
       startWith(''),
+      map(value => value == null ?  '' : value),
       map(value => (typeof value === 'string' ? value : value.name)),
       map(name => (name ? this._filtered_NATIONALITY(name) : this.List_NATIONALITY.slice())),
     );
@@ -428,6 +440,9 @@ export class NewEmployeeCardComponent implements OnInit, OnDestroy {
     if (event && this.Selected_Employee) {
       console.log(event.option.value);
       this.Selected_Employee.Sex_Name = ((event.option.value as TBLShamelSex).Sex_Name);
+
+      console.log("this.Selected_Employee.Sex_Name", this.Selected_Employee.Sex_Name)
+
     }
   }
   public OnSelect_NATIONALITY_Change(event: MatAutocompleteSelectedEvent) {
@@ -488,8 +503,6 @@ export class NewEmployeeCardComponent implements OnInit, OnDestroy {
   }
 
 
-
-
   Save() {
 
 
@@ -497,6 +510,16 @@ export class NewEmployeeCardComponent implements OnInit, OnDestroy {
 
     console.log(this.Form.errors);
 
+    this.Form.reset();
+    // this.BuildForm();
+
+
+    console.log("this.selected employee", this.Selected_Employee)
+
+    if(! this.Form.valid)
+    {
+      return
+    }
 
     this.getValue();
 

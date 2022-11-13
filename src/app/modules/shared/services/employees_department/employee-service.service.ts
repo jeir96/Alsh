@@ -25,6 +25,9 @@ export class EmployeeServiceService {
 
 
   add(obj: TBLShamelEmployee) {
+
+    console.log("object new", obj)
+
     return this.httpClient.post(this.RestUrl + `TBLShamelEmployee/`, obj, this.httpOptions);
   }
 
@@ -42,7 +45,7 @@ export class EmployeeServiceService {
        return this.httpClient.delete(this.RestUrl + "TBLShamelEmployee/" + id);
   }
 
-  // Error handling 
+  // Error handling
   handleError(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
@@ -57,12 +60,12 @@ export class EmployeeServiceService {
   }
 
 
-  Check_ID(value: string, id: number | undefined): Observable<TBLShamelEmployee[]> {
+  Check_ID(value: string, id: number | undefined): Observable<TBLShamelEmployee> {
     if (id == null || id == undefined)
       id = -1;
     if (value == null || value == undefined)
       return null;
-    return this.httpClient.get<TBLShamelEmployee[]>(this.RestUrl + `TBLShamelEmployee/check_id/${value}/${id}`);
+    return this.httpClient.get<TBLShamelEmployee>(this.RestUrl + `TBLShamelEmployee/check_id/${value}/${id}`);
   }
 
   Check_PAYROL_ID(value: string, id: number | undefined): Observable<TBLShamelEmployee> {
@@ -112,7 +115,7 @@ export class EmployeeServiceService {
 
   }
 
-  
+
 Check_FullName(employee: TBLShamelEmployee,id:number|undefined): Observable<TBLShamelEmployee>
 {
 
@@ -122,8 +125,6 @@ Check_FullName(employee: TBLShamelEmployee,id:number|undefined): Observable<TBLS
     id =-1;
   if (employee == null || employee == undefined)
     return null;
-
-    console.log("employee2", employee);
 
     return this.httpClient.post<TBLShamelEmployee>(
       this.RestUrl +`TBLShamelEmployee/check_fullname/${id}`,

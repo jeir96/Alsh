@@ -5,40 +5,60 @@ import { delay, map } from 'rxjs/operators';
 import { TBLShamelEmployee } from 'src/app/modules/shared/models/employees_department/TBLShamelEmployee';
 import { EmployeeServiceService } from 'src/app/modules/shared/services/employees_department/employee-service.service';
 import { EmployeePageService } from '../../../employee-page-service';
-export function Validator_FullName( empService:EmployeeServiceService,                                    
+export function Validator_FullName( empService:EmployeeServiceService,
                                     emp:TBLShamelEmployee) : AsyncValidatorFn
         {
 
-          console.log("alsdj")
+          console.log("employee 0", emp)
 
         return (control: AbstractControl)
             : Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
 
-              const Fname = control as FormControl;
+              console.log("control", control)
 
-         if (Fname.value == null )
+              const formControls: any = control.parent.controls;
+
+              const employee: TBLShamelEmployee = {};
+
+              Object.keys(formControls).forEach(control => {
+
+                console.log("formControls[control]", formControls[control])
+
+
+                if(control == "FName")
+                {
+                  employee.FName = formControls[control].value;
+                }
+
+                if(control == "LName")
+                {
+                  employee.LName = formControls[control].value;
+
+                }
+
+                if(control == "Father")
+                {
+                  employee.Father = formControls[control].value;
+
+                }
+
+                if(control == "Mother")
+                {
+                  employee.Mother = formControls[control].value;
+
+                }
+
+
+              })
+
+         if (control.value == null )
          return new Promise(
           resolve => {
               null
           });
 
-
-              
-
-
-
-         
-          
-
-
-            
-
-          
-
-
-
             return empService.
-            Check_FullName(emp, emp.id).
+            Check_FullName(employee, emp.id).
                 pipe(
                     map(
                         (emp: TBLShamelEmployee) => {

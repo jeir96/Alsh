@@ -158,6 +158,7 @@ export class FormValidationHelpersService {
     private caclFormFieldNestedName(form: any, formName: string): any
     {
 
+
       const formPathAsArray: string[] = formName.split('.')
 
       const nestedFormValue = formPathAsArray.reduce((o,i)=> {
@@ -166,7 +167,7 @@ export class FormValidationHelpersService {
 
         // console.log("i", i)
 
-        // console.log("o[i]", o[i])
+        // console.log("o[i]", o.controls[i])
 
 
         return o.controls[i]
@@ -176,6 +177,10 @@ export class FormValidationHelpersService {
 
 
       return nestedFormValue;
+
+      console
+
+      return form.controls[formName];
 
     }
 
@@ -263,6 +268,13 @@ export class FormValidationHelpersService {
     public fieldHasErrors(form: any, field: string): boolean {
 
 
+      // const isFieldPrisitne = this.isFieldPrisitne(form, field);
+
+      // if(isFieldPrisitne)
+      // {
+      //   return false;
+      // }
+
       const nestedFormValue = this.caclFormFieldNestedName(form, field);
 
       const errors = nestedFormValue.errors;
@@ -275,6 +287,10 @@ export class FormValidationHelpersService {
 
       return false;
 
+    }
+
+    private isFieldPrisitne(form: any, controlName: string): boolean {
+      return this.caclFormFieldNestedName(form, controlName).pristine == true;
     }
 
     public printNumberValidation(): string {

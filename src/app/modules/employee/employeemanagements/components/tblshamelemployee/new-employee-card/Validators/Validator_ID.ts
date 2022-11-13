@@ -25,10 +25,9 @@ export function Validator_ID( empService:EmployeeServiceService,
                         pageEmployee.Selected_TBLShamelEmployee != undefined)
                            id = pageEmployee.Selected_TBLShamelEmployee.id;
 
-                console.log('Validate ID');
                 console.log(pageEmployee.Selected_TBLShamelEmployee);
                 console.log(pageEmployee.Selected_TBLShamelEmployee);
-                console.log('Validate ID');
+
 
 
 

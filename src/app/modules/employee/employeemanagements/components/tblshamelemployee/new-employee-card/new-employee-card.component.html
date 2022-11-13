@@ -3,616 +3,616 @@
 <form [formGroup]="Form" (keydown.enter)="$event.preventDefault()">
 
 
- <div fxLayout="row" fxLayoutGap="5px">
+  <div fxLayout="row" fxLayoutGap="5px">
 
-   <mat-card class="example-card" fxFlex="17%">
+    <mat-card class="example-card" fxFlex="17%">
 
-     <mat-card-header>
+      <mat-card-header>
 
-       <mat-card-title>البيانات الشخصية</mat-card-title>
-     </mat-card-header>
-     <mat-card-content>
+        <mat-card-title>البيانات الشخصية</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
 
-     
-          <div fxLayout="column">
-
-           <div>
-             <mat-form-field appearance="fill">
-               <mat-label #id>رقم الاضبارة</mat-label>
-               <input type="text" matInput formControlName="id" >
-
-               <mat-error *ngIf="fieldHasErrors(Form, 'id')">
-                 {{
-                   autoPrintFirstErrorMessage(
-                     Form,
-                     "id",
-                     id.innerHTML
-                   )
-                 }}
-               </mat-error>
-
-
-             </mat-form-field>
-           </div>
-           <div>
-
-             <mat-form-field appearance="fill">
-               <mat-label #Payrol_ID>رقم الشطب</mat-label>
-               <input type="text" matInput formControlName="Payrol_ID">
-               <mat-error *ngIf="fieldHasErrors(Form, 'Payrol_ID')">
-                 {{
-                   autoPrintFirstErrorMessage(
-                     Form,
-                     "Payrol_ID",
-                     Payrol_ID.innerHTML
-                   )
-                 }}
-               </mat-error>
-             </mat-form-field>
-           </div>
-           <div>
-             <mat-form-field appearance="fill">
-               <mat-label #Computer_ID>رقم الحاسوب</mat-label>
-               <input type="text" matInput formControlName="Computer_ID">
-               <mat-error *ngIf="fieldHasErrors(Form, 'Computer_ID')">
-                 {{
-                   autoPrintFirstErrorMessage(
-                     Form,
-                     "Computer_ID",
-                     Computer_ID.innerHTML
-                   )
-                 }}
-               </mat-error>
-             </mat-form-field>
-           </div>
-           <div>
-             <mat-form-field appearance="fill">
-               <mat-label #Global_ID>الرقم الذاتي السجل العام بالدولة</mat-label>
-               <input type="text" matInput formControlName="Global_ID">
-               <mat-error *ngIf="fieldHasErrors(Form, 'Global_ID')">
-                 {{
-                   autoPrintFirstErrorMessage(
-                     Form,
-                     "Global_ID",
-                     Global_ID.innerHTML
-                   )
-                 }}
-               </mat-error>
-             </mat-form-field>
-           </div>
-           <div>
-             <mat-form-field appearance="fill">
-               <mat-label #Insurance_ID>الرقم التاميني</mat-label>
-               <input type="text" matInput formControlName="Insurance_ID">
-               <mat-error *ngIf="fieldHasErrors(Form, 'Insurance_ID')">
-                 {{
-                   autoPrintFirstErrorMessage(
-                     Form,
-                     "Insurance_ID",
-                     Insurance_ID.innerHTML
-                   )
-                 }}
-               </mat-error>
-
-             </mat-form-field>
-           </div>
-
-           <div>
-             <mat-form-field appearance="fill">
-               <mat-label #id_number>رقم الهوية الشخصية</mat-label>
-               <input matInput formControlName="id_number">
-               <mat-hint>رقم الهوية الشخصية</mat-hint>
-               <mat-error *ngIf="fieldHasErrors(Form, 'id_number')">
-                 {{
-                   autoPrintFirstErrorMessage(
-                     Form,
-                     "id_number",
-                     id_number.innerHTML
-                   )
-                 }}
-               </mat-error>
-             </mat-form-field>
-           </div>
-
-
-         </div>
-         </mat-card-content>
-         </mat-card>
-
-           <mat-card class="example-card"  fxFlex="17%">
-
-             <mat-card-header>
-
-               <mat-card-title>مفصل الهوية</mat-card-title>
-             </mat-card-header>
-             <mat-card-content>
 
            <div fxLayout="column">
-            <ng-container formGroupName="FAMILY_FG">
+
+            <div>
+              <mat-form-field appearance="fill">
+                <mat-label #id>رقم الاضبارة</mat-label>
+                <input type="text" matInput formControlName="id" >
+
+                <mat-error *ngIf="fieldHasErrors(Form, 'id')">
+                  {{
+                    autoPrintFirstErrorMessage(
+                      Form,
+                      "id",
+                      id.innerHTML
+                    )
+                  }}
+                </mat-error>
+
+
+              </mat-form-field>
+            </div>
+            <div>
+
+              <mat-form-field appearance="fill">
+                <mat-label #Payrol_ID>رقم الشطب</mat-label>
+                <input type="text" matInput formControlName="Payrol_ID">
+                <mat-error *ngIf="fieldHasErrors(Form, 'Payrol_ID')">
+                  {{
+                    autoPrintFirstErrorMessage(
+                      Form,
+                      "Payrol_ID",
+                      Payrol_ID.innerHTML
+                    )
+                  }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field appearance="fill">
+                <mat-label #Computer_ID>رقم الحاسوب</mat-label>
+                <input type="text" matInput formControlName="Computer_ID">
+                <mat-error *ngIf="fieldHasErrors(Form, 'Computer_ID')">
+                  {{
+                    autoPrintFirstErrorMessage(
+                      Form,
+                      "Computer_ID",
+                      Computer_ID.innerHTML
+                    )
+                  }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field appearance="fill">
+                <mat-label #Global_ID>الرقم الذاتي السجل العام بالدولة</mat-label>
+                <input type="text" matInput formControlName="Global_ID">
+                <mat-error *ngIf="fieldHasErrors(Form, 'Global_ID')">
+                  {{
+                    autoPrintFirstErrorMessage(
+                      Form,
+                      "Global_ID",
+                      Global_ID.innerHTML
+                    )
+                  }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field appearance="fill">
+                <mat-label #Insurance_ID>الرقم التاميني</mat-label>
+                <input type="text" matInput formControlName="Insurance_ID">
+                <mat-error *ngIf="fieldHasErrors(Form, 'Insurance_ID')">
+                  {{
+                    autoPrintFirstErrorMessage(
+                      Form,
+                      "Insurance_ID",
+                      Insurance_ID.innerHTML
+                    )
+                  }}
+                </mat-error>
+
+              </mat-form-field>
+            </div>
+
+            <div>
+              <mat-form-field appearance="fill">
+                <mat-label #id_number>رقم الهوية الشخصية</mat-label>
+                <input matInput formControlName="id_number">
+                <mat-hint>رقم الهوية الشخصية</mat-hint>
+                <mat-error *ngIf="fieldHasErrors(Form, 'id_number')">
+                  {{
+                    autoPrintFirstErrorMessage(
+                      Form,
+                      "id_number",
+                      id_number.innerHTML
+                    )
+                  }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+
+          </div>
+          </mat-card-content>
+          </mat-card>
+
+            <mat-card class="example-card"  fxFlex="17%">
+
+              <mat-card-header>
+
+                <mat-card-title>مفصل الهوية</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+
+            <div fxLayout="column">
+          <!-- <ng-container formGroupName="FAMILY_FG"> -->
 
              <div>
-               <mat-form-field appearance="fill">
-                 <mat-label #FName>الاسم</mat-label>
-                 <input type="text" placeholder="الاسم" matInput formControlName="FName">
-                  <mat-error *ngIf="fieldHasErrors(Form, 'FName')">
-                   {{
-                     autoPrintFirstErrorMessage(
-                       Form,
-                       "FName",
-                       FName.innerHTML
-                     )
-                   }}
-                 </mat-error>
-               </mat-form-field>
-             </div>
-             <div>
-               <mat-form-field appearance="fill">
-                 <mat-label #LName>الكنية</mat-label>
-                 <input type="text" placeholder="الكنية" matInput formControlName="LName">
-                 <mat-error *ngIf="fieldHasErrors(Form, 'LName')">
-                   {{
-                     autoPrintFirstErrorMessage(
-                       Form,
-                       "LName",
-                       LName.innerHTML,
-                       true
-                     )
-                   }}
-                 </mat-error>
-               </mat-form-field>
-             </div>
-
-
-
-             <div>
-               <mat-form-field appearance="fill">
-                 <mat-label #Father>الاب</mat-label>
-                 <input type="text" placeholder="الاب" matInput formControlName="Father">
-                 <mat-error *ngIf="fieldHasErrors(Form, 'Father')">
-                   {{
-                     autoPrintFirstErrorMessage(
-                       Form,
-                       "Father",
-                       Father.innerHTML
-                     )
-                   }}
-                 </mat-error>
-               </mat-form-field>
-             </div>
-             <div>
-               <mat-form-field appearance="fill">
-                 <mat-label #Mother>الام</mat-label>
-                 <input type="text" placeholder="الام" matInput formControlName="Mother">
-                 <mat-error *ngIf="fieldHasErrors(Form, 'Mother')">
-                   {{
-                     autoPrintFirstErrorMessage(
-                       Form,
-                       "Mother",
-                       Mother.innerHTML
-                     )
-                   }}
-                 </mat-error>
-               </mat-form-field>
-             </div>
-             </ng-container>
-
-
-           <div>
-             <mat-form-field appearance="fill">
-               <mat-label #Birth_Place>مكان الولادة</mat-label>
-               <input type="text" matInput formControlName="Birth_Place">
-               <mat-error *ngIf="fieldHasErrors(Form, 'Birth_Place')">
-                 {{
-                   autoPrintFirstErrorMessage(
-                     Form,
-                     "Birth_Place",
-                     Birth_Place.innerHTML
-                   )
-                 }}
-               </mat-error>
-             </mat-form-field>
-           </div>
-           <div>
-             <mat-form-field appearance="fill" class="date-picker-field">
-               <mat-label #BirthDate>تاريخ الولادة</mat-label>
-               <input matInput [matDatepicker]="picker_BIRTHDATE" formControlName="BirthDate" (keyup.enter)="keytab($event)">
-               <mat-hint>DD/MM/YYYY</mat-hint>
-               <mat-error *ngIf="fieldHasErrors(Form, 'BirthDate')">
-                 {{
-                   autoPrintFirstErrorMessage(
-                     Form,
-                     "BirthDate",
-                     BirthDate.innerHTML
-                   )
-                 }}
-               </mat-error>
-               <mat-datepicker-toggle matSuffix [for]="picker_BIRTHDATE"></mat-datepicker-toggle>
-               <mat-datepicker #picker_BIRTHDATE (keyup.enter)="keytab($event)"></mat-datepicker>
-             </mat-form-field>
-           </div>
-
-           <div>
-             <mat-form-field appearance="fill">
-               <mat-label #kayd_place>محل ورقم القيد</mat-label>
-               <input type="text" matInput formControlName="Kayd_Place">
-               <mat-error *ngIf="fieldHasErrors(Form, 'Kayd_Place')">محل ورقم القيد مطلوب</mat-error>
-             </mat-form-field>
-           </div>
-
-
-         </div>
-             </mat-card-content>
-             </mat-card>
-
-
-             <mat-card class="example-card"  fxFlex="17%">
-
-               <mat-card-header>
-
-                 <mat-card-title>معلومات أخرى</mat-card-title>
-               </mat-card-header>
-               <mat-card-content>
-
-          <div fxLayout="column">
-
-
-
-           <div>
-             <mat-form-field appearance="fill">
-               <mat-label #Sex_Name>الجنس</mat-label>
-               <input matInput placeholder="اختر الجنس" formControlName="Sex_Name" [matAutocomplete]="auto_SEX_NAME" (keyup.enter)="keytab($event)">
-
-               <mat-autocomplete #auto_SEX_NAME="matAutocomplete" [displayWith]="Display_SEX_Property"
-                 (optionSelected)="OnSelect_SEX_Change($event)">
-                 <mat-option *ngFor="let option of filtered_SEX | async" [value]="option">
-                   {{option.Sex_Name}}
-                 </mat-option>
-               </mat-autocomplete>
-               <mat-error *ngIf="fieldHasErrors(Form, 'Sex_Name')">
-                 {{
-                   autoPrintFirstErrorMessage(
-                     Form,
-                     "Sex_Name",
-                     Sex_Name.innerHTML
-                   )
-                 }}
-               </mat-error>
-             </mat-form-field>
-           </div>
-
-
-
-           <div>
-             <mat-form-field appearance="fill">
-               <mat-label #Nationality_ID>الجنسية</mat-label>
-               <input matInput placeholder="اختر الجنسية" formControlName="Nationality_ID"
-                 [matAutocomplete]="auto_NATIONALITY_ID">
-                 <mat-error *ngIf="fieldHasErrors(Form, 'Nationality_ID')">
-                   {{
-                     autoPrintFirstErrorMessage(
-                       Form,
-                       "Nationality_ID",
-                       Nationality_ID.innerHTML,
-                       true
-                     )
-                   }}
-                 </mat-error>
-               <mat-autocomplete #auto_NATIONALITY_ID="matAutocomplete" [displayWith]="Display_NATIONALITY_Property"
-                 (optionSelected)="OnSelect_NATIONALITY_Change($event)">
-                 <mat-option *ngFor="let option of filtered_NATIONALITY | async" [value]="option">
-                   {{option.Nationality_Name}}
-                 </mat-option>
-               </mat-autocomplete>
-             </mat-form-field>
-           </div>
-
-
-
-           <div>
-             <mat-form-field appearance="fill">
-               <mat-label #MartialState_Name>الحالة الاجتماعية</mat-label>
-               <input matInput placeholder="اختر الحالة الاجتماعية" formControlName="MartialState_Name"
-                 [matAutocomplete]="auto_MARTIALSTATE">
-                 <mat-error *ngIf="fieldHasErrors(Form, 'MartialState_Name')">
-                   {{
-                     autoPrintFirstErrorMessage(
-                       Form,
-                       "MartialState_Name",
-                       MartialState_Name.innerHTML,
-                       true
-                     )
-                   }}
-                 </mat-error>
-               <mat-autocomplete #auto_MARTIALSTATE="matAutocomplete" [displayWith]="Display_MARTIALSTATE_Property"
-                 (optionSelected)="OnSelect_MARTIALSTATE_Change($event)">
-                 <mat-option *ngFor="let option of filtered_TBLSHAMELMARTIALSTATE | async" [value]="option">
-                   {{option.MartialState_Name}}
-                 </mat-option>
-               </mat-autocomplete>
-             </mat-form-field>
-           </div>
-
-
-           <mat-checkbox
-             required value="first-value"
-             aria-label="هل هو احتياط"
-             formControlName="Emp_IN_Military_Service" class="mb-3" >
-              هل هو احتياط
-           </mat-checkbox>
-
-
-           <div>
-             <mat-form-field appearance="fill">
-               <mat-label #PhoneNum>أرقام الهواتف</mat-label>
-               <input matInput formControlName="PhoneNum">
-               <mat-hint>أرقام الهواتف</mat-hint>
-               <mat-error *ngIf="fieldHasErrors(Form, 'PhoneNum')">
-                 {{
-                   autoPrintFirstErrorMessage(
-                     Form,
-                     "PhoneNum",
-                     PhoneNum.innerHTML,
-                     true
-                   )
-                 }}
-               </mat-error>
-             </mat-form-field>
-           </div>
-
-
-
-
-         </div>
-               </mat-card-content>
-               </mat-card>
-
-   <mat-card class="example-card"  fxFlex="17%">
-
-     <mat-card-header>
-
-       <mat-card-title>معلومات السكن</mat-card-title>
-     </mat-card-header>
-
-     <mat-card-content>
-
-       <div fxLayout="column">
-
-
-         <div>
-           <mat-form-field appearance="fill">
-             <mat-label #Area_ID>المنطقة</mat-label>
-             <input matInput placeholder="اختر المنطقة" formControlName="Area_ID" [matAutocomplete]="auto_AREA_ID">
-             <mat-error *ngIf="fieldHasErrors(Form, 'Area_ID')">
-               {{
-                 autoPrintFirstErrorMessage(
-                   Form,
-                   "Area_ID",
-                   Area_ID.innerHTML
-                 )
-               }}
-             </mat-error>
-             <mat-autocomplete #auto_AREA_ID="matAutocomplete" [displayWith]="Display_AREA_Property"
-               (optionSelected)="OnSelect_AREA_Change($event)">
-               <mat-option *ngFor="let option of filtered_AREA | async" [value]="option">
-                 {{option.Area_Name}}
-               </mat-option>
-             </mat-autocomplete>
-           </mat-form-field>
-         </div>
-
-         <div>
-           <mat-form-field appearance="fill">
-             <mat-label #MiniArea_ID>اختر الناحية</mat-label>
-             <input matInput placeholder="اختر الناحية" formControlName="MiniArea_ID"
-               [matAutocomplete]="auto_MINIAREA_ID">
-               <mat-error *ngIf="fieldHasErrors(Form, 'MINIAREA_ID')">
-                 {{
-                   autoPrintFirstErrorMessage(
-                     Form,
-                     "MINIAREA_ID",
-                     MiniArea_ID.innerHTML
-                   )
-                 }}
-               </mat-error>
-             <mat-autocomplete #auto_MINIAREA_ID="matAutocomplete" [displayWith]="Display_MINIAREA_Property"
-               (optionSelected)="OnSelect_MINIAREA_Change($event)">
-               <mat-option *ngFor="let option of filtered_TBLShamelMiniArea | async" [value]="option">
-                 {{option.MiniArea_Name}}
-               </mat-option>
-             </mat-autocomplete>
-           </mat-form-field>
-
-         </div>
-
-
-         <div>
-           <mat-form-field appearance="fill">
-             <mat-label #StreetOrVillage_ID> الشارع أو القرية</mat-label>
-             <input matInput placeholder="اختر الشارع أو القرية" formControlName="StreetOrVillage_ID"
-               [matAutocomplete]="auto_STREETORVILLAGE_ID">
-               <mat-error *ngIf="fieldHasErrors(Form, 'STREETORVILLAGE_ID')">
-                 {{
-                   autoPrintFirstErrorMessage(
-                     Form,
-                     "STREETORVILLAGE_ID",
-                     StreetOrVillage_ID.innerHTML
-                   )
-                 }}
-               </mat-error>
-             <mat-autocomplete #auto_STREETORVILLAGE_ID="matAutocomplete"
-               [displayWith]="Display_STREETORVILLAGE_Property"
-               (optionSelected)="OnSelect_STREETORVILLAGE_Change($event)">
-               <mat-option *ngFor="let option of filtered_STREETORVILLAGE | async" [value]="option">
-                 {{option.StreetOrVillage_Name}}
-               </mat-option>
-             </mat-autocomplete>
-           </mat-form-field>
-         </div>
+                <mat-form-field appearance="fill">
+                  <mat-label #FName>الاسم</mat-label>
+                  <input type="text" placeholder="الاسم" matInput formControlName="FName">
+                   <mat-error *ngIf="fieldHasErrors(Form, 'FName')">
+                    {{
+                      autoPrintFirstErrorMessage(
+                        Form,
+                        "FName",
+                        FName.innerHTML
+                      )
+                    }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field appearance="fill">
+                  <mat-label #LName>الكنية</mat-label>
+                  <input type="text" placeholder="الكنية" matInput formControlName="LName">
+                  <mat-error *ngIf="fieldHasErrors(Form, 'LName')">
+                    {{
+                      autoPrintFirstErrorMessage(
+                        Form,
+                        "LName",
+                        LName.innerHTML,
+                        true
+                      )
+                    }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+
+
+              <div>
+                <mat-form-field appearance="fill">
+                  <mat-label #Father>الاب</mat-label>
+                  <input type="text" placeholder="الاب" matInput formControlName="Father">
+                  <mat-error *ngIf="fieldHasErrors(Form, 'Father')">
+                    {{
+                      autoPrintFirstErrorMessage(
+                        Form,
+                        "Father",
+                        Father.innerHTML
+                      )
+                    }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field appearance="fill">
+                  <mat-label #Mother>الام</mat-label>
+                  <input type="text" placeholder="الام" matInput formControlName="Mother">
+                  <mat-error *ngIf="fieldHasErrors(Form, 'Mother')">
+                    {{
+                      autoPrintFirstErrorMessage(
+                        Form,
+                        "Mother",
+                        Mother.innerHTML
+                      )
+                    }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <!-- </ng-container> -->
+
+
+            <div>
+              <mat-form-field appearance="fill">
+                <mat-label #Birth_Place>مكان الولادة</mat-label>
+                <input type="text" matInput formControlName="Birth_Place">
+                <mat-error *ngIf="fieldHasErrors(Form, 'Birth_Place')">
+                  {{
+                    autoPrintFirstErrorMessage(
+                      Form,
+                      "Birth_Place",
+                      Birth_Place.innerHTML
+                    )
+                  }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field appearance="fill" class="date-picker-field">
+                <mat-label #BirthDate>تاريخ الولادة</mat-label>
+                <input matInput [matDatepicker]="picker_BIRTHDATE" formControlName="BirthDate" (keyup.enter)="keytab($event)">
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-error *ngIf="fieldHasErrors(Form, 'BirthDate')">
+                  {{
+                    autoPrintFirstErrorMessage(
+                      Form,
+                      "BirthDate",
+                      BirthDate.innerHTML
+                    )
+                  }}
+                </mat-error>
+                <mat-datepicker-toggle matSuffix [for]="picker_BIRTHDATE"></mat-datepicker-toggle>
+                <mat-datepicker #picker_BIRTHDATE (keyup.enter)="keytab($event)"></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <div>
+              <mat-form-field appearance="fill">
+                <mat-label #kayd_place>محل ورقم القيد</mat-label>
+                <input type="text" matInput formControlName="Kayd_Place">
+                <mat-error *ngIf="fieldHasErrors(Form, 'Kayd_Place')">محل ورقم القيد مطلوب</mat-error>
+              </mat-form-field>
+            </div>
+
+
+          </div>
+              </mat-card-content>
+              </mat-card>
+
+
+              <mat-card class="example-card"  fxFlex="17%">
+
+                <mat-card-header>
+
+                  <mat-card-title>معلومات أخرى</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+
+           <div fxLayout="column">
+
+
+
+            <div>
+              <mat-form-field appearance="fill">
+                <mat-label #Sex_Name>الجنس</mat-label>
+                <input matInput placeholder="اختر الجنس" formControlName="Sex_Name" [matAutocomplete]="auto_SEX_NAME" (keyup.enter)="keytab($event)">
+
+                <mat-autocomplete #auto_SEX_NAME="matAutocomplete" [displayWith]="Display_SEX_Property"
+                  (optionSelected)="OnSelect_SEX_Change($event)">
+                  <mat-option *ngFor="let option of filtered_SEX | async" [value]="option">
+                    {{option.Sex_Name}}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="fieldHasErrors(Form, 'Sex_Name')">
+                  {{
+                    autoPrintFirstErrorMessage(
+                      Form,
+                      "Sex_Name",
+                      Sex_Name.innerHTML
+                    )
+                  }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+
+
+            <div>
+              <mat-form-field appearance="fill">
+                <mat-label #Nationality_ID>الجنسية</mat-label>
+                <input matInput placeholder="اختر الجنسية" formControlName="Nationality_ID"
+                  [matAutocomplete]="auto_NATIONALITY_ID">
+                  <mat-error *ngIf="fieldHasErrors(Form, 'Nationality_ID')">
+                    {{
+                      autoPrintFirstErrorMessage(
+                        Form,
+                        "Nationality_ID",
+                        Nationality_ID.innerHTML,
+                        true
+                      )
+                    }}
+                  </mat-error>
+                <mat-autocomplete #auto_NATIONALITY_ID="matAutocomplete" [displayWith]="Display_NATIONALITY_Property"
+                  (optionSelected)="OnSelect_NATIONALITY_Change($event)">
+                  <mat-option *ngFor="let option of filtered_NATIONALITY | async" [value]="option">
+                    {{option.Nationality_Name}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+
+
+
+            <div>
+              <mat-form-field appearance="fill">
+                <mat-label #MartialState_Name>الحالة الاجتماعية</mat-label>
+                <input matInput placeholder="اختر الحالة الاجتماعية" formControlName="MartialState_Name"
+                  [matAutocomplete]="auto_MARTIALSTATE">
+                  <mat-error *ngIf="fieldHasErrors(Form, 'MartialState_Name')">
+                    {{
+                      autoPrintFirstErrorMessage(
+                        Form,
+                        "MartialState_Name",
+                        MartialState_Name.innerHTML,
+                        true
+                      )
+                    }}
+                  </mat-error>
+                <mat-autocomplete #auto_MARTIALSTATE="matAutocomplete" [displayWith]="Display_MARTIALSTATE_Property"
+                  (optionSelected)="OnSelect_MARTIALSTATE_Change($event)">
+                  <mat-option *ngFor="let option of filtered_TBLSHAMELMARTIALSTATE | async" [value]="option">
+                    {{option.MartialState_Name}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+
+
+            <mat-checkbox
+              required value="first-value"
+              aria-label="هل هو احتياط"
+              formControlName="Emp_IN_Military_Service" class="mb-3" >
+               هل هو احتياط
+            </mat-checkbox>
+
+
+            <div>
+              <mat-form-field appearance="fill">
+                <mat-label #PhoneNum>أرقام الهواتف</mat-label>
+                <input matInput formControlName="PhoneNum">
+                <mat-hint>أرقام الهواتف</mat-hint>
+                <mat-error *ngIf="fieldHasErrors(Form, 'PhoneNum')">
+                  {{
+                    autoPrintFirstErrorMessage(
+                      Form,
+                      "PhoneNum",
+                      PhoneNum.innerHTML,
+                      true
+                    )
+                  }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+
+
+
+          </div>
+                </mat-card-content>
+                </mat-card>
+
+    <mat-card class="example-card"  fxFlex="17%">
+
+      <mat-card-header>
+
+        <mat-card-title>معلومات السكن</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+
+        <div fxLayout="column">
+
+
+          <div>
+            <mat-form-field appearance="fill">
+              <mat-label #Area_ID>المنطقة</mat-label>
+              <input matInput placeholder="اختر المنطقة" formControlName="Area_ID" [matAutocomplete]="auto_AREA_ID">
+              <mat-error *ngIf="fieldHasErrors(Form, 'Area_ID')">
+                {{
+                  autoPrintFirstErrorMessage(
+                    Form,
+                    "Area_ID",
+                    Area_ID.innerHTML
+                  )
+                }}
+              </mat-error>
+              <mat-autocomplete #auto_AREA_ID="matAutocomplete" [displayWith]="Display_AREA_Property"
+                (optionSelected)="OnSelect_AREA_Change($event)">
+                <mat-option *ngFor="let option of filtered_AREA | async" [value]="option">
+                  {{option.Area_Name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field appearance="fill">
+              <mat-label #MiniArea_ID>اختر الناحية</mat-label>
+              <input matInput placeholder="اختر الناحية" formControlName="MiniArea_ID"
+                [matAutocomplete]="auto_MINIAREA_ID">
+                <mat-error *ngIf="fieldHasErrors(Form, 'MiniArea_ID')">
+                  {{
+                    autoPrintFirstErrorMessage(
+                      Form,
+                      "MiniArea_ID",
+                      MiniArea_ID.innerHTML
+                    )
+                  }}
+                </mat-error>
+              <mat-autocomplete #auto_MINIAREA_ID="matAutocomplete" [displayWith]="Display_MINIAREA_Property"
+                (optionSelected)="OnSelect_MINIAREA_Change($event)">
+                <mat-option *ngFor="let option of filtered_TBLShamelMiniArea | async" [value]="option">
+                  {{option.MiniArea_Name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+          </div>
+
+
+          <div>
+            <mat-form-field appearance="fill">
+              <mat-label #StreetOrVillage_ID> الشارع أو القرية</mat-label>
+              <input matInput placeholder="اختر الشارع أو القرية" formControlName="StreetOrVillage_ID"
+                [matAutocomplete]="auto_STREETORVILLAGE_ID">
+                <mat-error *ngIf="fieldHasErrors(Form, 'StreetOrVillage_ID')">
+                  {{
+                    autoPrintFirstErrorMessage(
+                      Form,
+                      "StreetOrVillage_ID",
+                      StreetOrVillage_ID.innerHTML
+                    )
+                  }}
+                </mat-error>
+              <mat-autocomplete #auto_STREETORVILLAGE_ID="matAutocomplete"
+                [displayWith]="Display_STREETORVILLAGE_Property"
+                (optionSelected)="OnSelect_STREETORVILLAGE_Change($event)">
+                <mat-option *ngFor="let option of filtered_STREETORVILLAGE | async" [value]="option">
+                  {{option.StreetOrVillage_Name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
 
 
-       </div>
+        </div>
 
-
-
-     </mat-card-content>
-
-
-
-
-
-
-   </mat-card>
-
-   <mat-card class="example-card"  fxFlex="17%">
-
-     <mat-card-header>
-
-       <mat-card-title>الجهاز المركزي</mat-card-title>
-
-     </mat-card-header>
-
-     <mat-card-content>
-
-
-
-
-       <div fxLayout="column">
-
-
-         <div>
-           <mat-form-field appearance="fill">
-             <mat-label #Qarar_Num>رقم تأشيرة الجهاز المركزي</mat-label>
-             <input matInput formControlName="Qarar_Num">
-             <mat-error *ngIf="fieldHasErrors(Form, 'Qarar_Num')">
-               {{
-                 autoPrintFirstErrorMessage(
-                   Form,
-                   "Qarar_Num",
-                   Qarar_Num.innerHTML
-                 )
-               }}
-             </mat-error>
-           </mat-form-field>
-         </div>
-
-
-         <div>
-           <mat-form-field appearance="fill" class="date-picker-field">
-             <mat-label #QararDate>تاريخ التأشيرة</mat-label>
-             <input matInput [matDatepicker]="picker_QARARDATE" formControlName="QararDate">
-             <mat-hint>DD/MM/YYYY</mat-hint>
-             <mat-datepicker-toggle matSuffix [for]="picker_QARARDATE"></mat-datepicker-toggle>
-             <mat-datepicker #picker_QARARDATE></mat-datepicker>
-             <mat-error *ngIf="fieldHasErrors(Form, 'QararDate')">
-               {{
-                 autoPrintFirstErrorMessage(
-                   Form,
-                   "QararDate",
-                   QararDate.innerHTML
-                 )
-               }}
-             </mat-error>
-           </mat-form-field>
-         </div>
-       </div>
-
-
-     </mat-card-content>
-
-
-
-
-
-
-   </mat-card>
-
-
-   <mat-card class="example-card"  fxFlex="17%">
-
-     <mat-card-header>
-
-       <mat-card-title>الملاحظات</mat-card-title>
-
-     </mat-card-header>
-
-     <mat-card-content>
-
-
-       <div fxLayout="column">
-
-
-
-
-         <div>
-           <mat-form-field appearance="fill">
-             <mat-label #Rem1>ملاحظة رقم 1</mat-label>
-             <textarea matInput formControlName="Rem1"></textarea>
-             <mat-hint></mat-hint>
-             <mat-error *ngIf="fieldHasErrors(Form, 'Rem1')">
-               {{
-                 autoPrintFirstErrorMessage(
-                   Form,
-                   "Rem1",
-                   Rem1.innerHTML,
-                   true
-                 )
-               }}
-             </mat-error>
-           </mat-form-field>
-         </div>
-
-         <div>
-           <mat-form-field appearance="fill">
-             <mat-label #Rem2>ملاحظة رقم 2</mat-label>
-             <textarea matInput formControlName="Rem2"></textarea>
-             <mat-hint></mat-hint>
-             <mat-error *ngIf="fieldHasErrors(Form, 'Rem2')">
-               {{
-                 autoPrintFirstErrorMessage(
-                   Form,
-                   "Rem2",
-                   Rem2.innerHTML,
-                   true
-                 )
-               }}
-             </mat-error>
-           </mat-form-field>
-         </div>
-
-         <div>
-           <mat-form-field appearance="fill">
-             <mat-label #Rem3>ملاحظة رقم 3</mat-label>
-             <textarea matInput formControlName="Rem3"></textarea>
-             <mat-hint></mat-hint>
-             <mat-error *ngIf="fieldHasErrors(Form, 'Rem3')">
-               {{
-                 autoPrintFirstErrorMessage(
-                   Form,
-                   "Rem3",
-                   Rem3.innerHTML,
-                   true
-                 )
-               }}
-             </mat-error>
-           </mat-form-field>
-         </div>
-
-
-
-       </div>
-
-
-
-     </mat-card-content>
-
-   </mat-card>
-
- </div>
-
- <div class="d-flex justify-content-center submit-button-container">
-   <button class="submit-button my-2" mat-flat-button  (click)="Save()"  color="primary">حفظ</button>
- </div>
-
-
-</form>
+
+
+      </mat-card-content>
+
+
+
+
+
+
+    </mat-card>
+
+    <mat-card class="example-card"  fxFlex="17%">
+
+      <mat-card-header>
+
+        <mat-card-title>الجهاز المركزي</mat-card-title>
+
+      </mat-card-header>
+
+      <mat-card-content>
+
+
+
+
+        <div fxLayout="column">
+
+
+          <div>
+            <mat-form-field appearance="fill">
+              <mat-label #Qarar_Num>رقم تأشيرة الجهاز المركزي</mat-label>
+              <input matInput formControlName="Qarar_Num">
+              <mat-error *ngIf="fieldHasErrors(Form, 'Qarar_Num')">
+                {{
+                  autoPrintFirstErrorMessage(
+                    Form,
+                    "Qarar_Num",
+                    Qarar_Num.innerHTML
+                  )
+                }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+
+          <div>
+            <mat-form-field appearance="fill" class="date-picker-field">
+              <mat-label #QararDate>تاريخ التأشيرة</mat-label>
+              <input matInput [matDatepicker]="picker_QARARDATE" formControlName="QararDate">
+              <mat-hint>DD/MM/YYYY</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="picker_QARARDATE"></mat-datepicker-toggle>
+              <mat-datepicker #picker_QARARDATE></mat-datepicker>
+              <mat-error *ngIf="fieldHasErrors(Form, 'QararDate')">
+                {{
+                  autoPrintFirstErrorMessage(
+                    Form,
+                    "QararDate",
+                    QararDate.innerHTML
+                  )
+                }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+
+      </mat-card-content>
+
+
+
+
+
+
+    </mat-card>
+
+
+    <mat-card class="example-card"  fxFlex="17%">
+
+      <mat-card-header>
+
+        <mat-card-title>الملاحظات</mat-card-title>
+
+      </mat-card-header>
+
+      <mat-card-content>
+
+
+        <div fxLayout="column">
+
+
+
+
+          <div>
+            <mat-form-field appearance="fill">
+              <mat-label #Rem1>ملاحظة رقم 1</mat-label>
+              <textarea matInput formControlName="Rem1"></textarea>
+              <mat-hint></mat-hint>
+              <mat-error *ngIf="fieldHasErrors(Form, 'Rem1')">
+                {{
+                  autoPrintFirstErrorMessage(
+                    Form,
+                    "Rem1",
+                    Rem1.innerHTML,
+                    true
+                  )
+                }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field appearance="fill">
+              <mat-label #Rem2>ملاحظة رقم 2</mat-label>
+              <textarea matInput formControlName="Rem2"></textarea>
+              <mat-hint></mat-hint>
+              <mat-error *ngIf="fieldHasErrors(Form, 'Rem2')">
+                {{
+                  autoPrintFirstErrorMessage(
+                    Form,
+                    "Rem2",
+                    Rem2.innerHTML,
+                    true
+                  )
+                }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field appearance="fill">
+              <mat-label #Rem3>ملاحظة رقم 3</mat-label>
+              <textarea matInput formControlName="Rem3"></textarea>
+              <mat-hint></mat-hint>
+              <mat-error *ngIf="fieldHasErrors(Form, 'Rem3')">
+                {{
+                  autoPrintFirstErrorMessage(
+                    Form,
+                    "Rem3",
+                    Rem3.innerHTML,
+                    true
+                  )
+                }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+
+
+        </div>
+
+
+
+      </mat-card-content>
+
+    </mat-card>
+
+  </div>
+
+  <div class="d-flex justify-content-center submit-button-container">
+    <button class="submit-button my-2" mat-flat-button  (click)="Save()"  color="primary">حفظ</button>
+  </div>
+
+
+ </form>
 
