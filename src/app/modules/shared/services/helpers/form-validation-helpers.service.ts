@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 
+
+// type ValidationTypes = "required" | "pattern" | "mobNumExists" | "maxLength" | "dateRange";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -32,7 +35,10 @@ export class FormValidationHelpersService {
       return validationName == "maxLength"
     }
 
-
+    private hasDateRangeVaidation(validationName: string): boolean
+    {
+      return validationName == "dateRange"
+    }
 
     private hasRequiredError(form: any, controlName: string): boolean {
 
@@ -85,6 +91,18 @@ export class FormValidationHelpersService {
 
       return false;
 
+    }
+
+    private hasDateRangeError(form: any, controlName: string): boolean {
+
+      const errors = this.caclFormFieldNestedName(form, controlName).errors;
+
+      if(errors && errors['dateRange'])
+      {
+        return errors["dateRange"] != undefined;
+      }
+
+      return false;
     }
 
     // if message is provided in array, it get printed, otherwise it get calculated automatically
@@ -159,16 +177,16 @@ export class FormValidationHelpersService {
     {
 
 
-      const formPathAsArray: string[] = formName.split('.')
+      const formPathAsArray: string[] = formName.split('.').filter(x => x != "")
+
+
+      if(formPathAsArray.length == 0)
+      {
+        return form;
+      }
+
 
       const nestedFormValue = formPathAsArray.reduce((o,i)=> {
-
-        // console.log("o", o)
-
-        // console.log("i", i)
-
-        // console.log("o[i]", o.controls[i])
-
 
         return o.controls[i]
         },
@@ -178,9 +196,9 @@ export class FormValidationHelpersService {
 
       return nestedFormValue;
 
-      console
 
-      return form.controls[formName];
+
+      // return form.controls[formName];
 
     }
 
@@ -194,6 +212,7 @@ export class FormValidationHelpersService {
 
     const formContrlValue: any = this.caclFormFieldNestedName(form, controlName);
 
+
     const formErrors = formContrlValue.errors;
 
     const errorMessages: string[] =  Object.keys(formErrors).filter(x => {
@@ -202,7 +221,9 @@ export class FormValidationHelpersService {
       const hasRequiredValidation: boolean = this.hasRequiredValidation(x)
       const hasPatternValidation: boolean = this.hasPatternValidation(x)
       const hasMaxLengthValidation: boolean = x == "maxlength"
-      const hasDuplicatedValidation: boolean = this.hasDuplicatedValidation( x)
+      const hasDuplicatedValidation: boolean = this.hasDuplicatedValidation(x)
+      const hasDateRangeValidation: boolean = this.hasDateRangeVaidation(x);
+
 
       if(hasRequiredValidation)
       {
@@ -222,6 +243,11 @@ export class FormValidationHelpersService {
       if(hasDuplicatedValidation)
       {
         return this.hasDuplicatedError(form, controlName);
+      }
+
+      if(hasDateRangeValidation)
+      {
+        return this.hasDateRangeError(form, controlName);
       }
 
       return this.hasRequiredError(form, controlName)
@@ -250,10 +276,14 @@ export class FormValidationHelpersService {
 
           return this.printIsDuplicated(label);
         }
+        case("dateRange"): {
+          return this.printDateRange(label);
+        }
         default: return "";
       }
 
     })
+
 
 
     return errorMessages[0]
@@ -336,6 +366,16 @@ export class FormValidationHelpersService {
       const DuplicatedMessage = `${name} مكرر ${femaleChar}`;
 
       return DuplicatedMessage
+
+    }
+
+
+    printDateRange(label: string): string {
+
+      const dateRangeMessage = `${label} أصغر من تاريخ النهاية`
+
+
+      return dateRangeMessage;
 
     }
 

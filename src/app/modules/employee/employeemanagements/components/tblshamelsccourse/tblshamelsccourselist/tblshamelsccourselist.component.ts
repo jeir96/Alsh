@@ -26,14 +26,14 @@ export class TblshamelsccourselistComponent   implements OnInit ,AfterViewInit  
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  //Join Variable   
+  //Join Variable
   Selected_Emp:TBLShamelEmployee = {};
 
 
   // List For Table
   employee_course_List :ITBLShamelSCCourse []=[];
   dataSource: MatTableDataSource<ITBLShamelSCCourse>;
-  
+
   selected_employee_course :ITBLShamelSCCourse;
   displayedColumns: string[] = ['course_name', 'specification_name', 'studyduration', 'country_name'
                                 ,'startdate','enddate' ,'action'];
@@ -47,7 +47,7 @@ export class TblshamelsccourselistComponent   implements OnInit ,AfterViewInit  
     private snackBar: MatSnackBar) {
 
       this.dataSource = new MatTableDataSource([]);
-     
+
       this.PageService.Subject_Selected_TBLShamelEmployee.subscribe(
         data=>
         {
@@ -67,14 +67,19 @@ export class TblshamelsccourselistComponent   implements OnInit ,AfterViewInit  
           this.dataSource.data= this.employee_course_List ;
         }
       )
-     
+
+      this.FillTable();
+
+
      }
 
 
-  
-   
-  ngOnInit(): void { 
+
+
+  ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.employee_course_List );
+
+
   }
   ngAfterViewInit() {
     this.dataSource = new MatTableDataSource(this.employee_course_List );
@@ -83,30 +88,25 @@ export class TblshamelsccourselistComponent   implements OnInit ,AfterViewInit  
 }
 
 
-    public async FillTable()
+    public  FillTable()
     {
-     try{
        if (this.Selected_Emp && this.Selected_Emp.id>0)
        {
-        this.courseService.list(this.Selected_Emp.id).toPromise().then(
+        this.courseService.list(this.Selected_Emp.id).subscribe(
           (data:any)=>
-          {      
-            this.employee_course_List=data;                   
+          {
+
+            console.log("dat" ,data)
+
+            this.employee_course_List=data;
             this.dataSource.data= this.employee_course_List ;
             this.PageService.Selected_TBLShamelEmployee.TBLShamelSCCourses =  this.employee_course_List;
-            
+
           }
         );
        }
-     }catch(ex :any){}
     }
 
- 
-    
-
-
-
-  
 
 
   Add(): void {
@@ -117,23 +117,22 @@ export class TblshamelsccourselistComponent   implements OnInit ,AfterViewInit  
 
 
     const dialogRef = this.dialog.open(TblshamelsccoursemodifyComponent, {
-      height: '80%',
+      height: '40%',
       width: '80%',
       data: {obj: this.selected_employee_course,id:this.Selected_Emp.id}
     });
-   
-    dialogRef.afterClosed().toPromise().then(result => {
-     
+
+    dialogRef.afterClosed().subscribe(result => {
+
       this.FillTable();
-      
+
     });
   }
 
 
    Delete(element:ITBLShamelSCCourse)
   {
-    
-try{
+
       const dialogRef = this.dialog.open(ConfirmationdialogComponent,{
         data:{
           message: 'هل أنت متأكد من الحذف?',
@@ -144,21 +143,21 @@ try{
         }
       });
 
-      
 
-      dialogRef.afterClosed().toPromise().then((confirmed: boolean) => {
+
+      dialogRef.afterClosed().subscribe((confirmed: boolean) => {
         if (confirmed) {
-     
+
           const snack = this.snackBar.open('سوف يتم الآن الحذف');
-         
 
 
-          this.courseService.delete(element.serial).toPromise().then(res=> 
+
+          this.courseService.delete(element.serial).subscribe(res=>
             {
               snack.dismiss();
 
               console.log(res);
-              if (res==1)
+              if (res)
                 this.FillTable();
 
             });
@@ -167,14 +166,10 @@ try{
             });
 
             this.snackBar.dismiss();
- 
-         
+
+
         }
       });
-}catch(ex:any)  
-{
-
-}
 
   }
 
@@ -186,13 +181,13 @@ try{
       this.selected_employee_course = element;
 
       const dialogRef = this.dialog.open(TblshamelsccoursemodifyComponent, {
-        height: '60%',
+        height: '40%',
         width: '80%',
         data: {obj: this.selected_employee_course,id:this.Selected_Emp.id}
       });
-  
-      dialogRef.afterClosed().toPromise().then(result => {
-        this.FillTable();        
+
+      dialogRef.afterClosed().subscribe(result => {
+        this.FillTable();
       });
 
     }

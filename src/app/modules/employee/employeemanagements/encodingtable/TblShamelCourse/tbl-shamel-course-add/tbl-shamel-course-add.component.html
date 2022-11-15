@@ -1,32 +1,73 @@
 
-<form [formGroup]="myform" >
+<form [formGroup]="Form" >
 
-  <h1 mat-dialog-title> :: <strong>{{action}}</strong>   دراسة/دورة  </h1>
+  <h1 mat-dialog-title>{{actionName}} دراسة/دورة  </h1>
 
    <div mat-dialog-content>
 
-    <div class="col-8" *ngIf="action != 'حذف'; else elseTemplate">
-      <div class="col-8 row">
-      <div class="col-6">
-        <mat-form-field >
-          <input placeholder="{{action}}  دراسة/دورة " matInput
-                formControlName="Course_name">
-        </mat-form-field>
-      </div>
-      <div class="col-6">
-        <mat-checkbox [formControl]="frm_Course_fixed" [(ngModel)]="local_data!.course_fixed"> هل هو مثبت         </mat-checkbox>
-      </div>
+    <div class="row">
+
+        <div class="col-md-6 mb-2 ">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label #course_id>رقم الدراسة أو الدورة </mat-label>
+            <input type="text" matInput formControlName="course_id">
+            <mat-error *ngIf="fieldHasErrors(Form, 'course_id')">
+              {{
+                autoPrintFirstErrorMessage(
+                  Form,
+                  "course_id",
+                  course_id.innerHTML
+                )
+              }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6 mb-2">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label #course_name>اسم الدراسة أو الدورة</mat-label>
+            <input type="text" matInput formControlName="course_name">
+            <mat-error *ngIf="fieldHasErrors(Form, 'course_name')">
+              {{
+                autoPrintFirstErrorMessage(
+                  Form,
+                  "course_name",
+                  course_name.innerHTML
+                )
+              }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+
+        <div class="col-md-6 mb-4">
+          <mat-checkbox [formControl]="course_fixed" > هل هو مثبت</mat-checkbox>
+        </div>
+
 
 
     </div>
   </div>
 
-    <ng-template #elseTemplate>
-        هل أنت متأكد من حذف  دراسة/دورة  <b>{{local_data.course_name}}</b>؟
-    </ng-template>
-   </div>
+
    <div mat-dialog-actions>
-    <button mat-button (click)="doAction()">{{action}}</button>
-    <button mat-button (click)="closeDialog()" mat-flat-button color="warn">إلغاء</button>
+    <button mat-raised-button color="warn" mat-dialog-close>
+      <mat-icon class="mat-icon-rtl-mirror">close
+      </mat-icon>
+      اغلاق
+    </button>
+
+    <button mat-raised-button color="accent" (click)="onReset()">
+      <mat-icon class="mat-icon-rtl-mirror">clear
+      </mat-icon>
+      مسح الشاشة
+    </button>
+
+
+    <button mat-raised-button color="primary" cdkFocusInitial (click)="Save()">
+      <mat-icon class="mat-icon-rtl-mirror">save
+      </mat-icon>
+      {{ isEditMode ? "تعديل" : "حفظ" }}
+    </button>
    </div>
   </form>

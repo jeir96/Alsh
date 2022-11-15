@@ -20,29 +20,29 @@ import { TblshamelscmergeserviceModifyComponent } from '../tblshamelscmergeservi
   styleUrls: ['./tblshamelscmergeservice-list.component.scss']
 })
 export class TblshamelscmergeserviceListComponent implements OnInit,AfterViewInit {
- //Join Variable   
+ //Join Variable
  Selected_Emp: TBLShamelEmployee = {};
  @ViewChild('paginator') paginator: MatPaginator;
  @ViewChild(MatSort) sort: MatSort;
  dataSource : MatTableDataSource<TBLShamelSCMergeService> = new  MatTableDataSource<TBLShamelSCMergeService>([]);
-   
+
   @Input() employee_id :number | undefined;
   // List For Table
   employee_List_TBLShamelSCMergeService :TBLShamelSCMergeService []=[];
   selected_employee_MergeService :TBLShamelSCMergeService = {};
   displayedColumns: string[] = ['years', 'months', 'days','mergeservicereason_id','documenttype_id','document_number', 'documentdate','action'];
-  
- 
-  
+
+
+
   constructor(
     public PageService: EmployeePageService,
     public SCMergeServiceService : TBLShamelSCMergeServiceService,
     public dialog: MatDialog,
     private snackBar: MatSnackBar) {
       this.dataSource = new  MatTableDataSource<TBLShamelSCMergeService>([]);
-    
+
       this.dataSource.data = this.employee_List_TBLShamelSCMergeService;
-  
+
       this.PageService.Subject_Selected_TBLShamelEmployee.subscribe(
         data => {
           this.Selected_Emp = data;
@@ -56,7 +56,7 @@ export class TblshamelscmergeserviceListComponent implements OnInit,AfterViewIni
             if (data != null && data.TBLShamelSCMergeServices!= null )
             {
 console.log(data);
-            
+
             this.employee_List_TBLShamelSCMergeService = data.TBLShamelSCMergeServices;
 
             this.dataSource.data = this.employee_List_TBLShamelSCMergeService;
@@ -65,11 +65,11 @@ console.log(data);
         )
 
 
-    
+
      }
-  
-  
-    
+
+
+
 ngOnInit(): void {
 
   this.dataSource.data =this. employee_List_TBLShamelSCMergeService;
@@ -80,47 +80,47 @@ ngAfterViewInit() {
   this.dataSource.sort = this.sort;
 }
 
-  
+
     public async FillTable()
     {
      try{
-    
+
       if (this.Selected_Emp != null  && this.Selected_Emp.id != null && this.Selected_Emp.id > 0) {
 
         await this.SCMergeServiceService.list(this.Selected_Emp.id).subscribe(
           (data:any)=>
-          {     
-            
+          {
+
 
             if (this.PageService.Selected_TBLShamelEmployee != null)
-              this.PageService.Selected_TBLShamelEmployee.TBLShamelSCMergeServices = data;                        
-            this.employee_List_TBLShamelSCMergeService=data;  
-            this.dataSource.data =this.employee_List_TBLShamelSCMergeService;     
+              this.PageService.Selected_TBLShamelEmployee.TBLShamelSCMergeServices = data;
+            this.employee_List_TBLShamelSCMergeService=data;
+            this.dataSource.data =this.employee_List_TBLShamelSCMergeService;
           }
         );
        }
-  
-  
-  
+
+
+
      }catch(ex :any){}
-  
-  
+
+
     }
-  
-  
-    
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
   Add(): void {
-  
+
     this.selected_employee_MergeService =  {  };
-  
+
     this.selected_employee_MergeService.id =this.Selected_Emp.id;
-  
+
     console.log('dsd fasdf asdf asdf asdfdsfdsfdfsfddfsdfs');
 
   console.log(this.selected_employee_MergeService);
@@ -130,18 +130,18 @@ ngAfterViewInit() {
        width: '80%',
       data: {obj: this.selected_employee_MergeService,id:this.Selected_Emp.id}
     });
-   
+
     dialogRef.afterClosed().toPromise().then(result => {
-     
+
       this.FillTable();
-      
+
     });
   }
-  
-  
+
+
   async Delete(element:TBLShamelSCSuddenHoliday)
   {
-    
+
   try{
       const dialogRef = this.dialog.open(ConfirmationdialogComponent,{
         data:{
@@ -152,70 +152,69 @@ ngAfterViewInit() {
           }
         }
       });
-  
-      
-  
+
+
+
       dialogRef.afterClosed().toPromise().then((confirmed: boolean) => {
         if (confirmed) {
-     
+
           const snack = this.snackBar.open('سوف يتم الآن الحذف');
-         
-  
+
+
   if (element.serial!= null && element.serial>0)
   {
-    this.SCMergeServiceService.delete(element.serial).toPromise().then(res=> 
+    this.SCMergeServiceService.delete(element.serial).toPromise().then(res=>
       {
         snack.dismiss();
-  
+
         console.log(res);
         if (res==1)
           this.FillTable();
-  
+
       });
       this.snackBar.open('تم الحذف', 'Fechar', {
         duration: 2000,
       });
-  
+
       this.snackBar.dismiss();
   }
-    
-  
-         
+
+
+
         }
       });
-  }catch(ex:any)  
+  }catch(ex:any)
   {
-  
+
   }
-  
+
   }
-  
-  
+
+
   async Update(element:TBLShamelSCSuddenHoliday)
   {
     if (element!= null && element!= undefined)
     {
       this.selected_employee_MergeService = element;
- 
+
       this.selected_employee_MergeService.id =this.Selected_Emp.id;
-    
+
       const dialogRef = this.dialog.open(TblshamelscmergeserviceModifyComponent, {
         height: '60%',
         width: '80%',
         data: {obj: this.selected_employee_MergeService,id:this.Selected_Emp.id}
       });
-  
+
       dialogRef.afterClosed().toPromise().then(result => {
-        this.FillTable();        
+        this.FillTable();
       });
-  
+
     }
-  
-  
+
+
   }
-  
-  
-  
-  
+
+
+
+
   }
-  

@@ -7,18 +7,22 @@
 
     <div class="row justify-content-between text-left">
 
-      <div class="form-group col-sm-6 flex-column d-flex">
+      <div class="form-group col-sm-6 flex-column d-flex mb-2">
 
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>الدورة</mat-label>
-          <input type="text" matInput formControlName="course_id" 
+          <mat-label #course_id>الدورة</mat-label>
+          <input type="text" matInput formControlName="course_id"
             [matAutocomplete]="auto_course_id">
-          <mat-error *ngIf="errorHandling('course_id', 'required')"> يجب ادخال الدورة<strong>name</strong> </mat-error>
-          <mat-error *ngIf="((course_id.invalid || course_id.errors)  && (course_id.dirty || course_id.touched) )">
-            sdfsdf
-          </mat-error>
-          <mat-hint *ngIf="((course_id.invalid || course_id.errors)  && (course_id.dirty || course_id.touched) )"><span
-              class="mat-error">قم باحتيار الدورة المتبعة</span></mat-hint>
+            <mat-error *ngIf="fieldHasErrors(Form, 'course_id')">
+              {{
+                autoPrintFirstErrorMessage(
+                  Form,
+                  "course_id",
+                  course_id.innerHTML,
+                  true
+                )
+              }}
+            </mat-error>
           <mat-autocomplete #auto_course_id="matAutocomplete" [displayWith]="displayCourseProperty.bind(this)"
             (optionSelected)="OnSelectCourseChange($event)">
             <mat-option *ngFor="let option of filteredCourseOptions | async" [value]="option.course_id">
@@ -31,7 +35,7 @@
       </div>
 
 
-      <div class="form-group col-sm-6 flex-column d-flex">
+      <div class="form-group col-sm-6 flex-column d-flex mb-2">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>الاختصاص</mat-label>
           <input type="text" matInput formControlName="specification_id"
@@ -52,7 +56,7 @@
     <div class="row justify-content-between text-left">
 
 
-      <div class="form-group col-sm-6 flex-column d-flex">
+      <div class="form-group col-sm-6 flex-column d-flex mb-2">
 
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>الدولة أو البلد</mat-label>
@@ -68,7 +72,7 @@
       </div>
 
 
-      <div class="form-group col-sm-6 flex-column d-flex">
+      <div class="form-group col-sm-6 flex-column d-flex mb-2">
 
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>المدينة</mat-label>
@@ -89,32 +93,55 @@
 
 
 
-
-
-
     <div class="row justify-content-between text-left">
-      <div class="form-group col-sm-4 flex-column d-flex">
+      <div class="form-group col-sm-4 flex-column d-flex mb-2">
 
 
         <mat-form-field appearance="fill">
-          <mat-label>تاريخ بداية الدورة</mat-label>
+          <mat-label #startdate>تاريخ بداية الدورة</mat-label>
           <input matInput [matDatepicker]="Datepicker_startdate" formControlName="startdate"
-            (dateInput)="addEventStartDate('input', $event)" (dateChange)="addEventStartDate('change', $event)">
+            (dateInput)="addEventStartDate('input', $event)" (dateChange)="addEventStartDate('change', $event)"
+            [errorStateMatcher]="dateRangeErrorStateMatcher"
+            >
           <mat-datepicker-toggle matSuffix [for]="Datepicker_startdate"></mat-datepicker-toggle>
           <mat-datepicker #Datepicker_startdate></mat-datepicker>
+          <mat-error *ngIf="fieldHasErrors(Form, '')">
+            {{
+              autoPrintFirstErrorMessage(
+                Form,
+                "",
+                startdate.innerHTML,
+                true
+              )
+            }}
+          </mat-error>
         </mat-form-field>
+
       </div>
-      <div class="form-group col-sm-4 flex-column d-flex">
+      <div class="form-group col-sm-4 flex-column d-flex mb-2">
         <mat-form-field appearance="fill">
-          <mat-label>تاريخ نهاية الدورة</mat-label>
+          <mat-label #enddate>تاريخ نهاية الدورة</mat-label>
           <input matInput [matDatepicker]="Datepicker_enddate" formControlName="enddate"
-            (dateInput)="addEventEndDate('input', $event)" (dateChange)="addEventEndDate('change', $event)">
+            (dateInput)="addEventEndDate('input', $event)" (dateChange)="addEventEndDate('change', $event)"
+            [errorStateMatcher]="dateRangeErrorStateMatcher"
+            >
+            <mat-error *ngIf="fieldHasErrors(Form, '')">
+              {{
+                autoPrintFirstErrorMessage(
+                  Form,
+                  "",
+                  startdate.innerHTML,
+                  true
+                )
+              }}
+            </mat-error>
           <mat-datepicker-toggle matSuffix [for]="Datepicker_enddate"></mat-datepicker-toggle>
           <mat-datepicker #Datepicker_enddate></mat-datepicker>
         </mat-form-field>
+
       </div>
 
-      <div class="form-group col-sm-4 flex-column d-flex">
+      <div class="form-group col-sm-4 flex-column d-flex mb-2">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>مدة الدورة</mat-label>
 

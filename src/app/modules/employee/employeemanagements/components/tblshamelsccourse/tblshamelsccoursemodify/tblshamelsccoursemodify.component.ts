@@ -1,12 +1,14 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormValidationHelpersService } from 'src/app/modules/shared/services/helpers/form-validation-helpers.service';
 
-import { Component, OnInit, AfterViewInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Inject, OnDestroy } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, UntypedFormBuilder, Validators, FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DefaultMatCalendarRangeStrategy, MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as _moment from 'moment';
 import { Moment } from 'moment';
-import { Observable, of, startWith, map, combineLatest, forkJoin } from 'rxjs';
+import { Observable, of, startWith, map, combineLatest, forkJoin, Subscription, switchMap } from 'rxjs';
 import { ITBLShamelCountry } from 'src/app/modules/shared/models/employees_department/ITBLShamelCountry';
 import { ITBLShamelCourse } from 'src/app/modules/shared/models/employees_department/ITBLShamelCourse';
 import { ITBLShamelSCCourse } from 'src/app/modules/shared/models/employees_department/ITBLShamelSCCourse';
@@ -22,6 +24,8 @@ import { TblshamelspecificationService } from 'src/app/modules/shared/services/e
 import { TblshamelstateService } from 'src/app/modules/shared/services/employees_department/tblshamelstate.service';
 import { EmployeePageService } from '../../employee-page-service';
 import { ValidateForm } from './validate/validate_fromgroup';
+import { Validator_Date_Range } from './validate/Validator_Date_Range';
+import { DateRangeErrorStateMatcher } from './errorMatchers/Date_Range_Error_Matcher';
 
 const moment = _moment;
 
@@ -31,9 +35,13 @@ const moment = _moment;
   templateUrl: './tblshamelsccoursemodify.component.html',
   styleUrls: ['./tblshamelsccoursemodify.component.scss']
 })
-export class TblshamelsccoursemodifyComponent implements OnInit, AfterViewInit {
+export class TblshamelsccoursemodifyComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  //ملئ القيم بالكائن الذي نريد التعامل معه 
+  addSubscribtion: Subscription;
+  updateSubscription: Subscription;
+  loadSubscription: Subscription;
+
+  //ملئ القيم بالكائن الذي نريد التعامل معه
   @Input() employee_id: number;
   Selected_Emp: TBLShamelEmployee = {};
 
@@ -42,7 +50,7 @@ export class TblshamelsccoursemodifyComponent implements OnInit, AfterViewInit {
     this._Selected_Employee_Course = obj;
     if (this._Selected_Employee_Course != null &&
       this._Selected_Employee_Course != undefined) {
-        
+
     }
   }
 
@@ -63,6 +71,8 @@ export class TblshamelsccoursemodifyComponent implements OnInit, AfterViewInit {
 
   Country_List: ITBLShamelCountry[] = [];
   filteredCountryOptions: Observable<ITBLShamelCountry[]>;
+
+  dateRangeErrorStateMatcher: DateRangeErrorStateMatcher = new DateRangeErrorStateMatcher();
 
 
   //تعريف Form
@@ -89,9 +99,11 @@ export class TblshamelsccoursemodifyComponent implements OnInit, AfterViewInit {
   //يظهر عند تحميل البيانات
   loading: boolean = false;
 
-  //#region Constuctor 
+  //#region Constuctor
   constructor(
+    public dialogRef: MatDialogRef<TblshamelsccoursemodifyComponent>,
     private frmBuilder: FormBuilder,
+    private formValidatorsService: FormValidationHelpersService,
     public PageService: EmployeePageService,
     public sccourseService: TblshamelsccourseService,
     public courseService: TblshamelcourseService,
@@ -99,6 +111,8 @@ export class TblshamelsccoursemodifyComponent implements OnInit, AfterViewInit {
     public countryService: TblshamelcountryService,
     public stateService: TblshamelstateService,
     public tblshameluserservice: TBLShamelUserService,
+    public snackBar: MatSnackBar,
+    // public test:  DefaultMatCalendarRangeStrategy<Date>
     @Inject(MAT_DIALOG_DATA) public data: { obj: ITBLShamelSCCourse, id: number }
   ) {
 
@@ -165,25 +179,28 @@ export class TblshamelsccoursemodifyComponent implements OnInit, AfterViewInit {
 
     this.loading = true;
 
-    combineLatest
+    this.loadSubscription = combineLatest
       (
-        this.PageService.Subject_Selected_TBLShamelEmployee
-      ).subscribe(
-        ([TBLShamelEmployee]) => {
+        [this.PageService.Subject_Selected_TBLShamelEmployee]
+      )
+      .pipe(
+        switchMap(([TBLShamelEmployee]) => {
 
-          this.Selected_Emp = TBLShamelEmployee;
-          this.employee_id = this.Selected_Emp.id;
+        this.Selected_Emp = TBLShamelEmployee;
+        this.employee_id = this.Selected_Emp.id;
 
-
-          forkJoin(
-            this.Load_Login_User(),
-            this.Load_State(),
-            this.Load_TBLShamelSpecification(),
-            this.Load_TBLShamelCourse(),
-            this.Load_TBLShamelCountry()
-
-          ).subscribe(
+        return forkJoin(
+          [this.Load_Login_User(),
+          this.Load_State(),
+          this.Load_TBLShamelSpecification(),
+          this.Load_TBLShamelCourse(),
+          this.Load_TBLShamelCountry()
+          ]
+        )
+      }))
+      .subscribe(
             res => {
+
               this.Login_User = res[0];
 
               this.State_List = res[1];
@@ -220,11 +237,10 @@ export class TblshamelsccoursemodifyComponent implements OnInit, AfterViewInit {
             }
 
           )
-
-
         }
-      )
-  }
+
+
+
   //#endregion
 
   ngOnInit(): void {
@@ -279,7 +295,7 @@ export class TblshamelsccoursemodifyComponent implements OnInit, AfterViewInit {
   public BuildForm() {
     try {
 
-      //انشاء الفورم مع اسناد 
+      //انشاء الفورم مع اسناد
 
       this.Form = this.frmBuilder.group(
         {
@@ -295,7 +311,8 @@ export class TblshamelsccoursemodifyComponent implements OnInit, AfterViewInit {
         },
         {
           updateOn: 'change',
-          asyncValidators: ValidateForm(this.sccourseService).bind(this) // <= async validator
+          validators: [Validator_Date_Range()]
+          // asyncValidators: ValidateForm(this.sccourseService).bind(this) // <= async validator
         }
       );
     } catch (Exception: any) {
@@ -305,7 +322,7 @@ export class TblshamelsccoursemodifyComponent implements OnInit, AfterViewInit {
   //#endregion
 
 
-  //#region Filter Of  
+  //#region Filter Of
 
   private _filteredSpecification(value: string): ITBLShamelSpecification[] {
     if (value != null) {
@@ -414,7 +431,7 @@ export class TblshamelsccoursemodifyComponent implements OnInit, AfterViewInit {
         if (this.Form.controls['serial'].value != null)
         this.Selected_Employee_Course.serial = this.Form.controls['serial'].value;
 
-        
+
         if (this.Form.controls['id'].value != null)
         this.Selected_Employee_Course.id = this.Form.controls['id'].value;
 
@@ -535,7 +552,9 @@ export class TblshamelsccoursemodifyComponent implements OnInit, AfterViewInit {
     this.Selected_Employee_Course.id = this.Selected_Emp.id;
   }
 
-  public async Save() {
+  public Save() {
+
+    console.log("Form", this.Form.errors)
 
     if (this.ValidateForm() == false)
       return;
@@ -548,15 +567,20 @@ export class TblshamelsccoursemodifyComponent implements OnInit, AfterViewInit {
     if (this.Form.valid == false) {
       return;
     }
-   
+
     if (this.Selected_Employee_Course != null &&
       (this.Selected_Employee_Course.serial == null ||
         this.Selected_Employee_Course.serial <= 0)) {
-      this.sccourseService.add(this.Selected_Employee_Course).toPromise().then(res => {
+      this.updateSubscription =  this.sccourseService.add(this.Selected_Employee_Course).subscribe(res => {
         console.log(res)
-        if (res == 1) {
+        if (res) {
+          console.log("res", res)
+          this.snackBar.open('تم بنجاح', 'موافق');
+
+
           this.ClearObject();
           this.ClearForm();
+          this.dialogRef.close({event: "تعديل"})
         } else {
 
 
@@ -568,11 +592,15 @@ export class TblshamelsccoursemodifyComponent implements OnInit, AfterViewInit {
       this.Selected_Employee_Course != undefined &&
       this.Selected_Employee_Course.serial != null &&
       this.Selected_Employee_Course.serial > 0)
-      this.sccourseService.update(this.Selected_Employee_Course).toPromise().then(res => {
+      this.updateSubscription = this.sccourseService.update(this.Selected_Employee_Course).subscribe(res => {
         console.log(res)
-        if (res == 1) {
+        if (res) {
+          console.log("res", res)
+          this.snackBar.open('تم بنجاح', 'موافق');
           this.getValue();
-
+          this.ClearObject();
+          this.ClearForm();
+          this.dialogRef.close({event: "إضافة"})
         } else {
         }
       });
@@ -652,6 +680,50 @@ export class TblshamelsccoursemodifyComponent implements OnInit, AfterViewInit {
 
   }
 
+  public fieldHasErrors(form: any, field: string) {
+    return this.formValidatorsService.fieldHasErrors(form, field);
+  }
+
+  public printFirstErrorMessage(
+    form: any,
+    controlName: string,
+    label: string,
+    errors: { name: string, message?: string }[],
+    isFemale?: boolean
+  ): string {
+
+    return this.formValidatorsService.printFirstErrorMessage(form, controlName, label, errors, isFemale);
+
+  }
+
+
+  public autoPrintFirstErrorMessage(
+    form: any,
+    controlName: string,
+    label: string,
+    isFemale?: boolean
+  ): string {
+
+    return this.formValidatorsService.autoPrintFirstErrorMessage(form, controlName, label, isFemale);
+
+  }
+
+
+  ngOnDestroy(): void {
+      if(this.addSubscribtion)
+      {
+        this.addSubscribtion.unsubscribe();
+      }
+
+      if(this.updateSubscription)
+      {
+        this.updateSubscription.unsubscribe();
+      }
+      if(this.loadSubscription)
+      {
+        this.loadSubscription.unsubscribe();
+      }
+  }
 
 }
 
